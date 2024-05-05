@@ -41,7 +41,6 @@ async function sendOFTBack(
   sendingAccountPrivKey: string,
   receivingAccountAddress: string,
   amount: string,
-  erc20TokenAddress: string,
 ) {
   const sender = new ethers.Wallet(sendingAccountPrivKey, ethers.provider);
 
@@ -51,12 +50,6 @@ async function sendOFTBack(
 
   // It is the OFT contract whose send() func is to be called to transfer OFT-wrapped tokens cross-chain
   const myOFTContract = await ethers.getContractAt("MyOFT", oftContractAddress, sender);
-
-  const erc20TokenContract = await ethers.getContractAt(
-    ERC20_TOKEN_APPROVE_ABI,
-    erc20TokenAddress,
-    sender,
-  );
 
   const amountInWei = ethers.parseEther(amount);
   const receiverAddressInBytes32 = zeroPad(receivingAccountAddress, 32);
@@ -122,7 +115,6 @@ async function main() {
     SENDER_BACK_ACCOUNT_PRIV_KEY,
     RECEIVER_BACK_ACCOUNT_ADDRESS,
     AMOUNT,
-    erc20TokenAddress,
   } = process.env;
 
   // Check input params
@@ -144,8 +136,6 @@ async function main() {
     throw new Error("Missing RECEIVER_BACK_ACCOUNT_ADDRESS");
   } else if (!AMOUNT) {
     throw new Error("Missing AMOUNT");
-  } else if (!erc20TokenAddress) {
-    throw new Error("Missing erc20TokenAddress");
   }
 
   await sendOFTBack(
@@ -158,7 +148,6 @@ async function main() {
     SENDER_BACK_ACCOUNT_PRIV_KEY,
     RECEIVER_BACK_ACCOUNT_ADDRESS,
     AMOUNT,
-    erc20TokenAddress,
   );
 }
 

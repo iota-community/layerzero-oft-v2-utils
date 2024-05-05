@@ -194,11 +194,12 @@ sendOFT - received tx on destination chain: 0xc2e5a4be8ae67718e817ff585a32765e39
 
 ## Send OFT-wrapped tokens back from destinaion chain to origin chain
 
-`send-oft-back-from-bnb-testnet`
+`yarn send-oft-back-from-bnb-testnet`
 
 Log output:
 
 ```
+$ npx hardhat run scripts/send_oft_back.ts --network bnbTestnet
 sendOFTBack - oftAdapterContractAddress:0x5D7Cbc05fc6df2832c40023f1Eb2755628C51D81, oftContractAddress:0x075e512E25b45a3EaF8b432220F0Ca8D4e3c6a58, lzEndpointIdOnSrcChain:40161, lzEndpointIdOnDestChain:40102, gasDropInWeiOnDestChain:1000000000000000, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, amount:2
 sendOFTBack - estimated nativeFee: 0.054815809525020364
 sendOFTBack - send tx on source chain: 0x41bcf78b310dc1bbf9b4005f7412d995011c7815ad5af9cc26b37370e75bbfeb
