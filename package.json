@@ -1,0 +1,53 @@
+{
+  "name": "lz-oft-v2-utils",
+  "version": "1.0.0",
+  "description": "Utilities for LayerZero's OFT V2.",
+  "author": "Mido Trinh (trungtt198x)",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf artifacts cache",
+    "compile": "yarn clean && npx hardhat compile",
+    "deploy-oft-adapter-sepolia": "npx hardhat run scripts/deploy_oft_adapter.ts --network sepolia",
+    "deploy-oft-bnb-testnet": "npx hardhat run scripts/deploy_oft.ts --network bnbTestnet",
+    "set-peer-oft-adapter-sepolia": "npx hardhat run scripts/set_peer_oft_adapter.ts --network sepolia",
+    "set-peer-oft-bnb-testnet": "npx hardhat run scripts/set_peer_oft.ts --network bnbTestnet",
+    "set-enforced-options-oft-adapter-sepolia": "export isForOFTAdapter=true && npx hardhat run scripts/set_enforced_options.ts --network sepolia",
+    "set-enforced-options-oft-bnb-testnet": "export isForOFTAdapter=false && npx hardhat run scripts/set_enforced_options.ts --network bnbTestnet",
+    "send-oft-from-sepolia": "npx hardhat run scripts/send_oft.ts --network sepolia",
+    "send-oft-back-from-bnb-testnet": "npx hardhat run scripts/send_oft_back.ts --network bnbTestnet"
+  },
+  "devDependencies": {
+    "@ethersproject/bytes": "^5.7.0",
+    "@layerzerolabs/lz-v2-utilities": "^2.3.5",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@nomicfoundation/hardhat-ignition": "^0.15.2",
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.0",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "@nomicfoundation/ignition-core": "^0.15.2",
+    "@typechain/ethers-v6": "^0.5.0",
+    "@typechain/hardhat": "^9.0.0",
+    "@types/chai": "^4.2.0",
+    "@types/mocha": ">=9.1.0",
+    "@types/node": "^20.12.7",
+    "chai": "^4.2.0",
+    "hardhat": "^2.22.3",
+    "ethers": "^6.12.1",
+    "hardhat-gas-reporter": "^1.0.8",
+    "rimraf": "^5.0.5",
+    "solidity-coverage": "^0.8.1",
+    "ts-node": "^10.9.2",
+    "typechain": "^8.3.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@layerzerolabs/lz-evm-messagelib-v2": "^2.3.4",
+    "@layerzerolabs/lz-evm-oapp-v2": "^2.3.4",
+    "@layerzerolabs/lz-evm-protocol-v2": "^2.3.4",
+    "@layerzerolabs/scan-client": "^0.0.8",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.9",
+    "@openzeppelin/contracts": "^5.0.0",
+    "dotenv": "^16.1.4"
+  }
+}
