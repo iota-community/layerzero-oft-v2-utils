@@ -184,7 +184,7 @@ Log output:
 
 ```
 $ npx hardhat run scripts/send_oft.ts --network sepolia
-sendOFT - oftAdapterContractAddress:0x4daa81978576cB91a2e1919960e90e46c2a6D586, oftContractAddress:0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1, lzEndpointIdOnSrcChain:40161, lzEndpointIdOnDestChain:40102, gasDropInWeiOnDestChain:1000000000000000, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, sender: 0x57a4bd139fb673d364a6f12df9177a3f686625f3, amount:2
+sendOFT - oftAdapterContractAddress:0x5D7Cbc05fc6df2832c40023f1Eb2755628C51D81, oftContractAddress:0x075e512E25b45a3EaF8b432220F0Ca8D4e3c6a58, lzEndpointIdOnSrcChain:40161, lzEndpointIdOnDestChain:40102, gasDropInWeiOnDestChain:1000000000000000, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, sender: 0x57a4bd139fb673d364a6f12df9177a3f686625f3, amount:2
 sendOFT - approve tx: 0x8fa692edb47b1ad9d21f60b0fa30993e5cd3abd78c3c56fb4f38db5f9b8ac369
 sendOFT - estimated nativeFee: 0.000734209489447653
 sendOFT - send tx on source chain: 0xeb3e44310a09ae2ab2f0d6d6d3fdfd7c490f8ac536bb20a5e16999b23232ef67
