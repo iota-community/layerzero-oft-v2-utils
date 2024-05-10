@@ -3,6 +3,9 @@ import { ethers } from "hardhat";
 // https://docs.layerzero.network/v2/developers/evm/gas-settings/options#options-sdk
 import { Options } from "@layerzerolabs/lz-v2-utilities";
 
+const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || "MyOFTAdapter";
+const OFT_CONTRACT_NAME = process.env.OFT_CONTRACT_NAME || "MyOFT";
+
 async function setEnforcedOptions(
   isForOFTAdapter: boolean,
   oftAdapterContractAddress: string,
@@ -15,11 +18,11 @@ async function setEnforcedOptions(
   );
 
   const myOFTAdapterContract = await ethers.getContractAt(
-    "MyOFTAdapter",
+    OFTAdapter_CONTRACT_NAME,
     oftAdapterContractAddress,
   );
 
-  const myOFTContract = await ethers.getContractAt("MyOFT", oftContractAddress);
+  const myOFTContract = await ethers.getContractAt(OFT_CONTRACT_NAME, oftContractAddress);
 
   const myContract = isForOFTAdapter ? myOFTAdapterContract : myOFTContract;
 
