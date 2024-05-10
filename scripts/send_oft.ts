@@ -3,6 +3,8 @@ import { waitForMessageReceived } from "@layerzerolabs/scan-client";
 import { zeroPad } from "@ethersproject/bytes";
 import { ethers } from "hardhat";
 
+const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || "MyOFTAdapter";
+
 const ERC20_TOKEN_APPROVE_ABI = [
   {
     inputs: [
@@ -51,7 +53,7 @@ async function sendOFT(
 
   // It is the OFTAdapter contract whose send() func is to be called to transfer tokens cross-chain
   const myOFTAdapterContract = await ethers.getContractAt(
-    "MyOFTAdapter",
+    OFTAdapter_CONTRACT_NAME,
     oftAdapterContractAddress,
     sender,
   );

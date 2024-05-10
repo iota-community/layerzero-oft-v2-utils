@@ -1,21 +1,17 @@
 import { ethers } from "hardhat";
-import { MyOFTAdapter } from "../typechain-types";
 
-async function deployMyOFTAdapter(
-  erc20TokenAddress: string,
-  lzEndpointOnSrcChain: string,
-): Promise<MyOFTAdapter> {
+const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || "MyOFTAdapter";
+
+async function deployOFTAdapter(erc20TokenAddress: string, lzEndpointOnSrcChain: string) {
   const contractOwner: string = await ethers.getSigners().then(res => res[0].address);
-  const myOFTAdapterContract = await ethers.deployContract("MyOFTAdapter", [
+  const myOFTAdapterContract = await ethers.deployContract(OFTAdapter_CONTRACT_NAME, [
     erc20TokenAddress,
     lzEndpointOnSrcChain,
     contractOwner,
   ]);
   await myOFTAdapterContract.waitForDeployment();
 
-  console.log("Deployed MyOFTAdapter contract address:", await myOFTAdapterContract.getAddress());
-
-  return myOFTAdapterContract;
+  console.log("Deployed OFTAdapter contract address:", await myOFTAdapterContract.getAddress());
 }
 
 async function main() {
@@ -27,7 +23,7 @@ async function main() {
     throw new Error("Missing lzEndpointOnSrcChain");
   }
 
-  await deployMyOFTAdapter(erc20TokenAddress, lzEndpointOnSrcChain);
+  await deployOFTAdapter(erc20TokenAddress, lzEndpointOnSrcChain);
 }
 
 main().catch(error => {

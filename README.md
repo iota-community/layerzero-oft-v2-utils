@@ -11,7 +11,7 @@ Utilities for LayerZero OFT V2 that facilitate cross-chain sending of erc20 toke
   - Deploy OFTAdapter and OFT contracts
   - Set trusted peer
   - Set enforced options
-  - Send tokens from source chain to destinaion chain and vice versa
+  - Send tokens from source chain to destination chain and vice versa
 
 ## OFTAdapter and OFT contracts
 
@@ -53,7 +53,7 @@ While the `lzReceive Option` can be set once and forever for any cross-chain tok
 Further info::
 https://docs.layerzero.network/v2/developers/evm/gas-settings/options#option-types
 
-### Procedure to send tokens from source chain to destinaion chain and vice versa
+### Procedure to send tokens from source chain to destination chain and vice versa
 
 For the existing erc20 tokens that involve with both OFTAdapter contract (on source chain) and OFT contract (on destination chain), the token sending procedure is as follows:
 
@@ -176,7 +176,7 @@ Done in 3.33s.
 Detailed further settings of the OFTAdapter and OFT contracts are described on the below link:
 https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-delegates
 
-## Send origin tokens from source chain to destinaion chain
+## Send origin tokens from source chain to destination chain
 
 `yarn send-oft-from-sepolia`
 
@@ -192,7 +192,7 @@ Wait for cross-chain tx finalization by LayerZero ...
 sendOFT - received tx on destination chain: 0xc2e5a4be8ae67718e817ff585a32765e393835880068f408fd7724667a25a46c
 ```
 
-## Send OFT-wrapped tokens back from destinaion chain to origin chain
+## Send OFT-wrapped tokens back from destination chain to origin chain
 
 `yarn send-oft-back-from-bnb-testnet`
 

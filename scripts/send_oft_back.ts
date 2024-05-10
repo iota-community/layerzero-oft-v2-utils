@@ -3,32 +3,7 @@ import { waitForMessageReceived } from "@layerzerolabs/scan-client";
 import { zeroPad } from "@ethersproject/bytes";
 import { ethers } from "hardhat";
 
-const ERC20_TOKEN_APPROVE_ABI = [
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "spender",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
-    ],
-    name: "approve",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-];
+const OFT_CONTRACT_NAME = process.env.OFT_CONTRACT_NAME || "MyOFT";
 
 // Via the OFT contract, send back the OFT-wrapped tokens on the destination chain (e.g. BNB testnet) to the source chain (e.g. Sepolia)
 async function sendOFTBack(
@@ -49,7 +24,7 @@ async function sendOFTBack(
   );
 
   // It is the OFT contract whose send() func is to be called to transfer OFT-wrapped tokens cross-chain
-  const myOFTContract = await ethers.getContractAt("MyOFT", oftContractAddress, sender);
+  const myOFTContract = await ethers.getContractAt(OFT_CONTRACT_NAME, oftContractAddress, sender);
 
   const amountInWei = ethers.parseEther(amount);
   const receiverAddressInBytes32 = zeroPad(receivingAccountAddress, 32);

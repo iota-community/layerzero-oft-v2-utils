@@ -1,6 +1,8 @@
 import { zeroPad } from "@ethersproject/bytes";
 import { ethers } from "hardhat";
 
+const OFT_CONTRACT_NAME = process.env.OFT_CONTRACT_NAME || "MyOFT";
+
 async function setPeerMyOFT(
   oftContractAddress: string,
   lzEndpointIdOnSrcChain: string,
@@ -10,7 +12,7 @@ async function setPeerMyOFT(
     `setPeerMyOFT - oftContractAddress:${oftContractAddress}, lzEndpointIdOnSrcChain:${lzEndpointIdOnSrcChain}, oftAdapterContractAddress:${oftAdapterContractAddress}`,
   );
 
-  const myOFTContract = await ethers.getContractAt("MyOFT", oftContractAddress);
+  const myOFTContract = await ethers.getContractAt(OFT_CONTRACT_NAME, oftContractAddress);
 
   // https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-trusted-peers
   const tx = await myOFTContract.setPeer(

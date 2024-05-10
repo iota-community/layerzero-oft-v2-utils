@@ -1,13 +1,14 @@
 import { ethers } from "hardhat";
-import { MyOFT } from "../typechain-types";
 
-async function deployMyOFT(
+const OFT_CONTRACT_NAME = process.env.OFT_CONTRACT_NAME || "MyOFT";
+
+async function deployOFT(
   mintedTokenName: string,
   mintedTokenSymbol: string,
   lzEndpointOnDestChain: string,
-): Promise<MyOFT> {
+) {
   const contractOwner: string = await ethers.getSigners().then(res => res[0].address);
-  const myOFTContract = await ethers.deployContract("MyOFT", [
+  const myOFTContract = await ethers.deployContract(OFT_CONTRACT_NAME, [
     mintedTokenName,
     mintedTokenSymbol,
     lzEndpointOnDestChain,
@@ -15,9 +16,7 @@ async function deployMyOFT(
   ]);
   await myOFTContract.waitForDeployment();
 
-  console.log("Deployed MyOFT contract address:", await myOFTContract.getAddress());
-
-  return myOFTContract;
+  console.log("Deployed OFT contract address:", await myOFTContract.getAddress());
 }
 
 async function main() {
@@ -31,7 +30,7 @@ async function main() {
     throw new Error("Missing lzEndpointOnDestChain");
   }
 
-  await deployMyOFT(mintedTokenName, mintedTokenSymbol, lzEndpointOnDestChain);
+  await deployOFT(mintedTokenName, mintedTokenSymbol, lzEndpointOnDestChain);
 }
 
 main().catch(error => {

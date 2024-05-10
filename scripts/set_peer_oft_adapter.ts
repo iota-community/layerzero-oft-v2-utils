@@ -1,6 +1,8 @@
 import { zeroPad } from "@ethersproject/bytes";
 import { ethers } from "hardhat";
 
+const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || "MyOFTAdapter";
+
 async function setPeerMyOFTAdapter(
   oftAdapterContractAddress: string,
   lzEndpointIdOnDestChain: string,
@@ -11,7 +13,7 @@ async function setPeerMyOFTAdapter(
   );
 
   const myOFTAdapterContract = await ethers.getContractAt(
-    "MyOFTAdapter",
+    OFTAdapter_CONTRACT_NAME,
     oftAdapterContractAddress,
   );
 
