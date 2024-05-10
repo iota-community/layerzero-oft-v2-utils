@@ -5,7 +5,7 @@
   "author": "Mido Trinh (trungtt198x)",
   "license": "MIT",
   "scripts": {
-    "clean": "rimraf artifacts cache",
+    "clean": "rimraf artifacts cache typechain-types",
     "compile": "yarn clean && npx hardhat compile",
     "deploy-oft-adapter-sepolia": "npx hardhat run scripts/deploy_oft_adapter.ts --network sepolia",
     "deploy-oft-bnb-testnet": "npx hardhat run scripts/deploy_oft.ts --network bnbTestnet",

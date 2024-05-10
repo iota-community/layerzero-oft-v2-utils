@@ -6,7 +6,7 @@ Implemented by IOTA Foundation.
 
 Utilities for LayerZero OFT V2 that facilitate cross-chain sending of erc20 tokens between some source chain (e.g. Sepolia or ShimmerEVM testnet) and some destination chain (e.g. BNB testnet or IOTA EVM testnet):
 
-- Sample Solidity code for OFTAdater and OFT contracts
+- Sample Solidity code for OFTAdater and OFT contracts in folder `contracts-standard`
 - Scripts for:
   - Deploy OFTAdapter and OFT contracts
   - Set trusted peer
@@ -29,8 +29,19 @@ https://docs.layerzero.network/v2/developers/evm/oft/quickstart
 
 ### Deploy OFTAdapter and OFT contracts
 
-- MyOFTAdapter.sol
+Standard implementation for `ERC20` in the folder `contracts-standard`:
+
 - MyOFT.sol
+- MyOFTAdapter.sol
+
+Custom implementation for `wSMR/wIOTA` in the folder `contracts-wiota`:
+
+- ERC20VotesPermit.sol
+- MyOFT.sol
+- MyOFTAdapter.sol
+- OFTVotesPermit.sol
+
+Further info regarding the custom implementation for `wSMR/wIOTA` is described in [README_wiota.md](./README_wiota.md)
 
 ### Set trusted peer
 
@@ -83,7 +94,14 @@ To send back the OFT-wrapped tokens on destination chain to source chain, the pr
 
 ## Compile contracts
 
-`yarn compile`
+- Standard implementation for `ERC20`:
+
+  - Copy the folder `contracts-standard` to `contracts`
+  - Run the cmd: `yarn compile`
+
+- Custom implementation for `wSMR/wIOTA`:
+  - Copy the folder `contracts-wiota` to `contracts`
+  - Run the cmd: `yarn compile`
 
 ## Configuration
 
