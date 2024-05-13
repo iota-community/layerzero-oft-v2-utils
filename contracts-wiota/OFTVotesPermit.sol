@@ -6,10 +6,6 @@ import { IOFT, OFTCore } from "@layerzerolabs/lz-evm-oapp-v2/contracts/oft/OFTCo
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 import "./ERC20VotesPermit.sol";
 
-/**
- * @title OFT Contract
- * @dev OFT is an ERC-20 token that extends the functionality of the OFTCore contract.
- */
 // abstract contract OFT is OFTCore, ERC20 {
 abstract contract OFTVotesPermit is OFTCore, ERC20VotesPermit {
     /**
