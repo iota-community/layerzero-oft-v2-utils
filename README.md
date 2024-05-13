@@ -6,7 +6,7 @@ Implemented by IOTA Foundation.
 
 Utilities for LayerZero OFT V2 that facilitate cross-chain sending of erc20 tokens between some source chain (e.g. Sepolia or ShimmerEVM testnet) and some destination chain (e.g. BNB testnet or IOTA EVM testnet):
 
-- Sample Solidity code for OFTAdater and OFT contracts
+- Sample Solidity code for OFTAdater and OFT contracts in folder `contracts-standard`
 - Scripts for:
   - Deploy OFTAdapter and OFT contracts
   - Set trusted peer
@@ -29,8 +29,19 @@ https://docs.layerzero.network/v2/developers/evm/oft/quickstart
 
 ### Deploy OFTAdapter and OFT contracts
 
-- MyOFTAdapter.sol
+Standard implementation for `ERC20` in the folder `contracts-standard`:
+
 - MyOFT.sol
+- MyOFTAdapter.sol
+
+Custom implementation for `wSMR/wIOTA` in the folder `contracts-wiota`:
+
+- ERC20VotesPermit.sol
+- MyOFT.sol
+- MyOFTAdapter.sol
+- OFTVotesPermit.sol
+
+Further info regarding the custom implementation for `wSMR/wIOTA` is described in [README_wiota.md](./README_wiota.md)
 
 ### Set trusted peer
 
@@ -83,7 +94,14 @@ To send back the OFT-wrapped tokens on destination chain to source chain, the pr
 
 ## Compile contracts
 
-`yarn compile`
+- Standard implementation for `ERC20`:
+
+  - Copy the folder `contracts-standard` to `contracts`
+  - Run the cmd: `yarn compile`
+
+- Custom implementation for `wSMR/wIOTA`:
+  - Copy the folder `contracts-wiota` to `contracts`
+  - Run the cmd: `yarn compile`
 
 ## Configuration
 
@@ -95,7 +113,7 @@ The config is specified in the template file `.env.example` that needs to be cop
 
 `yarn deploy-oft-adapter-sepolia`
 
-Log output:
+Log output for standard impl:
 
 ```
 $ npx hardhat run scripts/deploy_oft_adapter.ts --network sepolia
@@ -103,11 +121,19 @@ Deployed MyOFTAdapter contract address: 0x4daa81978576cB91a2e1919960e90e46c2a6D5
 Done in 6.67s.
 ```
 
+Log output for custom impl:
+
+```
+$ npx hardhat run scripts/deploy_oft_adapter.ts --network sepolia
+Deployed OFTAdapter contract address: 0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0
+Done in 15.02s.
+```
+
 ### Deploy OFT on destination chain (e.g. BNB testnet)
 
 `yarn deploy-oft-bnb-testnet`
 
-Log output:
+Log output for standard impl:
 
 ```
 $ npx hardhat run scripts/deploy_oft.ts --network bnbTestnet
@@ -115,32 +141,12 @@ Deployed MyOFT contract address: 0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1
 Done in 6.68s.
 ```
 
-## Set trusted peer
-
-### On OFTAdapter (source chain, e.g. Sepolia)
-
-`yarn set-peer-oft-adapter-sepolia`
-
-Log output:
+Log output for custom impl:
 
 ```
-$ npx hardhat run scripts/set_peer_oft_adapter.ts --network sepolia
-setPeerMyOFTAdapter - oftAdapterContractAddress:0x4daa81978576cB91a2e1919960e90e46c2a6D586, lzEndpointIdOnDestChain:40102, oftContractAddress:0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1
-MyOFTAdapter - setPeer tx: 0xc17e7a54d96325768b6427ce893d9b6b7ed04bd920089b63a3f96c005073e9c2
-Done in 14.10s.
-```
-
-### On OFT (destination chain, e.g. BNB testnet)
-
-`yarn set-peer-oft-bnb-testnet`
-
-Log output:
-
-```
-$ npx hardhat run scripts/set_peer_oft.ts --network bnbTestnet
-setPeerMyOFT - oftContractAddress:0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1, lzEndpointIdOnSrcChain:40161, oftAdapterContractAddress:0x4daa81978576cB91a2e1919960e90e46c2a6D586
-MyOFT - setPeer tx: 0xb0012378ee14c9df5c9f86980dd9c96fc8aedb3c19d92c1d91a4259f3981ac35
-Done in 4.66s.
+$ npx hardhat run scripts/deploy_oft.ts --network bnbTestnet
+Deployed OFT contract address: 0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383
+Done in 8.40s.
 ```
 
 ## Set enforced options
@@ -149,7 +155,7 @@ Done in 4.66s.
 
 `yarn set-enforced-options-oft-adapter-sepolia`
 
-Log output:
+Log output for standard impl:
 
 ```
 $ export isForOFTAdapter=true && npx hardhat run scripts/set_enforced_options.ts --network sepolia
@@ -158,17 +164,81 @@ setEnforcedOptions tx: 0x957e039c27dab1cd3d4ff672de9f3d5a7684e1442a3cefe036ea0dd
 Done in 12.69s.
 ```
 
+Log output for custom impl:
+
+```
+$ export isForOFTAdapter=true && npx hardhat run scripts/set_enforced_options.ts --network sepolia
+setEnforcedOptions - isForOFTAdapter:true, oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:40161
+setEnforcedOptions tx: 0x599ea605c7c944da34a90ef5ad2956c43b7ca513c06c06fbf3e9b83503c9c1c9
+Done in 9.22s.
+```
+
 ### On OFT (destination chain, e.g. BNB testnet)
 
 `yarn set-enforced-options-oft-bnb-testnet`
 
-Log output:
+Log output for standard impl:
 
 ```
 $ export isForOFTAdapter=false && npx hardhat run scripts/set_enforced_options.ts --network bnbTestnet
 setEnforcedOptions - isForOFTAdapter:false, oftAdapterContractAddress:0x4daa81978576cB91a2e1919960e90e46c2a6D586, oftContractAddress:0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:40102
 setEnforcedOptions tx: 0x0d0b832bb902acc8abe804c359f109dfd1c906c7cf144db5b00ae63a0291e9e5
 Done in 3.33s.
+```
+
+Log output for custom impl:
+
+```
+$ export isForOFTAdapter=false && npx hardhat run scripts/set_enforced_options.ts --network bnbTestnet
+setEnforcedOptions - isForOFTAdapter:false, oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:40102
+setEnforcedOptions tx: 0x0b623b47d11a120a6b02b229959870a36a8d10eba2de717d892465170c535782
+Done in 4.97s.
+```
+
+## Set trusted peer
+
+### On OFTAdapter (source chain, e.g. Sepolia)
+
+`yarn set-peer-oft-adapter-sepolia`
+
+Log output for standard impl:
+
+```
+$ npx hardhat run scripts/set_peer_oft_adapter.ts --network sepolia
+setPeerMyOFTAdapter - oftAdapterContractAddress:0x4daa81978576cB91a2e1919960e90e46c2a6D586, lzEndpointIdOnDestChain:40102, oftContractAddress:0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1
+MyOFTAdapter - setPeer tx: 0xc17e7a54d96325768b6427ce893d9b6b7ed04bd920089b63a3f96c005073e9c2
+Done in 14.10s.
+```
+
+Log output for custom impl:
+
+```
+$ npx hardhat run scripts/set_peer_oft_adapter.ts --network sepolia
+setPeerMyOFTAdapter - oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, lzEndpointIdOnDestChain:40102, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383
+MyOFTAdapter - setPeer tx: 0xfe902723e578514940d41b54d4953da7ae011ccb61798c77eef7c672bea71e44
+Done in 6.85s.
+```
+
+### On OFT (destination chain, e.g. BNB testnet)
+
+`yarn set-peer-oft-bnb-testnet`
+
+Log output for standard impl:
+
+```
+$ npx hardhat run scripts/set_peer_oft.ts --network bnbTestnet
+setPeerMyOFT - oftContractAddress:0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1, lzEndpointIdOnSrcChain:40161, oftAdapterContractAddress:0x4daa81978576cB91a2e1919960e90e46c2a6D586
+MyOFT - setPeer tx: 0xb0012378ee14c9df5c9f86980dd9c96fc8aedb3c19d92c1d91a4259f3981ac35
+Done in 4.66s.
+```
+
+Log output for custom impl:
+
+```
+$ npx hardhat run scripts/set_peer_oft.ts --network bnbTestnet
+setPeerMyOFT - oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, lzEndpointIdOnSrcChain:40161, oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0
+MyOFT - setPeer tx: 0xa3b98ad35bfab9e7311b3eb829833cf37b95ccb1371d0f3437aa3c52f29b8e55
+Done in 6.19s.
 ```
 
 ## Other settings of the contracts
@@ -180,7 +250,7 @@ https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-delegate
 
 `yarn send-oft-from-sepolia`
 
-Log output:
+Log output for standard impl:
 
 ```
 $ npx hardhat run scripts/send_oft.ts --network sepolia
@@ -192,11 +262,22 @@ Wait for cross-chain tx finalization by LayerZero ...
 sendOFT - received tx on destination chain: 0xc2e5a4be8ae67718e817ff585a32765e393835880068f408fd7724667a25a46c
 ```
 
+Log output for custom impl:
+
+```
+$ npx hardhat run scripts/send_oft.ts --network sepolia
+sendOFT - oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, lzEndpointIdOnSrcChain:40161, lzEndpointIdOnDestChain:40102, gasDropInWeiOnDestChain:1000000000000000, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, sender: 0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, amount:100000
+sendOFT - approve tx: 0x59e77524cab462779b22dab759f53151b1edb92ddf2b488b1a463b5bac7395e0
+sendOFT - estimated nativeFee: 0.000755124363583443
+sendOFT - send tx on source chain: 0x9bb615ff74be7764395317d7e3662a0604c893745f4b199915cca9b98ce94701
+Wait for cross-chain tx finalization by LayerZero ...
+```
+
 ## Send OFT-wrapped tokens back from destination chain to origin chain
 
 `yarn send-oft-back-from-bnb-testnet`
 
-Log output:
+Log output for standard impl:
 
 ```
 $ npx hardhat run scripts/send_oft_back.ts --network bnbTestnet
@@ -205,4 +286,10 @@ sendOFTBack - estimated nativeFee: 0.054815809525020364
 sendOFTBack - send tx on source chain: 0x41bcf78b310dc1bbf9b4005f7412d995011c7815ad5af9cc26b37370e75bbfeb
 Wait for cross-chain tx finalization by LayerZero ...
 sendOFTBack - received tx on destination chain: 0xc1031694e92512a0189885ad6419e33196a65b8ae56baa9d555be8686d6d42fe
+```
+
+Log output for custom impl:
+
+```
+Coming soon
 ```
