@@ -271,6 +271,7 @@ sendOFT - approve tx: 0x59e77524cab462779b22dab759f53151b1edb92ddf2b488b1a463b5b
 sendOFT - estimated nativeFee: 0.000755124363583443
 sendOFT - send tx on source chain: 0x9bb615ff74be7764395317d7e3662a0604c893745f4b199915cca9b98ce94701
 Wait for cross-chain tx finalization by LayerZero ...
+sendOFT - received tx on destination chain: 0x02aa22f090ad5778f631500dd2fb8285dfb65c7edd574aa7894fbcd85483a574
 ```
 
 ## Send OFT-wrapped tokens back from destination chain to origin chain
@@ -291,5 +292,10 @@ sendOFTBack - received tx on destination chain: 0xc1031694e92512a0189885ad6419e3
 Log output for custom impl:
 
 ```
-Coming soon
+$ npx hardhat run scripts/send_oft_back.ts --network bnbTestnet
+sendOFTBack - oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, lzEndpointIdOnSrcChain:40161, lzEndpointIdOnDestChain:40102, gasDropInWeiOnDestChain:1000000000000000, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, amount:100000
+sendOFTBack - estimated nativeFee: 0.012370381669251284
+sendOFTBack - send tx on source chain: 0x883d005991087ff8791522da497144fc3247ab4873f7cc25b7446a36cb979f9e
+Wait for cross-chain tx finalization by LayerZero ...
+sendOFTBack - received tx on destination chain: 0x59e42ae58a46a77ea114d16d01448db015e01e58ed61fc2d1d6953cbc572dca0
 ```
