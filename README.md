@@ -246,6 +246,34 @@ Done in 6.19s.
 Detailed further settings of the OFTAdapter and OFT contracts are described on the below link:
 https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-delegates
 
+## Transfer contract ownership
+
+### OFTAdapter on source chain (e.g. Sepolia)
+
+`yarn transfer-ownership-oft-adapter-sepolia`
+
+Log output for custom impl:
+
+```
+$ export isForOFTAdapter=true && npx hardhat run scripts/transfer_ownership.ts --network sepolia
+transferOwnership - isForOFTAdapter:true, oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, newOwnerAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028
+transferOwnership tx: 0x1dd894d143b0c31454b63ff9290076689d40ddac06cee421e80d686783c16ea7
+Done in 7.00s.
+```
+
+### OFT on destination chain (e.g. BNB testnet)
+
+`yarn transfer-ownership-oft-bnb-testnet`
+
+Log output for custom impl:
+
+```
+$ export isForOFTAdapter=false && npx hardhat run scripts/transfer_ownership.ts --network bnbTestnet
+transferOwnership - isForOFTAdapter:false, oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, newOwnerAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028
+transferOwnership tx: 0x69236f7b2adce8134ad628875d62234546ac713a5bc1fac879d86c7b72efdeb4
+Done in 5.47s.
+```
+
 ## Send origin tokens from source chain to destination chain
 
 `yarn send-oft-from-sepolia`

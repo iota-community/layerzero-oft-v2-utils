@@ -14,7 +14,9 @@
     "set-enforced-options-oft-adapter-sepolia": "export isForOFTAdapter=true && npx hardhat run scripts/set_enforced_options.ts --network sepolia",
     "set-enforced-options-oft-bnb-testnet": "export isForOFTAdapter=false && npx hardhat run scripts/set_enforced_options.ts --network bnbTestnet",
     "send-oft-from-sepolia": "npx hardhat run scripts/send_oft.ts --network sepolia",
-    "send-oft-back-from-bnb-testnet": "npx hardhat run scripts/send_oft_back.ts --network bnbTestnet"
+    "send-oft-back-from-bnb-testnet": "npx hardhat run scripts/send_oft_back.ts --network bnbTestnet",
+    "transfer-ownership-oft-adapter-sepolia": "export isForOFTAdapter=true && npx hardhat run scripts/transfer_ownership.ts --network sepolia",
+    "transfer-ownership-oft-bnb-testnet": "export isForOFTAdapter=false && npx hardhat run scripts/transfer_ownership.ts --network bnbTestnet"
   },
   "devDependencies": {
     "@ethersproject/bytes": "^5.7.0",
