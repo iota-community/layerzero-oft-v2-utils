@@ -48,7 +48,7 @@ async function sendOFT(
   const sender = new ethers.Wallet(sendingAccountPrivKey, ethers.provider);
 
   console.log(
-    `sendOFT - oftAdapterContractAddress:${oftAdapterContractAddress}, oftContractAddress:${oftContractAddress}, lzEndpointIdOnSrcChain:${lzEndpointIdOnSrcChain}, lzEndpointIdOnDestChain:${lzEndpointIdOnDestChain}, gasDropInWeiOnDestChain:${gasDropInWeiOnDestChain}, executorLzReceiveOptionMaxGas:${executorLzReceiveOptionMaxGas}, receivingAccountAddress:${receivingAccountAddress}, sender: ${sender.address}, amount:${amount}`,
+    `sendOFT - oftAdapterContractAddress:${oftAdapterContractAddress}, oftContractAddress:${oftContractAddress}, lzEndpointIdOnSrcChain:${lzEndpointIdOnSrcChain}, lzEndpointIdOnDestChain:${lzEndpointIdOnDestChain}, gasDropInWeiOnDestChain:${gasDropInWeiOnDestChain}, executorLzReceiveOptionMaxGas:${executorLzReceiveOptionMaxGas}, receivingAccountAddress:${receivingAccountAddress}, sender: ${sender.address}, amount:${amount}, erc20TokenAddress:${erc20TokenAddress}`,
   );
 
   // It is the OFTAdapter contract whose send() func is to be called to transfer tokens cross-chain
@@ -75,7 +75,7 @@ async function sendOFT(
   // Set the required options for cross-chain send
   const options = Options.newOptions()
     // addExecutorNativeDropOption is optional
-    .addExecutorNativeDropOption(Number(gasDropInWeiOnDestChain), receiverAddressInBytes32 as any)
+    .addExecutorNativeDropOption(Number(gasDropInWeiOnDestChain), receivingAccountAddress as any)
     // Without addExecutorLzReceiveOption, will get execution reverted. Why???
     .addExecutorLzReceiveOption(Number(executorLzReceiveOptionMaxGas), 0)
     .toHex()

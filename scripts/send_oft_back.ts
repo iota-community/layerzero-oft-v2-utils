@@ -34,7 +34,7 @@ async function sendOFTBack(
   // Set the required options for cross-chain send
   const options = Options.newOptions()
     // addExecutorNativeDropOption is optional
-    .addExecutorNativeDropOption(Number(gasDropInWeiOnDestChain), receiverAddressInBytes32 as any)
+    .addExecutorNativeDropOption(Number(gasDropInWeiOnDestChain), receivingAccountAddress as any)
     // Without addExecutorLzReceiveOption, will get execution reverted. Why???
     .addExecutorLzReceiveOption(Number(executorLzReceiveOptionMaxGas), 0)
     .toHex()
