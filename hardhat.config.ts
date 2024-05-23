@@ -50,6 +50,16 @@ module.exports = {
       url: BNB_TESTNET_RPC_URL,
       accounts: ACCOUNTS,
     },
+    bnbMainnet: {
+      chainId: 56,
+      url: "https://bsc-rpc.publicnode.com", // "https://binance.llamarpc.com", // "https://bsc.drpc.org", // "https://bsc-pokt.nodies.app", // "https://binance.llamarpc.com",
+      accounts: ACCOUNTS,
+    },
+    polygon: {
+      chainId: 137,
+      url: "https://polygon-pokt.nodies.app",
+      accounts: ACCOUNTS,
+    },
     sepolia: {
       chainId: 11155111,
       url: SEPOLIA_RPC_URL,

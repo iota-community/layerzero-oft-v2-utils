@@ -28,8 +28,13 @@ async function transferOwnership(
 }
 
 async function main() {
-  const { isForOFTAdapter, oftAdapterContractAddress, oftContractAddress, newOwnerAddress } =
-    process.env;
+  const {
+    isForOFTAdapter,
+    oftAdapterContractAddress,
+    oftContractAddress,
+    newOwnerAddressOFTAdapter,
+    newOwnerAddressOFT,
+  } = process.env;
 
   if (!isForOFTAdapter) {
     throw new Error("Missing isForOFTAdapter");
@@ -37,15 +42,17 @@ async function main() {
     throw new Error("Missing oftAdapterContractAddress");
   } else if (!oftContractAddress) {
     throw new Error("Missing oftContractAddress");
-  } else if (!newOwnerAddress) {
-    throw new Error("Missing newOwnerAddress");
+  } else if (!newOwnerAddressOFTAdapter) {
+    throw new Error("Missing newOwnerAddressOFTAdapter");
+  } else if (!newOwnerAddressOFT) {
+    throw new Error("Missing newOwnerAddressOFT");
   }
 
   await transferOwnership(
     isForOFTAdapter === "true" ? true : false,
     oftAdapterContractAddress,
     oftContractAddress,
-    newOwnerAddress,
+    isForOFTAdapter === "true" ? newOwnerAddressOFTAdapter : newOwnerAddressOFT,
   );
 }
 

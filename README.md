@@ -61,8 +61,10 @@ Both of the OFTAdapter and OFT contract instances need to be set for the enforce
 
 While the `lzReceive Option` can be set once and forever for any cross-chain token sending, the option `lzNativeDrop Option` can only be set for each of the token sending transaction because the receiver address is unknown in advance.
 
-Further info::
-https://docs.layerzero.network/v2/developers/evm/gas-settings/options#option-types
+Further info:
+
+- [struct EnforcedOptionParam](https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-enforced-options)
+- [Option types](https://docs.layerzero.network/v2/developers/evm/gas-settings/options#option-types)
 
 ### Procedure to send tokens from source chain to destination chain and vice versa
 

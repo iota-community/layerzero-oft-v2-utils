@@ -29,9 +29,10 @@ async function setEnforcedOptions(
   // https://docs.layerzero.network/v2/developers/evm/gas-settings/options#lzreceive-option
   const options = Options.newOptions().addExecutorLzReceiveOption(executorLzReceiveOptionMaxGas, 0);
 
+  // https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-enforced-options
   let enforcedOptions = [
     {
-      eid: lzEndpointIdOnRemoteChain,
+      eid: lzEndpointIdOnRemoteChain, // destination Endpoint ID
       msgType: 1,
       options: options.toBytes(),
     },
@@ -71,7 +72,7 @@ async function main() {
     oftAdapterContractAddress,
     oftContractAddress,
     Number(executorLzReceiveOptionMaxGas),
-    isForOFTAdapter === "true" ? lzEndpointIdOnSrcChain : lzEndpointIdOnDestChain,
+    isForOFTAdapter === "true" ? lzEndpointIdOnDestChain : lzEndpointIdOnSrcChain,
   );
 }
 
