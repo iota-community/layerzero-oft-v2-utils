@@ -84,7 +84,7 @@ async function sendOFT(
   // Set the send param
   // https://github.com/LayerZero-Labs/LayerZero-v2/blob/main/oapp/contracts/oft/interfaces/IOFT.sol#L10
   const sendParam = [
-    lzEndpointIdOnDestChain, // BNB testnet
+    lzEndpointIdOnDestChain,
     receiverAddressInBytes32,
     amountInWei,
     amountInWei,

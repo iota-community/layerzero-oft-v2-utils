@@ -52,12 +52,12 @@ module.exports = {
     },
     bnbMainnet: {
       chainId: 56,
-      url: "https://bsc-rpc.publicnode.com", // "https://binance.llamarpc.com", // "https://bsc.drpc.org", // "https://bsc-pokt.nodies.app", // "https://binance.llamarpc.com",
+      url: "https://binance.llamarpc.com", // "https://binance.llamarpc.com", // "https://bsc.drpc.org", // "https://bsc-pokt.nodies.app", // "https://binance.llamarpc.com",
       accounts: ACCOUNTS,
     },
     polygon: {
       chainId: 137,
-      url: "https://polygon-pokt.nodies.app",
+      url: "https://polygon-mainnet.public.blastapi.io", // "https://polygon-pokt.nodies.app",
       accounts: ACCOUNTS,
     },
     sepolia: {
