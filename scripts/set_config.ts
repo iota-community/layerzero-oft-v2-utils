@@ -11,7 +11,7 @@ async function main() {
     optionalDVNsOnCurrentChain,
     sendLibAddressOnCurrentChain,
     receiveLibAddressOnCurrentChain,
-  } = SET_CONFIG_DATA["SMR-BNB"];
+  } = SET_CONFIG_DATA["BNB-IOTA"];
 
   await setConfig(
     lzEndpointIdOnRemoteChain,
