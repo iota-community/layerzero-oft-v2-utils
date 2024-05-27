@@ -1,145 +1,4 @@
-# Utilities for LayerZero OFT V2
-
-Implemented by IOTA Foundation.
-
-## Introduction
-
-Utilities for LayerZero OFT V2 that facilitate cross-chain sending of erc20 tokens (e.g. `wSMR`) between some source chain (e.g. ShimmerEVM mainnet) and some destination chain (e.g. IOTA EVM mainnet):
-
-- Sample Solidity code for OFTAdater and OFT contracts in folder `contracts-standard` and `contracts-wiota`
-- Scripts for:
-  - Deploy OFTAdapter and OFT contracts
-  - Set trusted peer
-  - Set enforced options
-  - Set config
-  - Send tokens from source chain to destination chain and vice versa
-
-## OFTAdapter and OFT contracts
-
-**Use-case 1**
-
-To enable the existing erc20 tokens for cross-chain sending, both OFTAdater and OFT contracts are needed:
-https://docs.layerzero.network/v2/developers/evm/oft/adapter
-
-**Use-case 2**
-
-For new erc20 tokens to be launched, OFT standard can be leveraged to enable cross-chain sending without the need of OFTAdapter:
-https://docs.layerzero.network/v2/developers/evm/oft/quickstart
-
-## Scripts
-
-### Deploy OFTAdapter and OFT contracts
-
-Standard implementation for `ERC20` in the folder `contracts-standard`:
-
-- MyOFT.sol
-- MyOFTAdapter.sol
-
-Custom implementation for `wSMR/wIOTA` in the folder `contracts-wiota`:
-
-- ERC20VotesPermit.sol
-- MyOFT.sol
-- MyOFTAdapter.sol
-- OFTVotesPermit.sol
-
-Further info regarding the custom implementation for `wSMR/wIOTA` is described in [README_wiota.md](./README_wiota.md)
-
-### Set trusted peer
-
-For existing erc20 tokens, both of the OFTAdapter and OFT contract instances need to be paired with each other.
-
-For the upcoming erc20 tokens that wanna leverage OFT standard, the OFT contract instance on the source chain needs to be paired with another OFT contract instance on the destination chain.
-
-Further info:
-https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-trusted-peers
-
-### Set enforced options
-
-Both of the OFTAdapter and OFT contract instances need to be set for the enforced options. There are 2 main options:
-
-- lzReceive Option: specifies the gas limit the Executor uses when calling lzReceive on the destination chain.
-- lzNativeDrop Option: specifies the amount of native gas `in wei` to be dropped to the receiver address on the destination chain. The max amount varies per source chain. If source chain does not support gas drop on destination, the `send` tx will get reverted !!
-
-While the `lzReceive Option` can be set once and forever for any cross-chain token sending, the option `lzNativeDrop Option` can only be set for each of the token sending transaction because the receiver address is unknown in advance.
-
-Further info:
-
-- [struct EnforcedOptionParam](https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-enforced-options)
-- [Option types](https://docs.layerzero.network/v2/developers/evm/gas-settings/options#option-types)
-
-### Set config
-
-The file `scripts\set_config_data.ts` implements `setConfig` data that can be modified per demand.
-For example:
-
-- `SMR_CONFIG` specifies config data on ShimmerEVM chain
-- `PATHWAY_CONFIG` specifies config data for various pathways like `SMR->IOTA`
-
-#### Notice
-
-- If ShimmerEVM or IOTA EVM is involved on the pathway, the `setConfig` must be performed correctly on **2 chain sides** for **bi-directional** sending. Otherwise, the `send` tx will always get reverted.
-
-- On some other pathways like between BNB and Polygon or between Sepolia and BNB testnet, the `setConfig` is not mandatory.
-
-#### Input params to the `setConfig` for the pathway from chain A to chain B
-
-- On current chain (i.e. chain A):
-
-  - lzEndpointOnCurrentChain: LayerZero [Endpoint](https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts) address on chain A
-  - lzEndpointIdOnCurrentChain: LayerZero Endpoint ID on chain A
-  - requiredDVNsOnCurrentChain: required [DVNs](https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses) on chain A. The currently-set value is from [LayerZero Labs](https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs)
-  - optionalDVNsOnCurrentChain: optional [DVNs](https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses) on chain A. Currently, ignored with empty array
-  - sendLibAddressOnCurrentChain: [SendLib302 address](https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts) associated with the deployed Endpoint address chain A
-  - receiveLibAddressOnCurrentChain: [ReceiveLib302 address](https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts) associated with the deployed Endpoint address chain A
-
-- On destination chain (i.e. chain B):
-  - lzEndpointIdOnRemoteChain: LayerZero Endpoint ID on chain B
-  - confirmationsOnRemoteChain: needed [confirmations](https://docs.layerzero.network/v2/developers/evm/configuration/configure-dvns#define-parameters) on chain B. Currently set to zero to take the default confirmations.
-
-Further reference: https://docs.layerzero.network/v2/developers/evm/configuration/configure-dvns
-
-### Procedure to send tokens from source chain to destination chain and vice versa
-
-For the existing erc20 tokens that involve with both OFTAdapter contract (on source chain) and OFT contract (on destination chain), the token sending procedure is as follows:
-
-1. The sender approves his erc20 tokens for the OFTAdapter contract
-2. The sender calls the func `quoteSend()` of the OFTAdapter contract to estimate cross-chain fee to be paid in native on the source chain
-3. The sender calls the func `send()` of the OFTAdapter contract to transfer tokens on source chain to destination chain
-4. Optional: wait for the tx finalization on destination chain by using the lib [@layerzerolabs/scan-client](https://www.npmjs.com/package/@layerzerolabs/scan-client#example-usage)
-
-To send back the OFT-wrapped tokens on destination chain to source chain, the procedure is similar except that approve step is not needed:
-
-1. The sender calls the func `quoteSend()` of the OFT contract to estimate cross-chain fee to be paid in native on the sender chain
-2. The sender calls the func `send()` of the OFT contract to transfer tokens on source chain to destination chain
-3. Optional: wait for the tx finalization on destination chain by using the lib `@layerzerolabs/scan-client`
-
-**Appendix:**
-
-- [function quoteSend()](https://github.com/LayerZero-Labs/LayerZero-v2/blob/main/oapp/contracts/oft/interfaces/IOFT.sol#L127C60-L127C73)
-- [struct SendParam](https://github.com/LayerZero-Labs/LayerZero-v2/blob/main/oapp/contracts/oft/interfaces/IOFT.sol#L10)
-- [function send()](https://github.com/LayerZero-Labs/LayerZero-v2/blob/main/oapp/contracts/oft/interfaces/IOFT.sol#L144)
-- [@layerzerolabs/scan-client](https://www.npmjs.com/package/@layerzerolabs/scan-client#example-usage)
-- [LayerZero Endpoint V2](https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts)
-- [LayerZero explorer](https://testnet.layerzeroscan.com/)
-
-## Installation
-
-`yarn`
-
-## Compile contracts
-
-- Standard implementation for `ERC20`:
-
-  - Copy the folder `contracts-standard` to `contracts`
-  - Run the cmd: `yarn compile`
-
-- Custom implementation for `wSMR/wIOTA`:
-  - Copy the folder `contracts-wiota` to `contracts`
-  - Run the cmd: `yarn compile`
-
-## Configuration
-
-The config is specified in the template file `.env.example` that needs to be copied to another file `.env`.
+# Further tests of wSMR/wIOTA on mainnet
 
 ## Deploy contracts
 
@@ -220,7 +79,7 @@ MyOFT - setPeer tx: 0x26c71a52296f4903f0de5e44e5014c66b6e5381c8442fe98c15a9b5132
 **For input params:**
 
 - Check the file `scripts/set_config_data.ts` to add new or leverage the existing pathways
-- Edit the `PATHWAY` and `OAppContractAddressOnCurrentChain` in the below cmd
+- Ensure the `OAppContractAddressOnCurrentChain` points to the correct address of OFTAdapter or OFT (set in `.env`)
 
 `export PATHWAY="SMR->IOTA" && export OAppContractAddressOnCurrentChain=0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d && npx hardhat run scripts/set_config.ts --network shimmerEvmMainnet`
 
@@ -237,8 +96,8 @@ setConfig for 0xb21f945e8917c6cd69fcfe66ac6703b90f7fe004 - tx: 0x3222da93d2009cb
 
 **For input params:**
 
-- Check the file `scripts/set_config_data.ts` to add new or leverage the existing pathways
-- Edit the `PATHWAY` and `OAppContractAddressOnCurrentChain` in the below cmd
+- Check the file `scripts/set_config_data.ts`
+- Ensure the `OAppContractAddressOnCurrentChain` points to the correct address of OFTAdapter or OFT (set in `.env`)
 
 `export PATHWAY="IOTA->SMR" && export OAppContractAddressOnCurrentChain=0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3 && npx hardhat run scripts/set_config.ts --network iotaEvmMainnet`
 
