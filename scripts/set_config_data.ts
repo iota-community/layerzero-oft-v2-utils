@@ -1,8 +1,14 @@
+// Ensure the `OAppContractAddressOnCurrentChain` points to the correct address of OFTAdapter or OFT on the current chain
+const OAppContractAddressOnCurrentChain = "???";
+
 const SET_CONFIG_DATA = {
   // Current chain of ShimmerEVM => Remote chain of BNB
   "SMR-BNB": {
+    // Ensure this is the right address !!
+    // 0x717b4e7ee6b50167E85d13Af18EAb170DC5CD83d
+    OAppContractAddressOnCurrentChain, // OFTAdapter
     lzEndpointOnCurrentChain: "0x148f693af10ddfaE81cDdb36F4c93B31A90076e1",
-    OAppContractAddressOnCurrentChain: "0x9d8bBc4E081c9bC215ee79443A78C716dFc77109", // OFTAdapter
+
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
       "0x9Bdf3aE7E2e3D211811E5e782a808Ca0a75BF1Fc", // LayerZero Labs
@@ -20,8 +26,11 @@ const SET_CONFIG_DATA = {
   },
   // Current chain of BNB => Remote chain of ShimmerEVM
   "BNB-SMR": {
+    // Ensure this is the right address !!
+    // 0x7F2A080a64f303469b6DbecB05Bf10F909aEBCbe
+    OAppContractAddressOnCurrentChain, // OFT
     lzEndpointOnCurrentChain: "0x1a44076050125825900e736c501f859c50fE728c",
-    OAppContractAddressOnCurrentChain: "0x2ACa4353e72e095C328a96c98332542a940b94A5", // OFT
+
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
       "0xfD6865c841c2d64565562fCc7e05e619A30615f0", // LayerZero Labs
@@ -39,8 +48,11 @@ const SET_CONFIG_DATA = {
   },
   // Current chain of IOTA EVM => Remote chain of BNB
   "IOTA-BNB": {
+    // Ensure this is the right address !!
+    // 0x11f5EA7dea9E8B9e6311002C67BA5B7952244f7f
+    OAppContractAddressOnCurrentChain, // OFTAdapter
     lzEndpointOnCurrentChain: "0x1a44076050125825900e736c501f859c50fE728c",
-    OAppContractAddressOnCurrentChain: "0x11f5EA7dea9E8B9e6311002C67BA5B7952244f7f", // OFTAdapter
+
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
       "0x6788f52439ACA6BFF597d3eeC2DC9a44B8FEE842", // LayerZero Labs
@@ -58,8 +70,11 @@ const SET_CONFIG_DATA = {
   },
   // Current chain of BNB => Remote chain of IOTA EVM
   "BNB-IOTA": {
+    // Ensure this is the right address !!
+    // 0xb17E5B3342Fb628C12164e2B2EF01dF6E331F5A9
+    OAppContractAddressOnCurrentChain, // OFT
     lzEndpointOnCurrentChain: "0x1a44076050125825900e736c501f859c50fE728c",
-    OAppContractAddressOnCurrentChain: "0xb17E5B3342Fb628C12164e2B2EF01dF6E331F5A9", // OFT
+
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
       "0xfD6865c841c2d64565562fCc7e05e619A30615f0", // LayerZero Labs

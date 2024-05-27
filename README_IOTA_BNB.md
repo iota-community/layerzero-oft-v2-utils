@@ -79,7 +79,7 @@ MyOFT - setPeer tx: 0xa9a1d61617971e7bdf0fcb6d0ff2d472df91c2e95b8ae0972192a6bc34
 **For input params:**
 
 - Check the file `scripts/set_config_data.ts`
-- Change `SET_CONFIG_DATA["???"]` in file `scripts\set_config.ts`
+- Ensure the `OAppContractAddressOnCurrentChain` points to the correct address of OFTAdapter or OFT
 
 `npx hardhat run scripts/set_config.ts --network iotaEvmMainnet`
 
@@ -97,7 +97,7 @@ setConfig for 0xe1844c5D63a9543023008D332Bd3d2e6f1FE1043 - tx: 0x31a855411c81c72
 **For input params:**
 
 - Check the file `scripts/set_config_data.ts`
-- Change `SET_CONFIG_DATA["???"]` in file `scripts\set_config.ts`
+- Ensure the `OAppContractAddressOnCurrentChain` points to the correct address of OFTAdapter or OFT
 
 `npx hardhat run scripts/set_config.ts --network bnbMainnet`
 

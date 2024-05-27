@@ -2,6 +2,15 @@ import setConfig from "./set_config_function";
 import SET_CONFIG_DATA from "./set_config_data";
 
 async function main() {
+  const { ROUTE } = process.env;
+  if (!ROUTE) {
+    throw new Error("Missing ROUTE");
+  }
+
+  if (!Object.keys(SET_CONFIG_DATA).includes(ROUTE)) {
+    throw new Error("Undefined ROUTE");
+  }
+
   const {
     lzEndpointIdOnRemoteChain,
     confirmationsOnRemoteChain,
@@ -11,7 +20,7 @@ async function main() {
     optionalDVNsOnCurrentChain,
     sendLibAddressOnCurrentChain,
     receiveLibAddressOnCurrentChain,
-  } = SET_CONFIG_DATA["BNB-IOTA"];
+  } = SET_CONFIG_DATA[ROUTE];
 
   await setConfig(
     lzEndpointIdOnRemoteChain,
