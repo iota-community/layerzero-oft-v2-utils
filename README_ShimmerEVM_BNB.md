@@ -81,7 +81,7 @@ MyOFT - setPeer tx: 0x4de43311d952d2861d487ac94ee7173b166af43535099acb7b5ae6f731
 - Check the file `scripts/set_config_data.ts`
 - Ensure the `OAppContractAddressOnCurrentChain` points to the correct address of OFTAdapter or OFT (set in `.env`)
 
-`export ROUTE="SMR-BNB" && npx hardhat run scripts/set_config.ts --network shimmerEvmMainnet`
+`export PATHWAY="SMR->BNB" && npx hardhat run scripts/set_config.ts --network shimmerEvmMainnet`
 
 Log output for custom impl (contracts-wiota):
 
@@ -99,7 +99,7 @@ setConfig for 0xb21f945e8917c6cd69fcfe66ac6703b90f7fe004 - tx: 0x3cd068663c2036f
 - Check the file `scripts/set_config_data.ts`
 - Ensure the `OAppContractAddressOnCurrentChain` points to the correct address of OFTAdapter or OFT (set in `.env`)
 
-`export ROUTE="BNB-SMR" && npx hardhat run scripts/set_config.ts --network bnbMainnet`
+`export PATHWAY="BNB->SMR" && npx hardhat run scripts/set_config.ts --network bnbMainnet`
 
 Log output for custom impl (contracts-wiota):
 
