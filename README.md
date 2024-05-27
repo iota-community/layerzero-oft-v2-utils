@@ -4,13 +4,14 @@ Implemented by IOTA Foundation.
 
 ## Introduction
 
-Utilities for LayerZero OFT V2 that facilitate cross-chain sending of erc20 tokens between some source chain (e.g. Sepolia or ShimmerEVM testnet) and some destination chain (e.g. BNB testnet or IOTA EVM testnet):
+Utilities for LayerZero OFT V2 that facilitate cross-chain sending of erc20 tokens (e.g. `wSMR`) between some source chain (e.g. ShimmerEVM mainnet) and some destination chain (e.g. IOTA EVM mainnet):
 
-- Sample Solidity code for OFTAdater and OFT contracts in folder `contracts-standard`
+- Sample Solidity code for OFTAdater and OFT contracts in folder `contracts-standard` and `contracts-wiota`
 - Scripts for:
   - Deploy OFTAdapter and OFT contracts
   - Set trusted peer
   - Set enforced options
+  - Set config
   - Send tokens from source chain to destination chain and vice versa
 
 ## OFTAdapter and OFT contracts
@@ -57,7 +58,7 @@ https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-trusted-
 Both of the OFTAdapter and OFT contract instances need to be set for the enforced options. There are 2 main options:
 
 - lzReceive Option: specifies the gas limit the Executor uses when calling lzReceive on the destination chain.
-- lzNativeDrop Option: specifies the amount of native gas `in wei` to be dropped to the receiver address on the destination chain
+- lzNativeDrop Option: specifies the amount of native gas `in wei` to be dropped to the receiver address on the destination chain. The max amount varies per source chain. If source chain does not support gas drop on destination, the `send` tx will get reverted !!
 
 While the `lzReceive Option` can be set once and forever for any cross-chain token sending, the option `lzNativeDrop Option` can only be set for each of the token sending transaction because the receiver address is unknown in advance.
 
@@ -65,6 +66,37 @@ Further info:
 
 - [struct EnforcedOptionParam](https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-enforced-options)
 - [Option types](https://docs.layerzero.network/v2/developers/evm/gas-settings/options#option-types)
+
+### Set config
+
+The file `scripts\set_config_data.ts` implements `setConfig` data that can be modified per demand.
+For example:
+
+- `SMR_CONFIG` specifies config data on ShimmerEVM chain
+- `PATHWAY_CONFIG` specifies config data for various pathways like `SMR->IOTA`
+
+#### Notice
+
+- If ShimmerEVM or IOTA EVM is involved on the pathway, the `setConfig` must be performed correctly on **2 chain sides** for **bi-directional** sending. Otherwise, the `send` tx will always get reverted.
+
+- On some other pathways like between BNB and Polygon or between Sepolia and BNB testnet, the `setConfig` is not mandatory.
+
+#### Input params to the `setConfig` for the pathway from chain A to chain B
+
+- On current chain (i.e. chain A):
+
+  - lzEndpointOnCurrentChain: LayerZero [Endpoint](https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts) address on chain A
+  - lzEndpointIdOnCurrentChain: LayerZero Endpoint ID on chain A
+  - requiredDVNsOnCurrentChain: required [DVNs](https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses) on chain A. The currently-set value is from [LayerZero Labs](https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs)
+  - optionalDVNsOnCurrentChain: optional [DVNs](https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses) on chain A. Currently, ignored with empty array
+  - sendLibAddressOnCurrentChain: [SendLib302 address](https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts) associated with the deployed Endpoint address chain A
+  - receiveLibAddressOnCurrentChain: [ReceiveLib302 address](https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts) associated with the deployed Endpoint address chain A
+
+- On destination chain (i.e. chain B):
+  - lzEndpointIdOnRemoteChain: LayerZero Endpoint ID on chain B
+  - confirmationsOnRemoteChain: needed [confirmations](https://docs.layerzero.network/v2/developers/evm/configuration/configure-dvns#define-parameters) on chain B. Currently set to zero to take the default confirmations.
+
+Further reference: https://docs.layerzero.network/v2/developers/evm/configuration/configure-dvns
 
 ### Procedure to send tokens from source chain to destination chain and vice versa
 
@@ -111,136 +143,112 @@ The config is specified in the template file `.env.example` that needs to be cop
 
 ## Deploy contracts
 
-### Deploy OFTAdapter on source chain (e.g. Sepolia)
+### Deploy OFTAdapter on source chain (e.g. ShimmerEVM)
 
-`yarn deploy-oft-adapter-sepolia`
+`npx hardhat run scripts/deploy_oft_adapter.ts --network shimmerEvmMainnet`
 
-Log output for standard impl:
-
-```
-$ npx hardhat run scripts/deploy_oft_adapter.ts --network sepolia
-Deployed MyOFTAdapter contract address: 0x4daa81978576cB91a2e1919960e90e46c2a6D586
-Done in 6.67s.
-```
-
-Log output for custom impl:
+Log output for custom impl (contracts-wiota):
 
 ```
-$ npx hardhat run scripts/deploy_oft_adapter.ts --network sepolia
-Deployed OFTAdapter contract address: 0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0
-Done in 15.02s.
+Deployed OFTAdapter contract address: 0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d
 ```
 
-### Deploy OFT on destination chain (e.g. BNB testnet)
+### Deploy OFT on destination chain (e.g. IotaEVM)
 
-`yarn deploy-oft-bnb-testnet`
+`npx hardhat run scripts/deploy_oft.ts --network iotaEvmMainnet`
 
-Log output for standard impl:
-
-```
-$ npx hardhat run scripts/deploy_oft.ts --network bnbTestnet
-Deployed MyOFT contract address: 0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1
-Done in 6.68s.
-```
-
-Log output for custom impl:
+Log output for custom impl (contracts-wiota):
 
 ```
-$ npx hardhat run scripts/deploy_oft.ts --network bnbTestnet
-Deployed OFT contract address: 0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383
-Done in 8.40s.
+Deployed OFT contract address: 0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3
 ```
 
 ## Set enforced options
 
-### On OFTAdapter (source chain, e.g. Sepolia)
+### On OFTAdapter (source chain, e.g. ShimmerEVM)
 
-`yarn set-enforced-options-oft-adapter-sepolia`
+`export isForOFTAdapter=true && npx hardhat run scripts/set_enforced_options.ts --network shimmerEvmMainnet`
 
-Log output for standard impl:
-
-```
-$ export isForOFTAdapter=true && npx hardhat run scripts/set_enforced_options.ts --network sepolia
-setEnforcedOptions - isForOFTAdapter:true, oftAdapterContractAddress:0x4daa81978576cB91a2e1919960e90e46c2a6D586, oftContractAddress:0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:40161
-setEnforcedOptions tx: 0x957e039c27dab1cd3d4ff672de9f3d5a7684e1442a3cefe036ea0dd233c2f143
-Done in 12.69s.
-```
-
-Log output for custom impl:
+Log output for custom impl (contracts-wiota):
 
 ```
-$ export isForOFTAdapter=true && npx hardhat run scripts/set_enforced_options.ts --network sepolia
-setEnforcedOptions - isForOFTAdapter:true, oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:40161
-setEnforcedOptions tx: 0x599ea605c7c944da34a90ef5ad2956c43b7ca513c06c06fbf3e9b83503c9c1c9
-Done in 9.22s.
+setEnforcedOptions - isForOFTAdapter:true, oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d, oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:30284
+setEnforcedOptions tx: 0x0a3ac0cf2eccfee9c22041e74daed804c6570eccde9d72afb3069d5b17bd3a6f
 ```
 
-### On OFT (destination chain, e.g. BNB testnet)
+### On OFT (destination chain, e.g. IotaEVM)
 
-`yarn set-enforced-options-oft-bnb-testnet`
+`export isForOFTAdapter=false && npx hardhat run scripts/set_enforced_options.ts --network iotaEvmMainnet`
 
-Log output for standard impl:
-
-```
-$ export isForOFTAdapter=false && npx hardhat run scripts/set_enforced_options.ts --network bnbTestnet
-setEnforcedOptions - isForOFTAdapter:false, oftAdapterContractAddress:0x4daa81978576cB91a2e1919960e90e46c2a6D586, oftContractAddress:0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:40102
-setEnforcedOptions tx: 0x0d0b832bb902acc8abe804c359f109dfd1c906c7cf144db5b00ae63a0291e9e5
-Done in 3.33s.
-```
-
-Log output for custom impl:
+Log output for custom impl (contracts-wiota):
 
 ```
-$ export isForOFTAdapter=false && npx hardhat run scripts/set_enforced_options.ts --network bnbTestnet
-setEnforcedOptions - isForOFTAdapter:false, oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:40102
-setEnforcedOptions tx: 0x0b623b47d11a120a6b02b229959870a36a8d10eba2de717d892465170c535782
-Done in 4.97s.
+setEnforcedOptions - isForOFTAdapter:false, oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d, oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:30230
+setEnforcedOptions tx: 0x3ac2e349fa834e0bf38ec8bf5fbc0916e2e5e410623516659d15cf28af5df3ba
 ```
 
 ## Set trusted peer
 
-### On OFTAdapter (source chain, e.g. Sepolia)
+### On OFTAdapter (source chain, e.g. ShimmerEVM)
 
-`yarn set-peer-oft-adapter-sepolia`
+`npx hardhat run scripts/set_peer_oft_adapter.ts --network shimmerEvmMainnet`
 
-Log output for standard impl:
-
-```
-$ npx hardhat run scripts/set_peer_oft_adapter.ts --network sepolia
-setPeerMyOFTAdapter - oftAdapterContractAddress:0x4daa81978576cB91a2e1919960e90e46c2a6D586, lzEndpointIdOnDestChain:40102, oftContractAddress:0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1
-MyOFTAdapter - setPeer tx: 0xc17e7a54d96325768b6427ce893d9b6b7ed04bd920089b63a3f96c005073e9c2
-Done in 14.10s.
-```
-
-Log output for custom impl:
+Log output for custom impl (contracts-wiota):
 
 ```
-$ npx hardhat run scripts/set_peer_oft_adapter.ts --network sepolia
-setPeerMyOFTAdapter - oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, lzEndpointIdOnDestChain:40102, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383
-MyOFTAdapter - setPeer tx: 0xfe902723e578514940d41b54d4953da7ae011ccb61798c77eef7c672bea71e44
-Done in 6.85s.
+setPeerMyOFTAdapter - oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d, lzEndpointIdOnDestChain:30284, oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3
+MyOFTAdapter - setPeer tx: 0x3da7505ead27f296c55d8d982c9be9a7243d7d04e5a15a024fcc6b548a0bb6e2
 ```
 
-### On OFT (destination chain, e.g. BNB testnet)
+### On OFT (destination chain, e.g. IotaEVM)
 
-`yarn set-peer-oft-bnb-testnet`
+`npx hardhat run scripts/set_peer_oft.ts --network iotaEvmMainnet`
 
-Log output for standard impl:
-
-```
-$ npx hardhat run scripts/set_peer_oft.ts --network bnbTestnet
-setPeerMyOFT - oftContractAddress:0xCc337C2e69F4Eb8EaBcf632a1fC5B8F729dC47F1, lzEndpointIdOnSrcChain:40161, oftAdapterContractAddress:0x4daa81978576cB91a2e1919960e90e46c2a6D586
-MyOFT - setPeer tx: 0xb0012378ee14c9df5c9f86980dd9c96fc8aedb3c19d92c1d91a4259f3981ac35
-Done in 4.66s.
-```
-
-Log output for custom impl:
+Log output for custom impl (contracts-wiota):
 
 ```
-$ npx hardhat run scripts/set_peer_oft.ts --network bnbTestnet
-setPeerMyOFT - oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, lzEndpointIdOnSrcChain:40161, oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0
-MyOFT - setPeer tx: 0xa3b98ad35bfab9e7311b3eb829833cf37b95ccb1371d0f3437aa3c52f29b8e55
-Done in 6.19s.
+setPeerMyOFT - oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3, lzEndpointIdOnSrcChain:30230, oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d
+MyOFT - setPeer tx: 0x26c71a52296f4903f0de5e44e5014c66b6e5381c8442fe98c15a9b513284faad
+```
+
+## Set config
+
+!!! Without `setConfig` for each of the OApp for a given pathway, cross-chain sending will get reverted !!!
+
+### For OFTAdapter on ShimmerEVM as current chain to interact with IotaEVM as remote chain
+
+**For input params:**
+
+- Check the file `scripts/set_config_data.ts` to add new or leverage the existing pathways
+- Edit the `PATHWAY` and `OAppContractAddressOnCurrentChain` in the below cmd
+
+`export PATHWAY="SMR->IOTA" && export OAppContractAddressOnCurrentChain=0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d && npx hardhat run scripts/set_config.ts --network shimmerEvmMainnet`
+
+Log output for custom impl (contracts-wiota):
+
+```
+setConfig - lzEndpointOnCurrentChain:0x148f693af10ddfaE81cDdb36F4c93B31A90076e1, lzEndpointIdOnRemoteChain:30284, OAppContractAddressOnCurrentChain:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d
+ulnConfigEncoded: 0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000010000000000000000000000009bdf3ae7e2e3d211811e5e782a808ca0a75bf1fc0000000000000000000000000000000000000000000000000000000000000000
+setConfig for 0xd4a903930f2c9085586cda0b11d9681eecb20d2f - tx: 0x77d784b567550f18c38e0ffe7866223ce1f241d7339b9aefb2fdd5f1e1676484
+setConfig for 0xb21f945e8917c6cd69fcfe66ac6703b90f7fe004 - tx: 0x3222da93d2009cb094bb0de09c33e7a43eb15fc9a2f9b047d1ebbf2ca2ea791f
+```
+
+### For OFT on IotaEVM as current chain to interact with ShimmerEVM as remote chain
+
+**For input params:**
+
+- Check the file `scripts/set_config_data.ts` to add new or leverage the existing pathways
+- Edit the `PATHWAY` and `OAppContractAddressOnCurrentChain` in the below cmd
+
+`export PATHWAY="IOTA->SMR" && export OAppContractAddressOnCurrentChain=0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3 && npx hardhat run scripts/set_config.ts --network iotaEvmMainnet`
+
+Log output for custom impl (contracts-wiota):
+
+```
+setConfig - lzEndpointOnCurrentChain:0x1a44076050125825900e736c501f859c50fE728c, lzEndpointIdOnRemoteChain:30230, OAppContractAddressOnCurrentChain:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3
+ulnConfigEncoded: 0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000010000000000000000000000006788f52439aca6bff597d3eec2dc9a44b8fee8420000000000000000000000000000000000000000000000000000000000000000
+setConfig for 0xc39161c743d0307eb9bcc9fef03eeb9dc4802de7 - tx: 0xebf19d455b32a126155bf5be6827abd831152598fa77e25c447e52936eaf69b5
+setConfig for 0xe1844c5D63a9543023008D332Bd3d2e6f1FE1043 - tx: 0xecff6ae37fe3cd17e4278f5f17199562f4b4e5b26667d7eb2c6e4677dc1d06f4
 ```
 
 ## Other settings of the contracts
@@ -250,82 +258,51 @@ https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-delegate
 
 ## Transfer contract ownership
 
-### OFTAdapter on source chain (e.g. Sepolia)
+### OFTAdapter on source chain (e.g. ShimmerEVM)
 
-`yarn transfer-ownership-oft-adapter-sepolia`
+`export isForOFTAdapter=true && npx hardhat run scripts/transfer_ownership.ts --network shimmerEvmMainnet`
 
-Log output for custom impl:
-
-```
-$ export isForOFTAdapter=true && npx hardhat run scripts/transfer_ownership.ts --network sepolia
-transferOwnership - isForOFTAdapter:true, oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, newOwnerAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028
-transferOwnership tx: 0x1dd894d143b0c31454b63ff9290076689d40ddac06cee421e80d686783c16ea7
-Done in 7.00s.
-```
-
-### OFT on destination chain (e.g. BNB testnet)
-
-`yarn transfer-ownership-oft-bnb-testnet`
-
-Log output for custom impl:
+Log output for custom impl (contracts-wiota):
 
 ```
-$ export isForOFTAdapter=false && npx hardhat run scripts/transfer_ownership.ts --network bnbTestnet
-transferOwnership - isForOFTAdapter:false, oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, newOwnerAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028
-transferOwnership tx: 0x69236f7b2adce8134ad628875d62234546ac713a5bc1fac879d86c7b72efdeb4
-Done in 5.47s.
+
+```
+
+### OFT on destination chain (e.g. IotaEVM)
+
+`export isForOFTAdapter=false && npx hardhat run scripts/transfer_ownership.ts --network iotaEvmMainnet`
+
+Log output for custom impl (contracts-wiota):
+
+```
+
 ```
 
 ## Send origin tokens from source chain to destination chain
 
-`yarn send-oft-from-sepolia`
+`npx hardhat run scripts/send_oft.ts --network shimmerEvmMainnet`
 
-Log output for standard impl:
+Log output for custom impl (contracts-wiota):
 
 ```
-$ npx hardhat run scripts/send_oft.ts --network sepolia
-sendOFT - oftAdapterContractAddress:0x5D7Cbc05fc6df2832c40023f1Eb2755628C51D81, oftContractAddress:0x075e512E25b45a3EaF8b432220F0Ca8D4e3c6a58, lzEndpointIdOnSrcChain:40161, lzEndpointIdOnDestChain:40102, gasDropInWeiOnDestChain:1000000000000000, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, sender: 0x57a4bd139fb673d364a6f12df9177a3f686625f3, amount:2
-sendOFT - approve tx: 0x8fa692edb47b1ad9d21f60b0fa30993e5cd3abd78c3c56fb4f38db5f9b8ac369
-sendOFT - estimated nativeFee: 0.000734209489447653
-sendOFT - send tx on source chain: 0xeb3e44310a09ae2ab2f0d6d6d3fdfd7c490f8ac536bb20a5e16999b23232ef67
+sendOFT - oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d, oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3, lzEndpointIdOnSrcChain:30230, lzEndpointIdOnDestChain:30284, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, sender: 0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, amount:0.1, erc20TokenAddress:0xBEb654A116aeEf764988DF0C6B4bf67CC869D01b
+sendOFT - approve tx: 0x2270fe3db02ddfba2c0a5e16343fc44596c10a64c97f4e002cc9dbeef2f15b5d
+sendOFT - estimated nativeFee: 2.608622989813813602
+sendOFT - send tx on source chain: 0x09c4429d2e1bd855ec24d0e14d2e1a3ca697518344a3047f174beed8c9581332
 Wait for cross-chain tx finalization by LayerZero ...
-sendOFT - received tx on destination chain: 0xc2e5a4be8ae67718e817ff585a32765e393835880068f408fd7724667a25a46c
-```
-
-Log output for custom impl:
-
-```
-$ npx hardhat run scripts/send_oft.ts --network sepolia
-sendOFT - oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, lzEndpointIdOnSrcChain:40161, lzEndpointIdOnDestChain:40102, gasDropInWeiOnDestChain:1000000000000000, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, sender: 0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, amount:100000
-sendOFT - approve tx: 0x59e77524cab462779b22dab759f53151b1edb92ddf2b488b1a463b5bac7395e0
-sendOFT - estimated nativeFee: 0.000755124363583443
-sendOFT - send tx on source chain: 0x9bb615ff74be7764395317d7e3662a0604c893745f4b199915cca9b98ce94701
-Wait for cross-chain tx finalization by LayerZero ...
-sendOFT - received tx on destination chain: 0x02aa22f090ad5778f631500dd2fb8285dfb65c7edd574aa7894fbcd85483a574
+sendOFT - received tx on destination chain: 0xe597568c78144431fb251f3f313f1a3cfa71c537c673e59c3dc6ef714ab228f6
 ```
 
 ## Send OFT-wrapped tokens back from destination chain to origin chain
 
-`yarn send-oft-back-from-bnb-testnet`
+`npx hardhat run scripts/send_oft_back.ts --network iotaEvmMainnet`
 
-Log output for standard impl:
+Log output for custom impl (contracts-wiota):
 
 ```
-$ npx hardhat run scripts/send_oft_back.ts --network bnbTestnet
-sendOFTBack - oftAdapterContractAddress:0x5D7Cbc05fc6df2832c40023f1Eb2755628C51D81, oftContractAddress:0x075e512E25b45a3EaF8b432220F0Ca8D4e3c6a58, lzEndpointIdOnSrcChain:40161, lzEndpointIdOnDestChain:40102, gasDropInWeiOnDestChain:1000000000000000, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, amount:2
-sendOFTBack - estimated nativeFee: 0.054815809525020364
-sendOFTBack - send tx on source chain: 0x41bcf78b310dc1bbf9b4005f7412d995011c7815ad5af9cc26b37370e75bbfeb
+sendOFTBack - oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d, oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3, lzEndpointIdOnSrcChain:30230, lzEndpointIdOnDestChain:30284, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, amount:0.01
+sendOFTBack - estimated nativeFee: 0.112473266637699722
+sendOFTBack - send tx on source chain: 0xcd2fd77065c31577db5cf8f1c62aba790d40e262dbf254e00c9c9040ba2e1cf8
 Wait for cross-chain tx finalization by LayerZero ...
-sendOFTBack - received tx on destination chain: 0xc1031694e92512a0189885ad6419e33196a65b8ae56baa9d555be8686d6d42fe
-```
-
-Log output for custom impl:
-
-```
-$ npx hardhat run scripts/send_oft_back.ts --network bnbTestnet
-sendOFTBack - oftAdapterContractAddress:0xA5bB58Edd16B6c89b227457D456dc01DeCBB77A0, oftContractAddress:0x637954d6778Ba0b589148Bb3FdcAF278AB1cb383, lzEndpointIdOnSrcChain:40161, lzEndpointIdOnDestChain:40102, gasDropInWeiOnDestChain:1000000000000000, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, amount:100000
-sendOFTBack - estimated nativeFee: 0.012370381669251284
-sendOFTBack - send tx on source chain: 0x883d005991087ff8791522da497144fc3247ab4873f7cc25b7446a36cb979f9e
-Wait for cross-chain tx finalization by LayerZero ...
-sendOFTBack - received tx on destination chain: 0x59e42ae58a46a77ea114d16d01448db015e01e58ed61fc2d1d6953cbc572dca0
+sendOFTBack - received tx on destination chain: 0x5199f7b5de6fd9d8edb661588805a71a64238e63752bb28d8c863651c52bf13b
 ```
