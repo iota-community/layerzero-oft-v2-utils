@@ -1,6 +1,8 @@
 # Mainnet Deployment
 
-## ShimmerEVM <-- wSMR --> IotaEVM
+## Deployed Contract Address
+
+### ShimmerEVM <-- wSMR --> IotaEVM
 
 Deployer account: 0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419
 
@@ -10,7 +12,7 @@ Deployed address:
 - OFTAdapter on ShimmerEVM: 0x009BcE26c6812c559aFf5EB5769C8758701673d2
 - OFT on IotaEVM: 0x009BcE26c6812c559aFf5EB5769C8758701673d2
 
-## IotaEVM <-- wIOTA --> EVM (ShimmerEVM, Ethereum, Polygon and etc)
+### IotaEVM <-- wIOTA --> EVM (ShimmerEVM, Ethereum, Polygon and etc)
 
 Deployer account: 0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419
 
