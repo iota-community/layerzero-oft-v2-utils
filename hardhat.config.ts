@@ -1,13 +1,6 @@
 import "dotenv/config";
 import "@nomicfoundation/hardhat-toolbox";
 
-const SEPOLIA_RPC_URL = process.env.rpcUrlOnSrcChain
-  ? process.env.rpcUrlOnSrcChain
-  : "https://eth-sepolia.public.blastapi.io";
-const BNB_TESTNET_RPC_URL = process.env.rpcUrlOnDestChain
-  ? process.env.rpcUrlOnDestChain
-  : "https://bsc-testnet.public.blastapi.io";
-
 const SHIMMER_EVM_TESTNET_RPC_URL = "https://json-rpc.evm.testnet.shimmer.network";
 const SHIMMER_EVM_MAINNET_RPC_URL = "https://json-rpc.evm.shimmer.network";
 
@@ -47,7 +40,7 @@ module.exports = {
     },
     bnbTestnet: {
       chainId: 97,
-      url: BNB_TESTNET_RPC_URL,
+      url: "https://bsc-testnet.public.blastapi.io",
       accounts: ACCOUNTS,
     },
     bnbMainnet: {
@@ -62,7 +55,37 @@ module.exports = {
     },
     sepolia: {
       chainId: 11155111,
-      url: SEPOLIA_RPC_URL,
+      url: "https://eth-sepolia.public.blastapi.io",
+      accounts: ACCOUNTS,
+    },
+    ethereum: {
+      chainId: 1,
+      url: "https://eth.drpc.org",
+      accounts: ACCOUNTS,
+    },
+    fantom: {
+      chainId: 250,
+      url: "https://rpcapi.fantom.network",
+      accounts: ACCOUNTS,
+    },
+    optimism: {
+      chainId: 10,
+      url: "https://op-pokt.nodies.app",
+      accounts: ACCOUNTS,
+    },
+    base: {
+      chainId: 8453,
+      url: "https://base.drpc.org",
+      accounts: ACCOUNTS,
+    },
+    avalanche: {
+      chainId: 43114,
+      url: "https://avalanche.drpc.org",
+      accounts: ACCOUNTS,
+    },
+    arbitrum: {
+      chainId: 42161,
+      url: "https://arbitrum.drpc.org",
       accounts: ACCOUNTS,
     },
   },
