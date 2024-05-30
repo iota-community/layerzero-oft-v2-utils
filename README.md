@@ -163,6 +163,15 @@ Log output for custom impl (contracts-wiota):
 Deployed OFT contract address: 0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3
 ```
 
+## Verify contracts
+
+The following cmd can be used to verify the deployed contract
+
+`npx hardhat verify --network networkNameSpecifiedInHardhatConfig deployedContractAddess "CTOR arg 1" "CTOR arg 2" "CTOR arg 3"`
+
+E.g.
+`npx hardhat verify --network iotaEvmMainnet 0xAf5b83063247603d1D042FA2a47c404322255bD4 "0x6e47f8d48a01b44DF3fFF35d258A10A3AEdC114c" "0x1a44076050125825900e736c501f859c50fE728c" "0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419"`
+
 ## Set enforced options
 
 ### On OFTAdapter (source chain, e.g. ShimmerEVM)

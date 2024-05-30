@@ -102,7 +102,8 @@ sendOFT - received tx on destination chain: 0x0319325937ed38efc420d903affc21e70e
 ```
 
 **Notice**
-It took 10 minutes long for the token sending tx from ShimmerEVM to IotaEVM to be `Delivered`.
+
+It took `10 minutes` long for the token sending tx from ShimmerEVM to IotaEVM to be `Delivered`.
 Most time consumped on destination chain awaiting.
 https://layerzeroscan.com/tx/0x12f7a0ac166726212f26e5b22dea8baec035f0ca379700d5e5ce26cb6ab19c1f
 
@@ -121,6 +122,7 @@ sendOFTBack - received tx on destination chain: 0x394f2d568f0056d568bfc1d25fbcf6
 ```
 
 **Notice**
-It took 10 minutes long for the token sending tx from ShimmerEVM to IotaEVM to be `Delivered`.
+
+It took `10 minutes` long for the token sending tx from ShimmerEVM to IotaEVM to be `Delivered`.
 Most time consumped on destination chain awaiting.
 https://layerzeroscan.com/tx/0xe7fa9fb083c3bc0d0743fd4ee2f9ab964018e15080f32bd94412c0e048da3827
