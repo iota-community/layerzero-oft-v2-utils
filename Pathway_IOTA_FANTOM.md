@@ -107,6 +107,7 @@ sendOFT - approve tx: 0x625a45c2bfb1f309c7a0b804fd4067cb0a4a5373cc4fd30a0e18deae
 sendOFT - estimated nativeFee: 1.735701213950254621
 sendOFT - send tx on source chain: 0xf80c3573079ea3f9465603cb448c57576a0b3289375e9d9f225f342308d663e8
 Wait for cross-chain tx finalization by LayerZero ...
+sendOFT - received tx on destination chain: 0x40ce9d666936eb5dc15844a69f05c47aae94d737018302aa5bd9f4c40e3c8d45
 ```
 
 **Notice**

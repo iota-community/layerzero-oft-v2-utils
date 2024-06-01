@@ -59,7 +59,7 @@ For an OApp on a given chain, `setPeer` is per eid (remote endpointID):
 
 [mapping(uint32 eid => bytes32 peer) public peers;](https://github.com/LayerZero-Labs/LayerZero-v2/blob/37c598b3e6e218c5e00c8b0dcd42f984e5b13147/packages/layerzero-v2/evm/oapp/contracts/oapp/OAppCore.sol#L17)
 
-So, the next `setPeer` will not overwrite the currently-set peer info.
+So, the next `setPeer` will **not** overwrite the currently-set peer info.
 
 ### Set enforced options
 
@@ -75,6 +75,14 @@ Further info:
 - [struct EnforcedOptionParam](https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-enforced-options)
 - [Option types](https://docs.layerzero.network/v2/developers/evm/gas-settings/options#option-types)
 
+**Notice:**
+
+For an OApp on a given chain, `setEnforcedOptions` is per eid (remote endpointID):
+
+[mapping(uint32 eid => mapping(uint16 msgType => bytes enforcedOption)) public enforcedOptions;](https://github.com/LayerZero-Labs/LayerZero-v2/blob/37c598b3e6e218c5e00c8b0dcd42f984e5b13147/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OAppOptionsType3.sol#L16)
+
+So, the next `setEnforcedOptions` will **not** overwrite the currently-set option info.
+
 ### Set config
 
 The file `scripts\set_config_data.ts` implements `setConfig` data that can be modified per demand.
@@ -88,6 +96,12 @@ For example:
 - If ShimmerEVM or IOTA EVM is involved on the pathway, the `setConfig` must be performed correctly on **2 chain sides** for **bi-directional** sending. Otherwise, the `send` tx will always get reverted.
 
 - On some other pathways like between BNB and Polygon or between Sepolia and BNB testnet, the `setConfig` is not mandatory.
+
+For an OApp on a given chain, `setConfig` (which is applied on the deployed EndpointV2 in the given chain) is per eid (remote endpointID):
+
+[mapping(address oapp => mapping(uint32 eid => UlnConfig)) internal ulnConfigs;](https://github.com/LayerZero-Labs/LayerZero-v2/blob/37c598b3e6e218c5e00c8b0dcd42f984e5b13147/packages/layerzero-v2/evm/messagelib/contracts/uln/UlnBase.sol#L34)
+
+So, the next `setConfig` will **not** overwrite the currently-set config info of the pair of OApp and remote endpointID.
 
 #### Input params to the `setConfig` for the pathway from chain A to chain B
 

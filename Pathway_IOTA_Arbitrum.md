@@ -133,6 +133,7 @@ sendOFTBack - oftAdapterContractAddress:0xAf5b83063247603d1D042FA2a47c404322255b
 sendOFTBack - estimated nativeFee: 0.000005512100726145
 sendOFTBack - send tx on source chain: 0x1b1dea2a9328c35105cedee383f99348805c30c6b510bd0ba4dc693c8cb5bc5a
 Wait for cross-chain tx finalization by LayerZero ...
+sendOFTBack - received tx on destination chain: 0xed924846aee6328a2280fb1049e1e87e0de2bcb6f54dc85e08e12470788c1ba2
 ```
 
 **Notice**
