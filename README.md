@@ -53,6 +53,14 @@ For the upcoming erc20 tokens that wanna leverage OFT standard, the OFT contract
 Further info:
 https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-trusted-peers
 
+**Notice:**
+
+For an OApp on a given chain, `setPeer` is per eid (remote endpointID):
+
+[mapping(uint32 eid => bytes32 peer) public peers;](https://github.com/LayerZero-Labs/LayerZero-v2/blob/37c598b3e6e218c5e00c8b0dcd42f984e5b13147/packages/layerzero-v2/evm/oapp/contracts/oapp/OAppCore.sol#L17)
+
+So, the next `setPeer` will not overwrite the currently-set peer info.
+
 ### Set enforced options
 
 Both of the OFTAdapter and OFT contract instances need to be set for the enforced options. There are 2 main options:

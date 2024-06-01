@@ -101,6 +101,15 @@ Wait for cross-chain tx finalization by LayerZero ...
 sendOFT - received tx on destination chain: 0x3de44b7e0c184a6c573c631caba1cff6fc22a1a4d6f143ed6db4e4f787f84b85
 ```
 
+```
+sendOFT - oftAdapterContractAddress:0xAf5b83063247603d1D042FA2a47c404322255bD4, oftContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, lzEndpointIdOnSrcChain:30284, lzEndpointIdOnDestChain:30101, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419, sender: 0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, amount:0.02, erc20TokenAddress:0x6e47f8d48a01b44DF3fFF35d258A10A3AEdC114c
+sendOFT - approve tx: 0x7df1a941e426d12cc4d7cc9e76838300834cf2836aaa867dda1816c72b7ce81e
+sendOFT - estimated nativeFee: 108.361147889858883708
+sendOFT - send tx on source chain: 0xc98bb1a2c80c3f40ff3c1647171754c74de7cfa01bc7386c0480b65c989d27fa
+Wait for cross-chain tx finalization by LayerZero ...
+sendOFT - received tx on destination chain: 0xd595ba82edf51b08d6ff2beb59f972b6acf03b2f96cc26f504a6943267733cfa
+```
+
 **Notice**
 
 It took `5 minutes` long for the token sending tx from IotaEVM to Ethereum to be `Delivered`.
@@ -119,6 +128,14 @@ sendOFTBack - estimated nativeFee: 0.000005512100726145
 sendOFTBack - send tx on source chain: 0x6293730dc762315a0b5141ba502b7dc9b5935033dd60b1c373dd92f9b0818d21
 Wait for cross-chain tx finalization by LayerZero ...
 sendOFTBack - received tx on destination chain: 0x0770d94084486a7a3d1d9c65defe77063e32bb906ec55739783a82900e487e88
+```
+
+```
+sendOFTBack - oftAdapterContractAddress:0xAf5b83063247603d1D042FA2a47c404322255bD4, oftContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, lzEndpointIdOnSrcChain:30284, lzEndpointIdOnDestChain:30101, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419, amount:0.02
+sendOFTBack - estimated nativeFee: 0.000005512100726145
+sendOFTBack - send tx on source chain: 0xf76a3f5d6ff5ee9c16a31f4ee0a8bb1cb13831c672c9ce0377d7a277219303bc
+Wait for cross-chain tx finalization by LayerZero ...
+sendOFTBack - received tx on destination chain: 0x70a0c19977004aad75056e792d7f3e582044ae636e11ef7abccd2609b1cbdd0b
 ```
 
 **Notice**

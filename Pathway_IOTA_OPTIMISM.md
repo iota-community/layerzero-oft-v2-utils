@@ -101,6 +101,14 @@ Wait for cross-chain tx finalization by LayerZero ...
 sendOFT - received tx on destination chain: 0x4ed497a206d3770b317fdd4dc0ebae52e9a3a4d8928b4a08ed9b5b91c773646a
 ```
 
+```
+sendOFT - oftAdapterContractAddress:0xAf5b83063247603d1D042FA2a47c404322255bD4, oftContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, lzEndpointIdOnSrcChain:30284, lzEndpointIdOnDestChain:30111, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419, sender: 0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, amount:0.02, erc20TokenAddress:0x6e47f8d48a01b44DF3fFF35d258A10A3AEdC114c
+sendOFT - approve tx: 0x0f9c97822704ecc0479c63f4d711bff980c7540d5bc4f12dfa9086e3ec4c317e
+sendOFT - estimated nativeFee: 0.264451849022186834
+sendOFT - send tx on source chain: 0x792b7f7910f0b0a97637c59fdb34c735f73524e253a6c33e401f38e465e77f63
+Wait for cross-chain tx finalization by LayerZero ...
+```
+
 **Notice**
 
 It took `5 minutes` long for the token sending tx from IotaEVM to Optimism to be `Delivered`.
@@ -119,6 +127,13 @@ sendOFTBack - estimated nativeFee: 0.000005512100726145
 sendOFTBack - send tx on source chain: 0x52db82a390b175f16dfd2591fd6ed7b957f129d82cf5328b587e5e2db51b4b58
 Wait for cross-chain tx finalization by LayerZero ...
 sendOFTBack - received tx on destination chain: 0xefec2801dc753695db0022de6d1ff5559c8d17f8ebe90fc31762e2324ad851ed
+```
+
+```
+sendOFTBack - oftAdapterContractAddress:0xAf5b83063247603d1D042FA2a47c404322255bD4, oftContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, lzEndpointIdOnSrcChain:30284, lzEndpointIdOnDestChain:30111, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419, amount:0.003
+sendOFTBack - estimated nativeFee: 0.000005512100726145
+sendOFTBack - send tx on source chain: 0x3376524e8f43fa7cc82edb354bc52592fd9f904de13deb782e990832d9465d4b
+Wait for cross-chain tx finalization by LayerZero ...
 ```
 
 **Notice**

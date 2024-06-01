@@ -100,6 +100,15 @@ sendOFT - send tx on source chain: 0x9a0f63843b8b6f9bcbd777645fcc7e7f40023a2c4d1
 Wait for cross-chain tx finalization by LayerZero ...
 ```
 
+```
+sendOFT - oftAdapterContractAddress:0xAf5b83063247603d1D042FA2a47c404322255bD4, oftContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, lzEndpointIdOnSrcChain:30284, lzEndpointIdOnDestChain:30110, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419, sender: 0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, amount:0.02, erc20TokenAddress:0x6e47f8d48a01b44DF3fFF35d258A10A3AEdC114c
+sendOFT - approve tx: 0x6183e220b1159c28466b9773ae19cf656e81ca8d16e0ea0fd62731b9e48b2c66
+sendOFT - estimated nativeFee: 0.406792914298425095
+sendOFT - send tx on source chain: 0x6a2105db974ed241db231c105d464552eab3d95c1b8b578a377263e7a26d6613
+Wait for cross-chain tx finalization by LayerZero ...
+sendOFT - received tx on destination chain: 0xfddf5c2daafd48c66d3dbf17fd35656abdb54733ec1224b1c5fb265a0fec9c5f
+```
+
 **Notice**
 
 It took `5 minutes` long for the token sending tx from IotaEVM to Arbitrum to be `Delivered`.
@@ -116,6 +125,13 @@ Log output for custom impl (contracts-wiota):
 sendOFTBack - oftAdapterContractAddress:0xAf5b83063247603d1D042FA2a47c404322255bD4, oftContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, lzEndpointIdOnSrcChain:30284, lzEndpointIdOnDestChain:30110, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419, amount:0.002
 sendOFTBack - estimated nativeFee: 0.000005512100726145
 sendOFTBack - send tx on source chain: 0x3d8f67d4086634a8f042ff8450666430a113d69338b5dc10bc6b14f32cc77451
+Wait for cross-chain tx finalization by LayerZero ...
+```
+
+```
+sendOFTBack - oftAdapterContractAddress:0xAf5b83063247603d1D042FA2a47c404322255bD4, oftContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, lzEndpointIdOnSrcChain:30284, lzEndpointIdOnDestChain:30110, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419, amount:0.003
+sendOFTBack - estimated nativeFee: 0.000005512100726145
+sendOFTBack - send tx on source chain: 0x1b1dea2a9328c35105cedee383f99348805c30c6b510bd0ba4dc693c8cb5bc5a
 Wait for cross-chain tx finalization by LayerZero ...
 ```
 

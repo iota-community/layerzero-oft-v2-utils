@@ -101,6 +101,14 @@ Wait for cross-chain tx finalization by LayerZero ...
 sendOFT - received tx on destination chain: 0x804204b7d7ea10139e696e5fcb8a77396f45ad894dcc20212b8471d101e299a9
 ```
 
+```
+sendOFT - oftAdapterContractAddress:0xAf5b83063247603d1D042FA2a47c404322255bD4, oftContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, lzEndpointIdOnSrcChain:30284, lzEndpointIdOnDestChain:30112, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419, sender: 0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, amount:0.02, erc20TokenAddress:0x6e47f8d48a01b44DF3fFF35d258A10A3AEdC114c
+sendOFT - approve tx: 0x625a45c2bfb1f309c7a0b804fd4067cb0a4a5373cc4fd30a0e18deae29d60677
+sendOFT - estimated nativeFee: 1.735701213950254621
+sendOFT - send tx on source chain: 0xf80c3573079ea3f9465603cb448c57576a0b3289375e9d9f225f342308d663e8
+Wait for cross-chain tx finalization by LayerZero ...
+```
+
 **Notice**
 
 It took `5 minutes` long for the token sending tx from IotaEVM to Fantom to be `Delivered`.
@@ -119,6 +127,14 @@ sendOFTBack - estimated nativeFee: 0.025126875309656518
 sendOFTBack - send tx on source chain: 0xa0a3edd3c45a41a2b9c8e83d02e84a59b1575d970a23238514669b5d959af095
 Wait for cross-chain tx finalization by LayerZero ...
 sendOFTBack - received tx on destination chain: 0xb5c7cad1f2c91d532b47d2723e4c735fed9d130e0e2abc3a78ab8bc66675a071
+```
+
+```
+sendOFTBack - oftAdapterContractAddress:0xAf5b83063247603d1D042FA2a47c404322255bD4, oftContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, lzEndpointIdOnSrcChain:30284, lzEndpointIdOnDestChain:30112, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419, amount:0.003
+sendOFTBack - estimated nativeFee: 0.025126875309656518
+sendOFTBack - send tx on source chain: 0x2fb48b5d2894d733a4ebb5a3abddcf4feb1faf3cd460053486f100a27b5bd63f
+Wait for cross-chain tx finalization by LayerZero ...
+sendOFTBack - received tx on destination chain: 0xa81d490cfbb8b31352089d9bfdd582c756b384c95ff3a8c15008c70635e00b50
 ```
 
 **Notice**
