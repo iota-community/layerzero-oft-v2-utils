@@ -101,6 +101,14 @@ Wait for cross-chain tx finalization by LayerZero ...
 sendOFT - received tx on destination chain: 0x0319325937ed38efc420d903affc21e70e0d66b977e9e0fe1302ef8a0c29b905
 ```
 
+```
+sendOFT - oftAdapterContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, oftContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, lzEndpointIdOnSrcChain:30230, lzEndpointIdOnDestChain:30284, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, amount:0.02, erc20TokenAddress:0xBEb654A116aeEf764988DF0C6B4bf67CC869D01b
+sendOFT - approve tx: 0x61924f1fe7bcccdc2ed95a5f70acd9b47bc7b66eee1127adb3bcfe8bbbfea32a
+sendOFT - estimated nativeFee: 2.608622989813813602
+sendOFT - send tx on source chain: 0xb31b1b9ab281286213d1edcbe86bdc1ee6c2b09c956a9993bd4375628c2808ff
+Wait for cross-chain tx finalization by LayerZero ...
+```
+
 **Notice**
 
 It took `10 minutes` long for the token sending tx from ShimmerEVM to IotaEVM to be `Delivered`.
@@ -119,6 +127,13 @@ sendOFTBack - estimated nativeFee: 0.112473266637699722
 sendOFTBack - send tx on source chain: 0xe7fa9fb083c3bc0d0743fd4ee2f9ab964018e15080f32bd94412c0e048da3827
 Wait for cross-chain tx finalization by LayerZero ...
 sendOFTBack - received tx on destination chain: 0x394f2d568f0056d568bfc1d25fbcf637c217c24cba81e7a7ec95c8ea87356f43
+```
+
+```
+sendOFTBack - oftAdapterContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, oftContractAddress:0x009BcE26c6812c559aFf5EB5769C8758701673d2, lzEndpointIdOnSrcChain:30230, lzEndpointIdOnDestChain:30284, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, amount:0.003
+sendOFTBack - estimated nativeFee: 0.112473266637699722
+sendOFTBack - send tx on source chain: 0xc44de9b3f16295f8aa0675d8e5c4b588945103b07748a4c6012a2f1e34ea204e
+Wait for cross-chain tx finalization by LayerZero ...
 ```
 
 **Notice**
