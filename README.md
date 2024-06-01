@@ -53,6 +53,14 @@ For the upcoming erc20 tokens that wanna leverage OFT standard, the OFT contract
 Further info:
 https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-trusted-peers
 
+**Notice:**
+
+For an OApp on a given chain, `setPeer` is per eid (remote endpointID):
+
+[mapping(uint32 eid => bytes32 peer) public peers;](https://github.com/LayerZero-Labs/LayerZero-v2/blob/37c598b3e6e218c5e00c8b0dcd42f984e5b13147/packages/layerzero-v2/evm/oapp/contracts/oapp/OAppCore.sol#L17)
+
+So, the next `setPeer` will **not** overwrite the currently-set peer info.
+
 ### Set enforced options
 
 Both of the OFTAdapter and OFT contract instances need to be set for the enforced options. There are 2 main options:
@@ -67,6 +75,14 @@ Further info:
 - [struct EnforcedOptionParam](https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-enforced-options)
 - [Option types](https://docs.layerzero.network/v2/developers/evm/gas-settings/options#option-types)
 
+**Notice:**
+
+For an OApp on a given chain, `setEnforcedOptions` is per eid (remote endpointID):
+
+[mapping(uint32 eid => mapping(uint16 msgType => bytes enforcedOption)) public enforcedOptions;](https://github.com/LayerZero-Labs/LayerZero-v2/blob/37c598b3e6e218c5e00c8b0dcd42f984e5b13147/packages/layerzero-v2/evm/oapp/contracts/oapp/libs/OAppOptionsType3.sol#L16)
+
+So, the next `setEnforcedOptions` will **not** overwrite the currently-set option info.
+
 ### Set config
 
 The file `scripts\set_config_data.ts` implements `setConfig` data that can be modified per demand.
@@ -80,6 +96,12 @@ For example:
 - If ShimmerEVM or IOTA EVM is involved on the pathway, the `setConfig` must be performed correctly on **2 chain sides** for **bi-directional** sending. Otherwise, the `send` tx will always get reverted.
 
 - On some other pathways like between BNB and Polygon or between Sepolia and BNB testnet, the `setConfig` is not mandatory.
+
+For an OApp on a given chain, `setConfig` (which is applied on the deployed EndpointV2 in the given chain) is per eid (remote endpointID):
+
+[mapping(address oapp => mapping(uint32 eid => UlnConfig)) internal ulnConfigs;](https://github.com/LayerZero-Labs/LayerZero-v2/blob/37c598b3e6e218c5e00c8b0dcd42f984e5b13147/packages/layerzero-v2/evm/messagelib/contracts/uln/UlnBase.sol#L34)
+
+So, the next `setConfig` will **not** overwrite the currently-set config info of the pair of OApp and remote endpointID.
 
 #### Input params to the `setConfig` for the pathway from chain A to chain B
 
@@ -162,6 +184,15 @@ Log output for custom impl (contracts-wiota):
 ```
 Deployed OFT contract address: 0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3
 ```
+
+## Verify contracts
+
+The following cmd can be used to verify the deployed contract
+
+`npx hardhat verify --network networkNameSpecifiedInHardhatConfig deployedContractAddess "CTOR arg 1" "CTOR arg 2" "CTOR arg 3"`
+
+E.g.
+`npx hardhat verify --network iotaEvmMainnet 0xAf5b83063247603d1D042FA2a47c404322255bD4 "0x6e47f8d48a01b44DF3fFF35d258A10A3AEdC114c" "0x1a44076050125825900e736c501f859c50fE728c" "0x99F28C7e613c925CD2dAcEF5Af27AF144aF5F419"`
 
 ## Set enforced options
 

@@ -50,7 +50,7 @@ const lzEndpointSetConfigABI = [
 // to interact with remote chain
 async function setConfig(
   lzEndpointIdOnRemoteChain: number,
-  confirmationsOnRemoteChain: number,
+  confirmationsOnCurrentChain: number,
   lzEndpointOnCurrentChain: string,
   OAppContractAddressOnCurrentChain: string,
   requiredDVNsOnCurrentChain: string[],
@@ -73,10 +73,10 @@ async function setConfig(
   const configTypeUln = 2; // As defined for CONFIG_TYPE_ULN
 
   const ulnConfigStructType =
-    "tuple(uint64 confirmationsOnRemoteChain, uint8 requiredDVNCount, uint8 optionalDVNCount, uint8 optionalDVNThreshold, address[] requiredDVNsOnCurrentChain, address[] optionalDVNsOnCurrentChain)";
+    "tuple(uint64 confirmationsOnCurrentChain, uint8 requiredDVNCount, uint8 optionalDVNCount, uint8 optionalDVNThreshold, address[] requiredDVNsOnCurrentChain, address[] optionalDVNsOnCurrentChain)";
 
   const ulnConfigData = {
-    confirmationsOnRemoteChain,
+    confirmationsOnCurrentChain,
     requiredDVNCount,
     optionalDVNCount,
     optionalDVNThreshold,

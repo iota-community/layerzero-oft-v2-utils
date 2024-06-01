@@ -9,23 +9,21 @@ async function main() {
     throw new Error("Missing OAppContractAddressOnCurrentChain");
   }
 
-  if (!Object.keys(PATHWAY_CONFIG).includes(PATHWAY)) {
-    throw new Error("Undefined PATHWAY");
-  }
+  const [srcChain, destChain] = PATHWAY.split("->");
 
   const {
     lzEndpointIdOnRemoteChain,
-    confirmationsOnRemoteChain,
+    confirmationsOnCurrentChain,
     lzEndpointOnCurrentChain,
     requiredDVNsOnCurrentChain,
     optionalDVNsOnCurrentChain,
     sendLibAddressOnCurrentChain,
     receiveLibAddressOnCurrentChain,
-  } = PATHWAY_CONFIG[PATHWAY];
+  } = PATHWAY_CONFIG(srcChain, destChain);
 
   await setConfig(
     lzEndpointIdOnRemoteChain,
-    confirmationsOnRemoteChain,
+    confirmationsOnCurrentChain,
     lzEndpointOnCurrentChain,
     OAppContractAddressOnCurrentChain,
     requiredDVNsOnCurrentChain,
