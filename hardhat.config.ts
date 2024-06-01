@@ -61,7 +61,7 @@ module.exports = {
     },
     ethereum: {
       chainId: 1,
-      url: "https://eth.drpc.org",
+      url: "https://eth.llamarpc.com",
       accounts: ACCOUNTS,
     },
     fantom: {
@@ -86,7 +86,7 @@ module.exports = {
     },
     arbitrum: {
       chainId: 42161,
-      url: "https://arbitrum.drpc.org",
+      url: "https://arbitrum.llamarpc.com",
       accounts: ACCOUNTS,
     },
   },

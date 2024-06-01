@@ -107,7 +107,7 @@ const CHAIN_CONFIG: any = {
     confirmationsOnCurrentChain: 0, // will get default confirmations
   },
 
-  OPTIMISIM: {
+  OPTIMISM: {
     lzEndpointOnCurrentChain: "0x1a44076050125825900e736c501f859c50fE728c",
     lzEndpointIdOnCurrentChain: 30111,
 
