@@ -56,7 +56,7 @@ module.exports = {
     },
     sepolia: {
       chainId: 11155111,
-      url: "https://eth-sepolia.public.blastapi.io",
+      url: "https://1rpc.io/sepolia",
       accounts: ACCOUNTS,
     },
     ethereum: {
@@ -96,13 +96,15 @@ module.exports = {
       shimmerEvmMainnet: "061b49d0-71fe-4581-a964-a1d962340cae",
       bnbMainnet: "ADIP65BS7UI9CUNRHYCUMYQ2F2327G6MNN",
       polygon: "1YR53MFG3TS5G4A3ZYP9J6HG1HA3MIWIVJ",
-      ethereum: "Y5TY1V4KP6TYSFI2CSZJE12HU5H3YZ7TZB",
+      ethereum: "KV3T32M5BVE8Q69AW2953GT3FKX4XHI9D7",
       fantom: "19CB1KRA7G7D2AFJEQ33CVK6ZCHTK4ZSDE",
       optimism: "WCFRYSKDKK661UZ9EKJKBZPQV461M227ET",
       base: "8GTWGADU386IDWFIDRGYT2U5BJWH4XUS2N",
       avalanche: "not needed",
       arbitrum: "I392RYY2UE7CETV9X25YJ6PA5BHP3D4ADD",
+      sepolia: "KV3T32M5BVE8Q69AW2953GT3FKX4XHI9D7"
     },
+    // apiKey: "KV3T32M5BVE8Q69AW2953GT3FKX4XHI9D7",
     customChains: [
       {
         network: "iotaEvmMainnet",
@@ -190,9 +192,9 @@ module.exports = {
     enabled: false,
   },
   solidity: {
-    version: "0.8.22",
+    version: "0.8.30",
     settings: {
-      evmVersion: "paris",
+      evmVersion: "prague",
       optimizer: {
         enabled: true,
         runs: 200,

@@ -2,6 +2,8 @@
 
 Implemented by IOTA Foundation.
 
+devtools\tests\ua-devtools-evm-hardhat-test\test\oapp\config.test.ts
+
 ## Introduction
 
 Utilities for LayerZero OFT V2 that facilitate cross-chain sending of erc20 tokens (e.g. `wSMR`) between some source chain (e.g. ShimmerEVM mainnet) and some destination chain (e.g. IOTA EVM mainnet):
@@ -175,17 +177,30 @@ Log output for custom impl (contracts-wiota):
 Deployed OFTAdapter contract address: 0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d
 ```
 
-### Deploy OFT on destination chain (e.g. IotaEVM)
+### Deploy OFT on destination chain (e.g. Sepolia)
 
-`npx hardhat run scripts/deploy_oft.ts --network iotaEvmMainnet`
+Input params in `.env`:
 
-Log output for custom impl (contracts-wiota):
+- DEPLOYER_ACCOUNT_PRIV_KEY
+- OFT_CONTRACT_NAME
+- mintedTokenName
+- mintedTokenSymbol
+- lzEndpointOnDestChain (e.g. 0x6EDCE65403992e310A62460808c4b910D972f10f for Sepolia)
+- lzEndpointIdOnDestChain (e.g. 40161 for Sepolia)
+
+Run cmd:
+
+`npx hardhat run scripts/deploy_oft.ts --network sepolia`
+
+Log output:
 
 ```
-Deployed OFT contract address: 0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3
+Deployed OFT contract address: 0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA
 ```
 
 ## Verify contracts
+
+Must use `"@nomicfoundation/hardhat-verify": "2.0.14"`
 
 The following cmd can be used to verify the deployed contract
 
@@ -207,15 +222,24 @@ setEnforcedOptions - isForOFTAdapter:true, oftAdapterContractAddress:0xa9CdE55a0
 setEnforcedOptions tx: 0x0a3ac0cf2eccfee9c22041e74daed804c6570eccde9d72afb3069d5b17bd3a6f
 ```
 
-### On OFT (destination chain, e.g. IotaEVM)
+### On OFT (destination chain, e.g. Sepolia)
 
-`export isForOFTAdapter=false && npx hardhat run scripts/set_enforced_options.ts --network iotaEvmMainnet`
+Input params in `.env`:
 
-Log output for custom impl (contracts-wiota):
+- DEPLOYER_ACCOUNT_PRIV_KEY
+- oftContractAddress (e.g. 0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA on Sepolia)
+- executorLzReceiveOptionMaxGas
+- lzEndpointIdOnSrcChain (e.g. 40423 for IOTA MoveVM testnet)
+
+Run cmd:
+
+`export isForOFTAdapter=false && npx hardhat run scripts/set_enforced_options.ts --network sepolia`
+
+Log output:
 
 ```
-setEnforcedOptions - isForOFTAdapter:false, oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d, oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:30230
-setEnforcedOptions tx: 0x3ac2e349fa834e0bf38ec8bf5fbc0916e2e5e410623516659d15cf28af5df3ba
+setEnforcedOptions - isForOFTAdapter:false, oftAdapterContractAddress:, oftContractAddress:0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:40423
+setEnforcedOptions tx: 0x07282486f01964548eabb5061b5d2ee6b41b2f05687df4840f758c71006fa6c9
 ```
 
 ## Set trusted peer
@@ -231,15 +255,24 @@ setPeerMyOFTAdapter - oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a
 MyOFTAdapter - setPeer tx: 0x3da7505ead27f296c55d8d982c9be9a7243d7d04e5a15a024fcc6b548a0bb6e2
 ```
 
-### On OFT (destination chain, e.g. IotaEVM)
+### On OFT (destination chain, e.g. Sepolia)
 
-`npx hardhat run scripts/set_peer_oft.ts --network iotaEvmMainnet`
+Input params in `.env`:
 
-Log output for custom impl (contracts-wiota):
+- DEPLOYER_ACCOUNT_PRIV_KEY
+- oftContractAddress (e.g. 0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA on Sepolia)
+- oftAdapterContractAddress (e.g. 0xc36df91c6eccc8a3a026ead7656abb7a36ab4210b2575a7dc27199eeec1f3de4 on IOTA MoveVM testnet)
+- lzEndpointIdOnSrcChain (e.g. 40423 for IOTA MoveVM testnet)
+
+Run cmd:
+
+`npx hardhat run scripts/set_peer_oft.ts --network sepolia`
+
+Log output:
 
 ```
-setPeerMyOFT - oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3, lzEndpointIdOnSrcChain:30230, oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d
-MyOFT - setPeer tx: 0x26c71a52296f4903f0de5e44e5014c66b6e5381c8442fe98c15a9b513284faad
+setPeerMyOFT - oftContractAddress:0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA, lzEndpointIdOnSrcChain:40423, oftAdapterContractAddress:0xc36df91c6eccc8a3a026ead7656abb7a36ab4210b2575a7dc27199eeec1f3de4
+MyOFT - setPeer tx: 0xe1a57c06ea7a51aba28da9d742c344c6e372a81651681fc3b1b71e773dcb7171
 ```
 
 ## Set config
@@ -253,7 +286,7 @@ MyOFT - setPeer tx: 0x26c71a52296f4903f0de5e44e5014c66b6e5381c8442fe98c15a9b5132
 - Check the file `scripts/set_config_data.ts` to add new or leverage the existing pathways
 - Edit the `PATHWAY` and `OAppContractAddressOnCurrentChain` in the below cmd
 
-`export PATHWAY="SMR->IOTA" && export OAppContractAddressOnCurrentChain=0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d && npx hardhat run scripts/set_config.ts --network shimmerEvmMainnet`
+`export PATHWAY="sepolia->iotal1testnet" && export OAppContractAddressOnCurrentChain=0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA && npx hardhat run scripts/set_config.ts --network sepolia`
 
 Log output for custom impl (contracts-wiota):
 
@@ -264,22 +297,21 @@ setConfig for 0xd4a903930f2c9085586cda0b11d9681eecb20d2f - tx: 0x77d784b567550f1
 setConfig for 0xb21f945e8917c6cd69fcfe66ac6703b90f7fe004 - tx: 0x3222da93d2009cb094bb0de09c33e7a43eb15fc9a2f9b047d1ebbf2ca2ea791f
 ```
 
-### For OFT on IotaEVM as current chain to interact with ShimmerEVM as remote chain
+### For OFT on Sepolia as current chain to interact with IOTA MoveVM testnet as remote chain
 
 **For input params:**
 
 - Check the file `scripts/set_config_data.ts` to add new or leverage the existing pathways
-- Edit the `PATHWAY` and `OAppContractAddressOnCurrentChain` in the below cmd
+- Edit the `PATHWAY` and `OAppContractAddressOnCurrentChain` (e.g. the deployed OFT on Sepolia) in the below cmd
 
-`export PATHWAY="IOTA->SMR" && export OAppContractAddressOnCurrentChain=0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3 && npx hardhat run scripts/set_config.ts --network iotaEvmMainnet`
+`export PATHWAY="sepolia->iotal1testnet" && export OAppContractAddressOnCurrentChain=0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA && npx hardhat run scripts/set_config.ts --network sepolia`
 
-Log output for custom impl (contracts-wiota):
+Log output:
 
 ```
-setConfig - lzEndpointOnCurrentChain:0x1a44076050125825900e736c501f859c50fE728c, lzEndpointIdOnRemoteChain:30230, OAppContractAddressOnCurrentChain:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3
-ulnConfigEncoded: 0x0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000010000000000000000000000006788f52439aca6bff597d3eec2dc9a44b8fee8420000000000000000000000000000000000000000000000000000000000000000
-setConfig for 0xc39161c743d0307eb9bcc9fef03eeb9dc4802de7 - tx: 0xebf19d455b32a126155bf5be6827abd831152598fa77e25c447e52936eaf69b5
-setConfig for 0xe1844c5D63a9543023008D332Bd3d2e6f1FE1043 - tx: 0xecff6ae37fe3cd17e4278f5f17199562f4b4e5b26667d7eb2c6e4677dc1d06f4
+setConfig - lzEndpointIdOnRemoteChain:40423, confirmationsOnCurrentChain:0, lzEndpointOnCurrentChain:0x6EDCE65403992e310A62460808c4b910D972f10f, OAppContractAddressOnCurrentChain:0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA, requiredDVNsOnCurrentChain:["0x8eebf8b423b73bfca51a1db4b7354aa0bfca9193"], sendLibAddressOnCurrentChain:0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE, receiveLibAddressOnCurrentChain:0xdAf00F5eE2158dD58E0d3857851c432E34A3A851, maxMessageSize:10000, executor:0x718b92b5cb0a5552039b593faf724d182a881eda
+setConfig for receiveLib 0xdAf00F5eE2158dD58E0d3857851c432E34A3A851 - tx: 0xa93701ff7e3b8b240b896d7ac7cdef8e10eec5459cb996d3f2efd95a31951109
+setConfig for sendLib 0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE - tx: 0x8ce2a056ecc898cbee6b57bf9637e963fb12b8bb5f7fe1d442eff615dba56fb2
 ```
 
 ## Other settings of the contracts

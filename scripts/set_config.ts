@@ -16,9 +16,10 @@ async function main() {
     confirmationsOnCurrentChain,
     lzEndpointOnCurrentChain,
     requiredDVNsOnCurrentChain,
-    optionalDVNsOnCurrentChain,
     sendLibAddressOnCurrentChain,
     receiveLibAddressOnCurrentChain,
+    maxMessageSize,
+    executor,
   } = PATHWAY_CONFIG(srcChain, destChain);
 
   await setConfig(
@@ -27,9 +28,10 @@ async function main() {
     lzEndpointOnCurrentChain,
     OAppContractAddressOnCurrentChain,
     requiredDVNsOnCurrentChain,
-    optionalDVNsOnCurrentChain,
     sendLibAddressOnCurrentChain,
     receiveLibAddressOnCurrentChain,
+    maxMessageSize,
+    executor,
   );
 }
 

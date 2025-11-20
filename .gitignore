@@ -2,6 +2,7 @@ node_modules
 .env
 .env.*
 .env_*
+env.zip
 coverage
 coverage.json
 typechain-types

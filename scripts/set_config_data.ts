@@ -1,29 +1,72 @@
 const CHAIN_CONFIG: any = {
-  SMR: {
-    lzEndpointOnCurrentChain: "0x148f693af10ddfaE81cDdb36F4c93B31A90076e1",
-    lzEndpointIdOnCurrentChain: 30230,
+  sepolia: {
+    lzEndpointOnCurrentChain: "0x6EDCE65403992e310A62460808c4b910D972f10f",
+    lzEndpointIdOnCurrentChain: 40161,
+
+    // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
+    /////// for ulnConfigData used by setConfig() for receiveLib
+    requiredDVNsOnCurrentChain: [
+      "0x8eebf8b423b73bfca51a1db4b7354aa0bfca9193"
+    ],
+
+    // From the deployed endpoint, take the SendLib302 and ReceiveLib302
+    // https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts
+    sendLibAddressOnCurrentChain: "0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE",
+    receiveLibAddressOnCurrentChain: "0xdAf00F5eE2158dD58E0d3857851c432E34A3A851",
+
+    confirmationsOnCurrentChain: 0, // will get default confirmations
+
+    /////// for executorConfigData used by setConfig() for sendLib
+    executor: "0x718b92b5cb0a5552039b593faf724d182a881eda",
+    maxMessageSize: 10000,
+  },
+  iotal1testnet: {
+    lzEndpointOnCurrentChain: "0x6C7Ab2202C98C4227C5c46f1417D81144DA716Ff",
+
+    // https://www.npmjs.com/package/@layerzerolabs/lz-definitions?activeTab=code
+    lzEndpointIdOnCurrentChain: 40423, // IOTAL1_V2_TESTNET,
 
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
-      "0x9Bdf3aE7E2e3D211811E5e782a808Ca0a75BF1Fc", // LayerZero Labs
+      "0xf49d162484290eaead7bb8c2c7e3a6f8f52e32d6", 
+      "0xc1868e054425d378095a003ecba3823a5d0135c9", // LZDeadDVN
     ],
     optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
 
     // From the deployed endpoint, take the SendLib302 and ReceiveLib302
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts
-    sendLibAddressOnCurrentChain: "0xd4a903930f2c9085586cda0b11d9681eecb20d2f",
-    receiveLibAddressOnCurrentChain: "0xb21f945e8917c6cd69fcfe66ac6703b90f7fe004",
+    sendLibAddressOnCurrentChain: "0xd682ECF100f6F4284138AA925348633B0611Ae21",
+    receiveLibAddressOnCurrentChain: "0xcF1B0F4106B0324F96fEfcC31bA9498caa80701C",
 
     confirmationsOnCurrentChain: 0, // will get default confirmations
   },
+  iotal1mainnet: {
+    lzEndpointOnCurrentChain: "0x1a44076050125825900e736c501f859c50fE728c",
 
+    // https://www.npmjs.com/package/@layerzerolabs/lz-definitions?activeTab=code
+    lzEndpointIdOnCurrentChain: 30423, // IOTAL1_V2_MAINNET,
+
+    // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
+    requiredDVNsOnCurrentChain: [
+      "0x6788f52439aca6bff597d3eec2dc9a44b8fee842", 
+      "0xe6f1c3c1674d3bae71ef33300441e7469a0021ff", // LZDeadDVN
+    ],
+    optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
+
+    // From the deployed endpoint, take the SendLib302 and ReceiveLib302
+    // https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts
+    sendLibAddressOnCurrentChain: "0xC39161c743D0307EB9BCc9FEF03eeb9Dc4802de7",
+    receiveLibAddressOnCurrentChain: "0xe1844c5D63a9543023008D332Bd3d2e6f1FE1043",
+
+    confirmationsOnCurrentChain: 0, // will get default confirmations
+  },
   BNB: {
     lzEndpointOnCurrentChain: "0x1a44076050125825900e736c501f859c50fE728c",
     lzEndpointIdOnCurrentChain: 30102,
 
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
-      "0xfD6865c841c2d64565562fCc7e05e619A30615f0", // LayerZero Labs
+      "0xfD6865c841c2d64565562fCc7e05e619A30615f0", 
     ],
     optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
 
@@ -41,7 +84,7 @@ const CHAIN_CONFIG: any = {
 
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
-      "0x6788f52439ACA6BFF597d3eeC2DC9a44B8FEE842", // LayerZero Labs
+      "0x6788f52439ACA6BFF597d3eeC2DC9a44B8FEE842", 
     ],
     optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
 
@@ -59,7 +102,7 @@ const CHAIN_CONFIG: any = {
 
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
-      "0x23DE2FE932d9043291f870324B74F820e11dc81A", // LayerZero Labs
+      "0x23DE2FE932d9043291f870324B74F820e11dc81A", 
     ],
     optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
 
@@ -77,7 +120,7 @@ const CHAIN_CONFIG: any = {
 
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
-      "0x589dEDbD617e0CBcB916A9223F4d1300c294236b", // LayerZero Labs
+      "0x589dEDbD617e0CBcB916A9223F4d1300c294236b", 
     ],
     optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
 
@@ -95,7 +138,7 @@ const CHAIN_CONFIG: any = {
 
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
-      "0xE60A3959Ca23a92BF5aAf992EF837cA7F828628a", // LayerZero Labs
+      "0xE60A3959Ca23a92BF5aAf992EF837cA7F828628a", 
     ],
     optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
 
@@ -113,7 +156,7 @@ const CHAIN_CONFIG: any = {
 
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
-      "0x6A02D83e8d433304bba74EF1c427913958187142", // LayerZero Labs
+      "0x6A02D83e8d433304bba74EF1c427913958187142", 
     ],
     optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
 
@@ -131,7 +174,7 @@ const CHAIN_CONFIG: any = {
 
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
-      "0x9e059a54699a285714207b43B055483E78FAac25", // LayerZero Labs
+      "0x9e059a54699a285714207b43B055483E78FAac25", 
     ],
     optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
 
@@ -149,7 +192,7 @@ const CHAIN_CONFIG: any = {
 
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
-      "0x962F502A63F5FBeB44DC9ab932122648E8352959", // LayerZero Labs
+      "0x962F502A63F5FBeB44DC9ab932122648E8352959", 
     ],
     optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
 
@@ -167,7 +210,7 @@ const CHAIN_CONFIG: any = {
 
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
-      "0x2f55C492897526677C5B68fb199ea31E2c126416", // LayerZero Labs
+      "0x2f55C492897526677C5B68fb199ea31E2c126416", 
     ],
     optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
 
