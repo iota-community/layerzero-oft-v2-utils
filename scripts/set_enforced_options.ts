@@ -11,10 +11,10 @@ async function setEnforcedOptions(
   oftAdapterContractAddress: string,
   oftContractAddress: string,
   executorLzReceiveOptionMaxGas: number,
-  lzEndpointIdOnRemoteChain: string,
+  lzEndpointIdOnDestChain: string,
 ) {
   console.log(
-    `setEnforcedOptions - isForOFTAdapter:${isForOFTAdapter}, oftAdapterContractAddress:${oftAdapterContractAddress}, oftContractAddress:${oftContractAddress}, executorLzReceiveOptionMaxGas:${executorLzReceiveOptionMaxGas}, lzEndpointIdOnRemoteChain:${lzEndpointIdOnRemoteChain}`,
+    `setEnforcedOptions - isForOFTAdapter:${isForOFTAdapter}, oftAdapterContractAddress:${oftAdapterContractAddress}, oftContractAddress:${oftContractAddress}, executorLzReceiveOptionMaxGas:${executorLzReceiveOptionMaxGas}, lzEndpointIdOnDestChain:${lzEndpointIdOnDestChain}`,
   );
 
   const myContract = isForOFTAdapter
@@ -27,7 +27,7 @@ async function setEnforcedOptions(
   // https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-enforced-options
   let enforcedOptions = [
     {
-      eid: lzEndpointIdOnRemoteChain, // destination Endpoint ID
+      eid: lzEndpointIdOnDestChain, // destination Endpoint ID
       msgType: 1,
       options: options.toBytes(),
     },
@@ -64,8 +64,8 @@ async function main() {
 
   await setEnforcedOptions(
     isForOFTAdapter === "true" ? true : false,
-    oftAdapterContractAddress,
-    oftContractAddress,
+    oftAdapterContractAddress as string,
+    oftContractAddress as string,
     Number(executorLzReceiveOptionMaxGas),
     isForOFTAdapter === "true" ? lzEndpointIdOnDestChain : lzEndpointIdOnSrcChain,
   );

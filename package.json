@@ -34,7 +34,7 @@
     "@types/node": "^20.12.7",
     "chai": "^4.2.0",
     "ethers": "^6.12.1",
-    "hardhat": "^2.22.3",
+    "hardhat": "2.26.3",
     "hardhat-gas-reporter": "^1.0.8",
     "rimraf": "^5.0.5",
     "solidity-coverage": "^0.8.1",
@@ -44,13 +44,14 @@
   },
   "dependencies": {
     "@ethersproject/abi": "^5.7.0",
-    "@layerzerolabs/lz-evm-messagelib-v2": "^2.3.15",
-    "@layerzerolabs/lz-evm-oapp-v2": "^2.3.15",
-    "@layerzerolabs/lz-evm-protocol-v2": "^2.3.15",
-    "@layerzerolabs/lz-v2-utilities": "2.3.15",
-    "@layerzerolabs/scan-client": "^0.0.8",
+    "@layerzerolabs/lz-evm-messagelib-v2": "^3.0.147",
+    "@layerzerolabs/lz-evm-oapp-v2": "^3.0.147",
+    "@layerzerolabs/lz-evm-protocol-v2": "^3.0.147",
+    "@layerzerolabs/lz-v2-utilities": "^3.0.147",
+    "@layerzerolabs/scan-client-v2": "^0.0.1",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.9",
     "@openzeppelin/contracts": "^5.0.0",
-    "dotenv": "^16.1.4"
+    "dotenv": "^16.1.4",
+    "redaxios": "^0.5.1"
   }
 }

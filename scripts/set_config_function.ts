@@ -49,7 +49,7 @@ const lzEndpointSetConfigABI = [
   },
 ];
 
-// setConfig on the Endpoint of the current chain for a given OApp (e.g. OFTAdapter or OFT)
+// setConfig on the Endpoint contract of the current chain for a given OApp (e.g. OFTAdapter or OFT)
 // to interact with remote chain
 async function setConfig(
   lzEndpointIdOnRemoteChain: number,

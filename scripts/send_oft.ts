@@ -1,5 +1,5 @@
 import { Options } from "@layerzerolabs/lz-v2-utilities";
-import { waitForMessageReceived } from "@layerzerolabs/scan-client";
+import { waitForMessageReceived } from "@layerzerolabs/scan-client-v2";
 import { zeroPad } from "@ethersproject/bytes";
 import { ethers } from "hardhat";
 
@@ -35,7 +35,6 @@ const ERC20_TOKEN_APPROVE_ABI = [
 // Via the OFTAdapter contract, send erc20 tokens on the source chain (e.g. Sepolia) to the destination chain (e.g. BNB testnet)
 async function sendOFT(
   oftAdapterContractAddress: string,
-  oftContractAddress: string,
   lzEndpointIdOnSrcChain: string,
   lzEndpointIdOnDestChain: string,
   gasDropInWeiOnDestChain: string,
@@ -48,7 +47,7 @@ async function sendOFT(
   const sender = new ethers.Wallet(sendingAccountPrivKey, ethers.provider);
 
   console.log(
-    `sendOFT - oftAdapterContractAddress:${oftAdapterContractAddress}, oftContractAddress:${oftContractAddress}, lzEndpointIdOnSrcChain:${lzEndpointIdOnSrcChain}, lzEndpointIdOnDestChain:${lzEndpointIdOnDestChain}, gasDropInWeiOnDestChain:${gasDropInWeiOnDestChain}, executorLzReceiveOptionMaxGas:${executorLzReceiveOptionMaxGas}, receivingAccountAddress:${receivingAccountAddress}, sender: ${sender.address}, amount:${amount}, erc20TokenAddress:${erc20TokenAddress}`,
+    `sendOFT - oftAdapterContractAddress:${oftAdapterContractAddress}, lzEndpointIdOnSrcChain:${lzEndpointIdOnSrcChain}, lzEndpointIdOnDestChain:${lzEndpointIdOnDestChain}, gasDropInWeiOnDestChain:${gasDropInWeiOnDestChain}, executorLzReceiveOptionMaxGas:${executorLzReceiveOptionMaxGas}, receivingAccountAddress:${receivingAccountAddress}, sender: ${sender.address}, amount:${amount}, erc20TokenAddress:${erc20TokenAddress}`,
   );
 
   // It is the OFTAdapter contract whose send() func is to be called to transfer tokens cross-chain
@@ -123,7 +122,6 @@ async function sendOFT(
 async function main() {
   const {
     oftAdapterContractAddress,
-    oftContractAddress,
     lzEndpointIdOnSrcChain,
     lzEndpointIdOnDestChain,
     gasDropInWeiOnDestChain,
@@ -137,8 +135,6 @@ async function main() {
   // Check input params
   if (!oftAdapterContractAddress) {
     throw new Error("Missing oftAdapterContractAddress");
-  } else if (!oftContractAddress) {
-    throw new Error("Missing oftContractAddress");
   } else if (!lzEndpointIdOnSrcChain) {
     throw new Error("Missing lzEndpointIdOnSrcChain");
   } else if (!lzEndpointIdOnDestChain) {
@@ -159,7 +155,6 @@ async function main() {
 
   await sendOFT(
     oftAdapterContractAddress,
-    oftContractAddress,
     lzEndpointIdOnSrcChain,
     lzEndpointIdOnDestChain,
     gasDropInWeiOnDestChain,

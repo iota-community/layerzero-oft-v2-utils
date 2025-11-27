@@ -21,24 +21,26 @@ const CHAIN_CONFIG: any = {
     maxMessageSize: 10000,
   },
   iotal1testnet: {
-    lzEndpointOnCurrentChain: "0x6C7Ab2202C98C4227C5c46f1417D81144DA716Ff",
+    lzEndpointOnCurrentChain: "0xfca1ac6ffcae8ce9d937e94f30c930f9ce295b29496ed975d272efec511e2495",
 
     // https://www.npmjs.com/package/@layerzerolabs/lz-definitions?activeTab=code
     lzEndpointIdOnCurrentChain: 40423, // IOTAL1_V2_TESTNET,
 
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/dvn-addresses#layerzero-labs
     requiredDVNsOnCurrentChain: [
-      "0xf49d162484290eaead7bb8c2c7e3a6f8f52e32d6", 
-      "0xc1868e054425d378095a003ecba3823a5d0135c9", // LZDeadDVN
+      "0x8a3a8ef1789a0863a5eef1a3c1eb777d188a74f34850589c57d2245837e424fd", 
     ],
-    optionalDVNsOnCurrentChain: [], // if specifying optional DVN, the setConfig tx will get reverted, why?
 
     // From the deployed endpoint, take the SendLib302 and ReceiveLib302
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts
-    sendLibAddressOnCurrentChain: "0xd682ECF100f6F4284138AA925348633B0611Ae21",
-    receiveLibAddressOnCurrentChain: "0xcF1B0F4106B0324F96fEfcC31bA9498caa80701C",
+    sendLibAddressOnCurrentChain: "???",
+    receiveLibAddressOnCurrentChain: "???",
 
-    confirmationsOnCurrentChain: 0, // will get default confirmations
+    confirmationsOnCurrentChain: 15, // will get default confirmations
+
+    /////// for executorConfigData used by setConfig() for sendLib
+    executor: "0xaa4f32d13d9cb55f9153cbaabda6e5e410626da6d05061d45581692e06931dd2",
+    maxMessageSize: 10000,
   },
   iotal1mainnet: {
     lzEndpointOnCurrentChain: "0x1a44076050125825900e736c501f859c50fE728c",
@@ -55,8 +57,8 @@ const CHAIN_CONFIG: any = {
 
     // From the deployed endpoint, take the SendLib302 and ReceiveLib302
     // https://docs.layerzero.network/v2/developers/evm/technical-reference/deployed-contracts
-    sendLibAddressOnCurrentChain: "0xC39161c743D0307EB9BCc9FEF03eeb9Dc4802de7",
-    receiveLibAddressOnCurrentChain: "0xe1844c5D63a9543023008D332Bd3d2e6f1FE1043",
+    sendLibAddressOnCurrentChain: "???",
+    receiveLibAddressOnCurrentChain: "???",
 
     confirmationsOnCurrentChain: 0, // will get default confirmations
   },

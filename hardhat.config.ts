@@ -56,7 +56,7 @@ module.exports = {
     },
     sepolia: {
       chainId: 11155111,
-      url: "https://1rpc.io/sepolia",
+      url: "https://sepolia.drpc.org",
       accounts: ACCOUNTS,
     },
     ethereum: {

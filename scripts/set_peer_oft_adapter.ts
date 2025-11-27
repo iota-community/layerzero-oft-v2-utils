@@ -6,10 +6,10 @@ const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || "MyOFTA
 async function setPeerMyOFTAdapter(
   oftAdapterContractAddress: string,
   lzEndpointIdOnDestChain: string,
-  oftContractAddress: string,
+  oftPackageId: string,
 ) {
   console.log(
-    `setPeerMyOFTAdapter - oftAdapterContractAddress:${oftAdapterContractAddress}, lzEndpointIdOnDestChain:${lzEndpointIdOnDestChain}, oftContractAddress:${oftContractAddress}`,
+    `setPeerMyOFTAdapter - oftAdapterContractAddress:${oftAdapterContractAddress}, lzEndpointIdOnDestChain:${lzEndpointIdOnDestChain}, oftPackageId:${oftPackageId}`,
   );
 
   const myOFTAdapterContract = await ethers.getContractAt(
@@ -20,7 +20,7 @@ async function setPeerMyOFTAdapter(
   // https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-trusted-peers
   const tx = await myOFTAdapterContract.setPeer(
     lzEndpointIdOnDestChain,
-    zeroPad(oftContractAddress, 32),
+    zeroPad(oftPackageId, 32),
   );
   const txReceipt = await tx.wait();
 
@@ -28,17 +28,17 @@ async function setPeerMyOFTAdapter(
 }
 
 async function main() {
-  const { oftAdapterContractAddress, lzEndpointIdOnDestChain, oftContractAddress } = process.env;
+  const { oftAdapterContractAddress, lzEndpointIdOnDestChain, oftPackageId } = process.env;
 
   if (!oftAdapterContractAddress) {
     throw new Error("Missing oftAdapterContractAddress");
   } else if (!lzEndpointIdOnDestChain) {
     throw new Error("Missing lzEndpointIdOnDestChain");
-  } else if (!oftContractAddress) {
-    throw new Error("Missing oftContractAddress");
+  } else if (!oftPackageId) {
+    throw new Error("Missing oftPackageId");
   }
 
-  await setPeerMyOFTAdapter(oftAdapterContractAddress, lzEndpointIdOnDestChain, oftContractAddress);
+  await setPeerMyOFTAdapter(oftAdapterContractAddress, lzEndpointIdOnDestChain, oftPackageId);
 }
 
 main().catch(error => {
