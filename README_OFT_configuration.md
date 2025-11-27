@@ -1,8 +1,15 @@
 # OFT Configuration on EVM
 
+## Preset configs for different pathways
+
+- [Pathway from IOTA L1 testnet to Sepolia EVM](./.env.IOTAL1_Sepolia)
+- [Pathway from Sepolia EVM to IOTA L1 testnet](./.env.Sepolia_IOTAL1)
+
+## Config params
+
 The config info is referenced from [here](https://docs.layerzero.network/v2/deployments/deployed-contracts)
 
-Copy the `.env.example` to `.env` and edit accordingly the params:
+Copy the `.env.xyz` to `.env` and edit accordingly the params:
 
 - `DEPLOYER_ACCOUNT_PRIV_KEY`: private key account of the deployer
 - `lzEndpointOnSrcChain`: LZ endpoint contract address on EVM as src chain.

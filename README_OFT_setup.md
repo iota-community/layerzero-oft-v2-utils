@@ -2,6 +2,11 @@
 
 Pathway is from Sepolia EVM to IOTA L1 testnet.
 
+The setup includes:
+- set enforced options
+- set remote peer
+- set config
+
 ## Set enforced options
 
 ### For OFTAdapter (on EVM as source chain)

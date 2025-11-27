@@ -98,3 +98,7 @@ E.g.
 ```
 npx hardhat verify --network sepolia 0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3 "0x514b0C11Bd143778367f1d1273ba1b2236Fb383c" "0x6EDCE65403992e310A62460808c4b910D972f10f" "0x6B4253377AfEe889d5a396B9Ed18F4C93251e26b"
 ```
+
+## Deploy OFTAdapter or OFT contracts on MoveVM
+
+See [instruction](https://github.com/iota-community/layerzero-move-oft-v2-utils)
