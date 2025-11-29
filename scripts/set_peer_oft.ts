@@ -1,7 +1,7 @@
-import { zeroPad } from "@ethersproject/bytes";
-import { ethers } from "hardhat";
+import { zeroPad } from '@ethersproject/bytes';
+import { ethers } from 'hardhat';
 
-const OFT_CONTRACT_NAME = process.env.OFT_CONTRACT_NAME || "MyOFT";
+const OFT_CONTRACT_NAME = process.env.OFT_CONTRACT_NAME || 'MyOFT';
 
 async function setPeerMyOFT(
   oftContractAddress: string,
@@ -22,24 +22,24 @@ async function setPeerMyOFT(
   );
   const txReceipt = await tx.wait();
 
-  console.log("MyOFT - setPeer tx:", txReceipt?.hash);
+  console.log('MyOFT - setPeer tx:', txReceipt?.hash);
 }
 
 async function main() {
   const { oftContractAddress, lzEndpointIdOnSrcChain, oftPackageId } = process.env;
 
   if (!oftContractAddress) {
-    throw new Error("Missing oftContractAddress");
+    throw new Error('Missing oftContractAddress');
   } else if (!lzEndpointIdOnSrcChain) {
-    throw new Error("Missing lzEndpointIdOnSrcChain");
+    throw new Error('Missing lzEndpointIdOnSrcChain');
   } else if (!oftPackageId) {
-    throw new Error("Missing oftPackageId");
+    throw new Error('Missing oftPackageId');
   }
 
   await setPeerMyOFT(oftContractAddress, lzEndpointIdOnSrcChain, oftPackageId);
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });

@@ -1,10 +1,10 @@
-import { ethers } from "hardhat";
+import { ethers } from 'hardhat';
 
 // https://docs.layerzero.network/v2/developers/evm/gas-settings/options#options-sdk
-import { Options } from "@layerzerolabs/lz-v2-utilities";
+import { Options } from '@layerzerolabs/lz-v2-utilities';
 
-const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || "MyOFTAdapter";
-const OFT_CONTRACT_NAME = process.env.OFT_CONTRACT_NAME || "MyOFT";
+const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || 'MyOFTAdapter';
+const OFT_CONTRACT_NAME = process.env.OFT_CONTRACT_NAME || 'MyOFT';
 
 async function setEnforcedOptions(
   isForOFTAdapter: boolean,
@@ -35,7 +35,7 @@ async function setEnforcedOptions(
 
   const tx = await myContract.setEnforcedOptions(enforcedOptions);
   const txReceipt = await tx.wait();
-  console.log("setEnforcedOptions tx:", txReceipt?.hash);
+  console.log('setEnforcedOptions tx:', txReceipt?.hash);
 }
 
 async function main() {
@@ -49,29 +49,29 @@ async function main() {
   } = process.env;
 
   if (!isForOFTAdapter) {
-    throw new Error("Missing isForOFTAdapter");
-  } else if (isForOFTAdapter === "true" && !oftAdapterContractAddress) {
-    throw new Error("Missing oftAdapterContractAddress");
-  } else if (isForOFTAdapter === "false" && !oftContractAddress) {
-    throw new Error("Missing oftContractAddress");
+    throw new Error('Missing isForOFTAdapter');
+  } else if (isForOFTAdapter === 'true' && !oftAdapterContractAddress) {
+    throw new Error('Missing oftAdapterContractAddress');
+  } else if (isForOFTAdapter === 'false' && !oftContractAddress) {
+    throw new Error('Missing oftContractAddress');
   } else if (!executorLzReceiveOptionMaxGas) {
-    throw new Error("Missing executorLzReceiveOptionMaxGas");
+    throw new Error('Missing executorLzReceiveOptionMaxGas');
   } else if (!lzEndpointIdOnSrcChain) {
-    throw new Error("Missing lzEndpointIdOnSrcChain");
+    throw new Error('Missing lzEndpointIdOnSrcChain');
   } else if (!lzEndpointIdOnDestChain) {
-    throw new Error("Missing lzEndpointIdOnDestChain");
+    throw new Error('Missing lzEndpointIdOnDestChain');
   }
 
   await setEnforcedOptions(
-    isForOFTAdapter === "true" ? true : false,
+    isForOFTAdapter === 'true' ? true : false,
     oftAdapterContractAddress as string,
     oftContractAddress as string,
     Number(executorLzReceiveOptionMaxGas),
-    isForOFTAdapter === "true" ? lzEndpointIdOnDestChain : lzEndpointIdOnSrcChain,
+    isForOFTAdapter === 'true' ? lzEndpointIdOnDestChain : lzEndpointIdOnSrcChain,
   );
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });

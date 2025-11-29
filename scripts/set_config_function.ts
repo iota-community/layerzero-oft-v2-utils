@@ -1,7 +1,7 @@
 //docs.layerzero.network/v2/developers/evm/configuration/configure-dvns
 
-import { ethers } from "hardhat";
-import { defaultAbiCoder } from "@ethersproject/abi";
+import { ethers } from 'hardhat';
+import { defaultAbiCoder } from '@ethersproject/abi';
 
 const CONFIG_TYPE_EXECUTOR = 1;
 const CONFIG_TYPE_ULN = 2;
@@ -10,42 +10,42 @@ const lzEndpointSetConfigABI = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_oapp",
-        type: "address",
+        internalType: 'address',
+        name: '_oapp',
+        type: 'address',
       },
       {
-        internalType: "address",
-        name: "_lib",
-        type: "address",
+        internalType: 'address',
+        name: '_lib',
+        type: 'address',
       },
       {
         components: [
           {
-            internalType: "uint32",
-            name: "eid",
-            type: "uint32",
+            internalType: 'uint32',
+            name: 'eid',
+            type: 'uint32',
           },
           {
-            internalType: "uint32",
-            name: "configType",
-            type: "uint32",
+            internalType: 'uint32',
+            name: 'configType',
+            type: 'uint32',
           },
           {
-            internalType: "bytes",
-            name: "config",
-            type: "bytes",
+            internalType: 'bytes',
+            name: 'config',
+            type: 'bytes',
           },
         ],
-        internalType: "struct SetConfigParam[]",
-        name: "_params",
-        type: "tuple[]",
+        internalType: 'struct SetConfigParam[]',
+        name: '_params',
+        type: 'tuple[]',
       },
     ],
-    name: "setConfig",
+    name: 'setConfig',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
 ];
 
@@ -53,55 +53,52 @@ const lzEndpointSetConfigABI = [
 // to interact with remote chain
 async function setConfig(
   lzEndpointIdOnRemoteChain: number,
-  confirmationsOnCurrentChain: number,
-  lzEndpointOnCurrentChain: string,
-  OAppContractAddressOnCurrentChain: string,
-  requiredDVNsOnCurrentChain: string[],
-  sendLibAddressOnCurrentChain: string,
-  receiveLibAddressOnCurrentChain: string,
+  confirmations: number,
+  lzEndpoint: string,
+  OAppContractAddress: string,
+  requiredDVNs: string[],
+  sendLibAddress: string,
+  receiveLibAddress: string,
   maxMessageSize: number,
   executor: string,
 ) {
   console.log(
-    `setConfig - lzEndpointIdOnRemoteChain:${lzEndpointIdOnRemoteChain}, confirmationsOnCurrentChain:${confirmationsOnCurrentChain}, lzEndpointOnCurrentChain:${lzEndpointOnCurrentChain}, OAppContractAddressOnCurrentChain:${OAppContractAddressOnCurrentChain}, requiredDVNsOnCurrentChain:${JSON.stringify(
-      requiredDVNsOnCurrentChain,
-    )}, sendLibAddressOnCurrentChain:${sendLibAddressOnCurrentChain}, receiveLibAddressOnCurrentChain:${receiveLibAddressOnCurrentChain}, maxMessageSize:${maxMessageSize}, executor:${executor}`,
+    `setConfig - lzEndpointIdOnRemoteChain:${lzEndpointIdOnRemoteChain}, confirmations:${confirmations}, lzEndpoint:${lzEndpoint}, OAppContractAddress:${OAppContractAddress}, requiredDVNs:${JSON.stringify(
+      requiredDVNs,
+    )}, sendLibAddress:${sendLibAddress}, receiveLibAddress:${receiveLibAddress}, maxMessageSize:${maxMessageSize}, executor:${executor}`,
   );
 
   await setReceiveConfig(
     lzEndpointIdOnRemoteChain,
-    confirmationsOnCurrentChain,
-    lzEndpointOnCurrentChain,
-    OAppContractAddressOnCurrentChain,
-    requiredDVNsOnCurrentChain,
-    receiveLibAddressOnCurrentChain,
+    confirmations,
+    lzEndpoint,
+    OAppContractAddress,
+    requiredDVNs,
+    receiveLibAddress,
   );
 
   await setSendConfig(
     lzEndpointIdOnRemoteChain,
-    confirmationsOnCurrentChain,
-    lzEndpointOnCurrentChain,
-    OAppContractAddressOnCurrentChain,
-    requiredDVNsOnCurrentChain,
-    sendLibAddressOnCurrentChain,
+    confirmations,
+    lzEndpoint,
+    OAppContractAddress,
+    requiredDVNs,
+    sendLibAddress,
     maxMessageSize,
     executor,
   );
 }
 
-function ulnConfigEncoded(
-  confirmationsOnCurrentChain: number,
-  requiredDVNsOnCurrentChain: string[],
-) {
+function ulnConfigEncoded(confirmations: number, requiredDVNs: string[]) {
   const ulnConfigStructType =
-    "tuple(uint64 confirmations, uint8 requiredDVNCount, uint8 optionalDVNCount, uint8 optionalDVNThreshold, address[] requiredDVNs, address[] optionalDVNs)";
+    'tuple(uint64 confirmations, uint8 requiredDVNCount, uint8 optionalDVNCount, uint8 optionalDVNThreshold, address[] requiredDVNs, address[] optionalDVNs)';
 
   const ulnConfigData = {
-    confirmations: BigInt(confirmationsOnCurrentChain), // Number of block confirmations to wait on Sepolia before message is emitted
-    requiredDVNCount: requiredDVNsOnCurrentChain.length,
+    confirmations: BigInt(confirmations), // Number of block confirmations to wait on Sepolia before message is emitted
+    requiredDVNCount: requiredDVNs.length,
     optionalDVNCount: 0,
     optionalDVNThreshold: 0,
-    requiredDVNs: requiredDVNsOnCurrentChain, // DVN on Sepolia
+    requiredDVNs: requiredDVNs, // DVN on Sepolia
     optionalDVNs: [],
   };
 
@@ -111,11 +108,11 @@ function ulnConfigEncoded(
 }
 
 function executorConfigEncoded(maxMessageSize: number, executor: string) {
-  const executorConfigStructType = "tuple(uint32 maxMessageSize, address executor)";
+  const executorConfigStructType = 'tuple(uint32 maxMessageSize, address executor)';
 
   const executorConfigData = {
     maxMessageSize: 10000,
-    executor: "0x718b92b5cb0a5552039b593faf724d182a881eda",
+    executor: '0x718b92b5cb0a5552039b593faf724d182a881eda',
   };
 
   const executorConfigEncodedResult = defaultAbiCoder.encode(
@@ -128,33 +125,26 @@ function executorConfigEncoded(maxMessageSize: number, executor: string) {
 
 async function setReceiveConfig(
   lzEndpointIdOnRemoteChain: number,
-  confirmationsOnCurrentChain: number,
-  lzEndpointOnCurrentChain: string,
-  OAppContractAddressOnCurrentChain: string,
-  requiredDVNsOnCurrentChain: string[],
-  receiveLibAddressOnCurrentChain: string,
+  confirmations: number,
+  lzEndpoint: string,
+  OAppContractAddress: string,
+  requiredDVNs: string[],
+  receiveLibAddress: string,
 ) {
   const setConfigTypeUlnData = {
     eid: lzEndpointIdOnRemoteChain,
     configType: CONFIG_TYPE_ULN,
-    config: ulnConfigEncoded(confirmationsOnCurrentChain, requiredDVNsOnCurrentChain),
+    config: ulnConfigEncoded(confirmations, requiredDVNs),
   };
 
-  const lzEndpointContract = await ethers.getContractAt(
-    lzEndpointSetConfigABI,
-    lzEndpointOnCurrentChain,
-  );
+  const lzEndpointContract = await ethers.getContractAt(lzEndpointSetConfigABI, lzEndpoint);
 
   try {
-    const tx = await lzEndpointContract.setConfig(
-      OAppContractAddressOnCurrentChain,
-      receiveLibAddressOnCurrentChain,
-      [setConfigTypeUlnData],
-    );
+    const tx = await lzEndpointContract.setConfig(OAppContractAddress, receiveLibAddress, [
+      setConfigTypeUlnData,
+    ]);
     const txReceipt = await tx.wait();
-    console.log(
-      `setConfig for receiveLib ${receiveLibAddressOnCurrentChain} - tx: ${txReceipt?.hash}`,
-    );
+    console.log(`setConfig for receiveLib ${receiveLibAddress} - tx: ${txReceipt?.hash}`);
   } catch (err) {
     console.error(err);
   }
@@ -162,18 +152,18 @@ async function setReceiveConfig(
 
 async function setSendConfig(
   lzEndpointIdOnRemoteChain: number,
-  confirmationsOnCurrentChain: number,
-  lzEndpointOnCurrentChain: string,
-  OAppContractAddressOnCurrentChain: string,
-  requiredDVNsOnCurrentChain: string[],
-  sendLibAddressOnCurrentChain: string,
+  confirmations: number,
+  lzEndpoint: string,
+  OAppContractAddress: string,
+  requiredDVNs: string[],
+  sendLibAddress: string,
   maxMessageSize: number,
   executor: string,
 ) {
   const setConfigTypeUlnData = {
     eid: lzEndpointIdOnRemoteChain,
     configType: CONFIG_TYPE_ULN,
-    config: ulnConfigEncoded(confirmationsOnCurrentChain, requiredDVNsOnCurrentChain),
+    config: ulnConfigEncoded(confirmations, requiredDVNs),
   };
 
   const setConfigTypeExecutorData = {
@@ -182,19 +172,15 @@ async function setSendConfig(
     config: executorConfigEncoded(maxMessageSize, executor),
   };
 
-  const lzEndpointContract = await ethers.getContractAt(
-    lzEndpointSetConfigABI,
-    lzEndpointOnCurrentChain,
-  );
+  const lzEndpointContract = await ethers.getContractAt(lzEndpointSetConfigABI, lzEndpoint);
 
   try {
-    const tx = await lzEndpointContract.setConfig(
-      OAppContractAddressOnCurrentChain,
-      sendLibAddressOnCurrentChain,
-      [setConfigTypeExecutorData, setConfigTypeUlnData],
-    );
+    const tx = await lzEndpointContract.setConfig(OAppContractAddress, sendLibAddress, [
+      setConfigTypeExecutorData,
+      setConfigTypeUlnData,
+    ]);
     const txReceipt = await tx.wait();
-    console.log(`setConfig for sendLib ${sendLibAddressOnCurrentChain} - tx: ${txReceipt?.hash}`);
+    console.log(`setConfig for sendLib ${sendLibAddress} - tx: ${txReceipt?.hash}`);
   } catch (err) {
     console.error(err);
   }

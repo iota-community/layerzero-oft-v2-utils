@@ -3,6 +3,7 @@
 Pathway is from Sepolia EVM to IOTA L1 testnet.
 
 The setup includes:
+
 - set enforced options
 - set remote peer
 - set config
@@ -12,6 +13,7 @@ The setup includes:
 ### For OFTAdapter (on EVM as source chain)
 
 Needed input params:
+
 - oftAdapterContractAddress: Solidity OFTAdapter contract on EVM
 - executorLzReceiveOptionMaxGas: [200000](https://docs.layerzero.network/v2/developers/evm/gas-settings/options#lzreceive-option)
 - lzEndpointIdOnDestChain: EID of IOTA L1 testnet as dest chain
@@ -30,6 +32,7 @@ setEnforcedOptions tx: 0x0ee19f2402149b6e3b5f42b4a2142e13c0260126361651617a9281b
 ### For OFT (on EVM as destination chain)
 
 Needed input params:
+
 - oftContractAddress: Solidity OFT contract on EVM
 - executorLzReceiveOptionMaxGas: [200000](https://docs.layerzero.network/v2/developers/evm/gas-settings/options#lzreceive-option)
 - lzEndpointIdOnSrcChain: EID of IOTA L1 testnet as src chain
@@ -48,12 +51,14 @@ setEnforcedOptions tx: 0x07282486f01964548eabb5061b5d2ee6b41b2f05687df4840f758c7
 ## Set remote peer
 
 The OFTAdapter or OFT needs to be set with the remote peer which includes:
+
 - OFT Solidity contract address if on EVM or OFT Move package ID if on MoveVM
 - EID of the remote chain
 
 ### For OFTAdapter (on EVM as source chain)
 
 Needed input params:
+
 - oftAdapterContractAddress
 - oftPackageId: Move "oftPackageId" (instead of "oftObjectId") on IOTA L1
 - lzEndpointIdOnDestChain: EID of IOTA L1 testnet as dest chain
@@ -72,6 +77,7 @@ MyOFTAdapter - setPeer tx: 0x4a16cbbe0e516a0ce8593f08386d34d2aa0af8f84c44fb12e19
 ### For OFT (on EVM as dest chain)
 
 Needed input params:
+
 - oftContractAddress
 - oftPackageId: Move "oftPackageId" (instead of "oftObjectId") on IOTA L1
 - lzEndpointIdOnSrcChain: EID of IOTA L1 testnet as src chain
@@ -94,25 +100,25 @@ Set config on the Endpoint contract for a given OApp (e.g. OFTAdapter or OFT) on
 - set config for receiveLib
 - set config for sendLib
 
-The config data is specified in the file [set_config_data.ts](/scripts/set_config_data.ts).
+The config data is specified in the file [set_config_data.ts](/scripts/set_config_data.ts). No need to change the existing chain configs, but new chain config can be added.
 
 ### For OFTAdapter (on EVM as source chain)
 
 **For input params:**
 
 - Check the file `scripts/set_config_data.ts` to add new or leverage the existing pathways
-- Edit the `PATHWAY` and `OAppContractAddressOnCurrentChain` in the below cmd
+- Edit the `PATHWAY` and `OAppContractAddress` in the below cmd
 
 ```
-export PATHWAY="sepolia->iotal1testnet" && export OAppContractAddressOnCurrentChain=0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3 && npx hardhat run scripts/set_config.ts --network sepolia
+export PATHWAY="sepolia->iotal1testnet" && export OAppContractAddress=0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3 && npx hardhat run scripts/set_config.ts --network sepolia
 ```
 
-The `OAppContractAddressOnCurrentChain` is the deployed OFTAdapter on EVM as src chain.
+The `OAppContractAddress` is the deployed OFTAdapter on EVM as src chain.
 
 Log output:
 
 ```
-setConfig - lzEndpointIdOnRemoteChain:40423, confirmationsOnCurrentChain:0, lzEndpointOnCurrentChain:0x6EDCE65403992e310A62460808c4b910D972f10f, OAppContractAddressOnCurrentChain:0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3, requiredDVNsOnCurrentChain:["0x8b450b0acF56E1B0e25C581bB04FBAbeeb0644b8"], sendLibAddressOnCurrentChain:0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE, receiveLibAddressOnCurrentChain:0xdAf00F5eE2158dD58E0d3857851c432E34A3A851, maxMessageSize:10000, executor:0x718b92b5cb0a5552039b593faf724d182a881eda
+setConfig - lzEndpointIdOnRemoteChain:40423, confirmations:0, lzEndpoint:0x6EDCE65403992e310A62460808c4b910D972f10f, OAppContractAddress:0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3, requiredDVNs:["0x8b450b0acF56E1B0e25C581bB04FBAbeeb0644b8"], sendLibAddress:0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE, receiveLibAddress:0xdAf00F5eE2158dD58E0d3857851c432E34A3A851, maxMessageSize:10000, executor:0x718b92b5cb0a5552039b593faf724d182a881eda
 setConfig for receiveLib 0xdAf00F5eE2158dD58E0d3857851c432E34A3A851 - tx: 0xf6371634c06037a9171468e08bbf1eb964f4b0401411158171aec82805a80412
 setConfig for sendLib 0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE - tx: 0xbe19178005af18f5b9247c6f0365bbae517bd3224f01836041fb18d78a731a72
 ```
@@ -122,18 +128,18 @@ setConfig for sendLib 0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE - tx: 0xbe19178
 **For input params:**
 
 - Check the file `scripts/set_config_data.ts` to add new or leverage the existing pathways
-- Edit the `PATHWAY` and `OAppContractAddressOnCurrentChain` in the below cmd
+- Edit the `PATHWAY` and `OAppContractAddress` in the below cmd
 
 ```
-export PATHWAY="sepolia->iotal1testnet" && export OAppContractAddressOnCurrentChain=0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA && npx hardhat run scripts/set_config.ts --network sepolia
+export PATHWAY="sepolia->iotal1testnet" && export OAppContractAddress=0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA && npx hardhat run scripts/set_config.ts --network sepolia
 ```
 
-The `OAppContractAddressOnCurrentChain` is the deployed OFT on Sepolia EVM as dest chain.
+The `OAppContractAddress` is the deployed OFT on Sepolia EVM as dest chain.
 
 Log output:
 
 ```
-setConfig - lzEndpointIdOnRemoteChain:40423, confirmationsOnCurrentChain:0, lzEndpointOnCurrentChain:0x6EDCE65403992e310A62460808c4b910D972f10f, OAppContractAddressOnCurrentChain:0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA, requiredDVNsOnCurrentChain:["0x8eebf8b423b73bfca51a1db4b7354aa0bfca9193"], sendLibAddressOnCurrentChain:0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE, receiveLibAddressOnCurrentChain:0xdAf00F5eE2158dD58E0d3857851c432E34A3A851, maxMessageSize:10000, executor:0x718b92b5cb0a5552039b593faf724d182a881eda
+setConfig - lzEndpointIdOnRemoteChain:40423, confirmations:0, lzEndpoint:0x6EDCE65403992e310A62460808c4b910D972f10f, OAppContractAddress:0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA, requiredDVNs:["0x8eebf8b423b73bfca51a1db4b7354aa0bfca9193"], sendLibAddress:0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE, receiveLibAddress:0xdAf00F5eE2158dD58E0d3857851c432E34A3A851, maxMessageSize:10000, executor:0x718b92b5cb0a5552039b593faf724d182a881eda
 setConfig for receiveLib 0xdAf00F5eE2158dD58E0d3857851c432E34A3A851 - tx: 0xa93701ff7e3b8b240b896d7ac7cdef8e10eec5459cb996d3f2efd95a31951109
 setConfig for sendLib 0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE - tx: 0x8ce2a056ecc898cbee6b57bf9637e963fb12b8bb5f7fe1d442eff615dba56fb2
 ```

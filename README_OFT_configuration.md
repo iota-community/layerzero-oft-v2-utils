@@ -9,9 +9,13 @@
 
 The config info is referenced from [here](https://docs.layerzero.network/v2/deployments/deployed-contracts)
 
-Copy the `.env.xyz` to `.env` and edit accordingly the params:
+2 types of config files:
 
-- `DEPLOYER_ACCOUNT_PRIV_KEY`: private key account of the deployer
+- `.ts`
+- `.env`
+
+Copy one of the `config_xyz.ts` to `config.ts` and edit accordingly as follows:
+
 - `lzEndpointOnSrcChain`: LZ endpoint contract address on EVM as src chain.
 - `lzEndpointIdOnSrcChain`: LZ endpoint ID on EVM as src chain.
 - `lzEndpointOnDestChain`: LZ endpoint contract address on as dest chain.
@@ -23,3 +27,13 @@ Copy the `.env.xyz` to `.env` and edit accordingly the params:
 - `erc20TokenAddress`: the existing ERC20 token contract address on EVM as src chain
 - `executorLzReceiveOptionMaxGas`: set to `200000`
 - `gasDropInWeiOnDestChain`: set to zero
+
+Copy the `.env.example` to `.env` and edit accordingly the params. Example:
+
+```
+DEPLOYER_ACCOUNT_PRIV_KEY='put here your own private key'
+
+# Only needed for sending token cross-chain
+SENDER_ACCOUNT_PRIV_KEY=
+
+```

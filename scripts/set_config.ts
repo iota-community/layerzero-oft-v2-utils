@@ -1,41 +1,42 @@
-import setConfig from "./set_config_function";
-import PATHWAY_CONFIG from "./set_config_data";
+import setConfig from './set_config_function';
+import PATHWAY_CONFIG from './set_config_data';
+import config from '../config';
 
 async function main() {
-  const { PATHWAY, OAppContractAddressOnCurrentChain } = process.env;
+  const { PATHWAY, OAppContractAddress } = process.env;
   if (!PATHWAY) {
-    throw new Error("Missing PATHWAY");
-  } else if (!OAppContractAddressOnCurrentChain) {
-    throw new Error("Missing OAppContractAddressOnCurrentChain");
+    throw new Error('Missing PATHWAY');
+  } else if (!OAppContractAddress) {
+    throw new Error('Missing OAppContractAddress');
   }
 
-  const [srcChain, destChain] = PATHWAY.split("->");
+  const [srcChain, destChain] = PATHWAY.split('->');
 
   const {
     lzEndpointIdOnRemoteChain,
-    confirmationsOnCurrentChain,
-    lzEndpointOnCurrentChain,
-    requiredDVNsOnCurrentChain,
-    sendLibAddressOnCurrentChain,
-    receiveLibAddressOnCurrentChain,
+    confirmations,
+    lzEndpoint,
+    requiredDVNs,
+    sendLibAddress,
+    receiveLibAddress,
     maxMessageSize,
     executor,
   } = PATHWAY_CONFIG(srcChain, destChain);
 
   await setConfig(
     lzEndpointIdOnRemoteChain,
-    confirmationsOnCurrentChain,
-    lzEndpointOnCurrentChain,
-    OAppContractAddressOnCurrentChain,
-    requiredDVNsOnCurrentChain,
-    sendLibAddressOnCurrentChain,
-    receiveLibAddressOnCurrentChain,
+    confirmations,
+    lzEndpoint,
+    OAppContractAddress,
+    requiredDVNs,
+    sendLibAddress,
+    receiveLibAddress,
     maxMessageSize,
     executor,
   );
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });

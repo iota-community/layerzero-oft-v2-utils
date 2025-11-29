@@ -1,7 +1,7 @@
-import { zeroPad } from "@ethersproject/bytes";
-import { ethers } from "hardhat";
+import { zeroPad } from '@ethersproject/bytes';
+import { ethers } from 'hardhat';
 
-const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || "MyOFTAdapter";
+const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || 'MyOFTAdapter';
 
 async function setPeerMyOFTAdapter(
   oftAdapterContractAddress: string,
@@ -18,30 +18,27 @@ async function setPeerMyOFTAdapter(
   );
 
   // https://docs.layerzero.network/v2/developers/evm/oft/quickstart#setting-trusted-peers
-  const tx = await myOFTAdapterContract.setPeer(
-    lzEndpointIdOnDestChain,
-    zeroPad(oftPackageId, 32),
-  );
+  const tx = await myOFTAdapterContract.setPeer(lzEndpointIdOnDestChain, zeroPad(oftPackageId, 32));
   const txReceipt = await tx.wait();
 
-  console.log("MyOFTAdapter - setPeer tx:", txReceipt?.hash);
+  console.log('MyOFTAdapter - setPeer tx:', txReceipt?.hash);
 }
 
 async function main() {
   const { oftAdapterContractAddress, lzEndpointIdOnDestChain, oftPackageId } = process.env;
 
   if (!oftAdapterContractAddress) {
-    throw new Error("Missing oftAdapterContractAddress");
+    throw new Error('Missing oftAdapterContractAddress');
   } else if (!lzEndpointIdOnDestChain) {
-    throw new Error("Missing lzEndpointIdOnDestChain");
+    throw new Error('Missing lzEndpointIdOnDestChain');
   } else if (!oftPackageId) {
-    throw new Error("Missing oftPackageId");
+    throw new Error('Missing oftPackageId');
   }
 
   await setPeerMyOFTAdapter(oftAdapterContractAddress, lzEndpointIdOnDestChain, oftPackageId);
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });

@@ -5,6 +5,7 @@
   "author": "Mido Trinh (trungtt198x)",
   "license": "MIT",
   "scripts": {
+    "prettier": "npx prettier -w .",
     "clean": "rimraf artifacts cache typechain-types",
     "compile": "yarn clean && npx hardhat compile",
     "deploy-oft-adapter-sepolia": "npx hardhat run scripts/deploy_oft_adapter.ts --network sepolia",
@@ -36,6 +37,7 @@
     "ethers": "^6.12.1",
     "hardhat": "2.26.3",
     "hardhat-gas-reporter": "^1.0.8",
+    "prettier": "^3.7.3",
     "rimraf": "^5.0.5",
     "solidity-coverage": "^0.8.1",
     "ts-node": "^10.9.2",

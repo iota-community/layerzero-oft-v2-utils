@@ -11,6 +11,7 @@ This document (whose previous version on the `main` branch concentrated on the i
 For installation, run the cmd `yarn`.
 
 For procedure of sending tokens cross-chain, it includes the following steps:
+
 - configuration
 - deployment
 - setup

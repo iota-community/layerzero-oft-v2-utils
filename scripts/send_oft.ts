@@ -1,34 +1,36 @@
-import { Options } from "@layerzerolabs/lz-v2-utilities";
-import { waitForMessageReceived } from "@layerzerolabs/scan-client-v2";
-import { zeroPad } from "@ethersproject/bytes";
-import { ethers } from "hardhat";
+import { Options } from '@layerzerolabs/lz-v2-utilities';
+import { waitForMessageReceived } from '@layerzerolabs/scan-client-v2';
+import { zeroPad } from '@ethersproject/bytes';
+import { ethers } from 'hardhat';
+import config from '../config';
 
-const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || "MyOFTAdapter";
+const OFTAdapter_CONTRACT_NAME = 'MyOFTAdapter';
+const WAIT_FOR_MSG_RECEIVED = 1 * 60 * 1000;
 
 const ERC20_TOKEN_APPROVE_ABI = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "spender",
-        type: "address",
+        internalType: 'address',
+        name: 'spender',
+        type: 'address',
       },
       {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'value',
+        type: 'uint256',
       },
     ],
-    name: "approve",
+    name: 'approve',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
       },
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
 ];
 
@@ -69,7 +71,7 @@ async function sendOFT(
   // Step 1: the sender approves his erc20 tokens for the OFTAdapter contract
   const approveTx = await erc20TokenContract.approve(oftAdapterContractAddress, amountInWei);
   const approveTxReceipt = await approveTx.wait();
-  console.log("sendOFT - approve tx:", approveTxReceipt?.hash);
+  console.log('sendOFT - approve tx:', approveTxReceipt?.hash);
 
   // Set the required options for cross-chain send
   const options = Options.newOptions()
@@ -88,15 +90,15 @@ async function sendOFT(
     amountInWei,
     amountInWei,
     options, // additional options
-    "0x", // composed message for the send() operation
-    "0x", // OFT command to be executed, unused in default OFT implementations
+    '0x', // composed message for the send() operation
+    '0x', // OFT command to be executed, unused in default OFT implementations
   ];
 
   // Step 2: call the func quoteSend() to estimate cross-chain fee to be paid in native on the source chain
   // https://github.com/LayerZero-Labs/LayerZero-v2/blob/main/oapp/contracts/oft/interfaces/IOFT.sol#L127C60-L127C73
   // false is set for _payInLzToken Flag indicating whether the caller is paying in the LZ token
   const [nativeFee] = await myOFTAdapterContract.quoteSend(sendParam as any, false);
-  console.log("sendOFT - estimated nativeFee:", ethers.formatEther(nativeFee));
+  console.log('sendOFT - estimated nativeFee:', ethers.formatEther(nativeFee));
 
   // Step 3: call the func send() to transfer tokens on source chain to destination chain
   const sendTx = await myOFTAdapterContract.send(
@@ -108,15 +110,16 @@ async function sendOFT(
     },
   );
   const sendTxReceipt = await sendTx.wait();
-  console.log("sendOFT - send tx on source chain:", sendTxReceipt?.hash);
+  console.log('sendOFT - send tx on source chain:', sendTxReceipt?.hash);
 
   // Wait for cross-chain tx finalization by LayerZero
-  console.log("Wait for cross-chain tx finalization by LayerZero ...");
+  console.log('Wait for cross-chain tx finalization by LayerZero ...');
   const deliveredMsg = await waitForMessageReceived(
     Number(lzEndpointIdOnDestChain),
     sendTxReceipt?.hash as string,
+    WAIT_FOR_MSG_RECEIVED,
   );
-  console.log("sendOFT - received tx on destination chain:", deliveredMsg?.dstTxHash);
+  console.log('sendOFT - received tx on destination chain:', deliveredMsg?.dstTxHash);
 }
 
 async function main() {
@@ -126,31 +129,30 @@ async function main() {
     lzEndpointIdOnDestChain,
     gasDropInWeiOnDestChain,
     executorLzReceiveOptionMaxGas,
-    SENDER_ACCOUNT_PRIV_KEY,
-    RECEIVER_ACCOUNT_ADDRESS,
-    AMOUNT,
     erc20TokenAddress,
-  } = process.env;
+  } = config;
+
+  const { SENDER_ACCOUNT_PRIV_KEY, RECEIVER_ACCOUNT_ADDRESS, AMOUNT } = process.env;
 
   // Check input params
   if (!oftAdapterContractAddress) {
-    throw new Error("Missing oftAdapterContractAddress");
+    throw new Error('Missing oftAdapterContractAddress');
   } else if (!lzEndpointIdOnSrcChain) {
-    throw new Error("Missing lzEndpointIdOnSrcChain");
+    throw new Error('Missing lzEndpointIdOnSrcChain');
   } else if (!lzEndpointIdOnDestChain) {
-    throw new Error("Missing lzEndpointIdOnDestChain");
+    throw new Error('Missing lzEndpointIdOnDestChain');
   } else if (!gasDropInWeiOnDestChain) {
-    throw new Error("Missing gasDropInWeiOnDestChain");
+    throw new Error('Missing gasDropInWeiOnDestChain');
   } else if (!executorLzReceiveOptionMaxGas) {
-    throw new Error("Missing executorLzReceiveOptionMaxGas");
+    throw new Error('Missing executorLzReceiveOptionMaxGas');
   } else if (!SENDER_ACCOUNT_PRIV_KEY) {
-    throw new Error("Missing SENDER_ACCOUNT_PRIV_KEY");
+    throw new Error('Missing SENDER_ACCOUNT_PRIV_KEY');
   } else if (!RECEIVER_ACCOUNT_ADDRESS) {
-    throw new Error("Missing RECEIVER_ACCOUNT_ADDRESS");
+    throw new Error('Missing RECEIVER_ACCOUNT_ADDRESS');
   } else if (!AMOUNT) {
-    throw new Error("Missing AMOUNT");
+    throw new Error('Missing AMOUNT');
   } else if (!erc20TokenAddress) {
-    throw new Error("Missing erc20TokenAddress");
+    throw new Error('Missing erc20TokenAddress');
   }
 
   await sendOFT(
@@ -166,7 +168,7 @@ async function main() {
   );
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });

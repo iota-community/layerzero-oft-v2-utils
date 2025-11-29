@@ -1,19 +1,19 @@
-import "dotenv/config";
-import "@nomicfoundation/hardhat-toolbox";
-import "@nomicfoundation/hardhat-verify";
+import 'dotenv/config';
+import '@nomicfoundation/hardhat-toolbox';
+import '@nomicfoundation/hardhat-verify';
 
-const SHIMMER_EVM_TESTNET_RPC_URL = "https://json-rpc.evm.testnet.shimmer.network";
-const SHIMMER_EVM_MAINNET_RPC_URL = "https://json-rpc.evm.shimmer.network";
+const SHIMMER_EVM_TESTNET_RPC_URL = 'https://json-rpc.evm.testnet.shimmer.network';
+const SHIMMER_EVM_MAINNET_RPC_URL = 'https://json-rpc.evm.shimmer.network';
 
-const IOTA_EVM_TESTNET_RPC_URL = "https://json-rpc.evm.testnet.iotaledger.net";
-const IOTA_EVM_MAINNET_RPC_URL = "https://json-rpc.evm.iotaledger.net";
+const IOTA_EVM_TESTNET_RPC_URL = 'https://json-rpc.evm.testnet.iotaledger.net';
+const IOTA_EVM_MAINNET_RPC_URL = 'https://json-rpc.evm.iotaledger.net';
 
 const ACCOUNTS = process.env.DEPLOYER_ACCOUNT_PRIV_KEY
   ? [`${process.env.DEPLOYER_ACCOUNT_PRIV_KEY}`]
   : [];
 
 module.exports = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: 'hardhat',
   gasReporter: {
     enabled: false,
   },
@@ -41,149 +41,149 @@ module.exports = {
     },
     bnbTestnet: {
       chainId: 97,
-      url: "https://bsc-testnet.public.blastapi.io",
+      url: 'https://bsc-testnet.public.blastapi.io',
       accounts: ACCOUNTS,
     },
     bnbMainnet: {
       chainId: 56,
-      url: "https://bsc.nodereal.io", // "https://binance.llamarpc.com", // "https://binance.llamarpc.com", // "https://bsc.drpc.org", // "https://bsc-pokt.nodies.app", // "https://binance.llamarpc.com",
+      url: 'https://bsc.nodereal.io', // "https://binance.llamarpc.com", // "https://binance.llamarpc.com", // "https://bsc.drpc.org", // "https://bsc-pokt.nodies.app", // "https://binance.llamarpc.com",
       accounts: ACCOUNTS,
     },
     polygon: {
       chainId: 137,
-      url: "https://polygon-mainnet.public.blastapi.io", // "https://polygon-pokt.nodies.app",
+      url: 'https://polygon-mainnet.public.blastapi.io', // "https://polygon-pokt.nodies.app",
       accounts: ACCOUNTS,
     },
     sepolia: {
       chainId: 11155111,
-      url: "https://sepolia.drpc.org",
+      url: 'https://sepolia.drpc.org',
       accounts: ACCOUNTS,
     },
     ethereum: {
       chainId: 1,
-      url: "https://eth.llamarpc.com",
+      url: 'https://eth.llamarpc.com',
       accounts: ACCOUNTS,
     },
     fantom: {
       chainId: 250,
-      url: "https://rpcapi.fantom.network",
+      url: 'https://rpcapi.fantom.network',
       accounts: ACCOUNTS,
     },
     optimism: {
       chainId: 10,
-      url: "https://op-pokt.nodies.app",
+      url: 'https://op-pokt.nodies.app',
       accounts: ACCOUNTS,
     },
     base: {
       chainId: 8453,
-      url: "https://base.drpc.org",
+      url: 'https://base.drpc.org',
       accounts: ACCOUNTS,
     },
     avalanche: {
       chainId: 43114,
-      url: "https://avalanche.drpc.org",
+      url: 'https://avalanche.drpc.org',
       accounts: ACCOUNTS,
     },
     arbitrum: {
       chainId: 42161,
-      url: "https://arbitrum.llamarpc.com",
+      url: 'https://arbitrum.llamarpc.com',
       accounts: ACCOUNTS,
     },
   },
   etherscan: {
     apiKey: {
-      iotaEvmMainnet: "3227102f-dd06-4329-b1e2-ab1e2f127d6e",
-      shimmerEvmMainnet: "061b49d0-71fe-4581-a964-a1d962340cae",
-      bnbMainnet: "ADIP65BS7UI9CUNRHYCUMYQ2F2327G6MNN",
-      polygon: "1YR53MFG3TS5G4A3ZYP9J6HG1HA3MIWIVJ",
-      ethereum: "KV3T32M5BVE8Q69AW2953GT3FKX4XHI9D7",
-      fantom: "19CB1KRA7G7D2AFJEQ33CVK6ZCHTK4ZSDE",
-      optimism: "WCFRYSKDKK661UZ9EKJKBZPQV461M227ET",
-      base: "8GTWGADU386IDWFIDRGYT2U5BJWH4XUS2N",
-      avalanche: "not needed",
-      arbitrum: "I392RYY2UE7CETV9X25YJ6PA5BHP3D4ADD",
-      sepolia: "KV3T32M5BVE8Q69AW2953GT3FKX4XHI9D7"
+      iotaEvmMainnet: '3227102f-dd06-4329-b1e2-ab1e2f127d6e',
+      shimmerEvmMainnet: '061b49d0-71fe-4581-a964-a1d962340cae',
+      bnbMainnet: 'ADIP65BS7UI9CUNRHYCUMYQ2F2327G6MNN',
+      polygon: '1YR53MFG3TS5G4A3ZYP9J6HG1HA3MIWIVJ',
+      ethereum: 'KV3T32M5BVE8Q69AW2953GT3FKX4XHI9D7',
+      fantom: '19CB1KRA7G7D2AFJEQ33CVK6ZCHTK4ZSDE',
+      optimism: 'WCFRYSKDKK661UZ9EKJKBZPQV461M227ET',
+      base: '8GTWGADU386IDWFIDRGYT2U5BJWH4XUS2N',
+      avalanche: 'not needed',
+      arbitrum: 'I392RYY2UE7CETV9X25YJ6PA5BHP3D4ADD',
+      sepolia: 'KV3T32M5BVE8Q69AW2953GT3FKX4XHI9D7',
     },
     // apiKey: "KV3T32M5BVE8Q69AW2953GT3FKX4XHI9D7",
     customChains: [
       {
-        network: "iotaEvmMainnet",
+        network: 'iotaEvmMainnet',
         chainId: 8822,
         urls: {
-          apiURL: "https://explorer.evm.iota.org/api",
-          browserURL: "https://explorer.evm.iota.org",
+          apiURL: 'https://explorer.evm.iota.org/api',
+          browserURL: 'https://explorer.evm.iota.org',
         },
       },
       {
-        network: "shimmerEvmMainnet",
+        network: 'shimmerEvmMainnet',
         chainId: 148,
         urls: {
-          apiURL: "https://explorer.evm.shimmer.network/api",
-          browserURL: "https://explorer.evm.shimmer.network",
+          apiURL: 'https://explorer.evm.shimmer.network/api',
+          browserURL: 'https://explorer.evm.shimmer.network',
         },
       },
       {
-        network: "bnbMainnet",
+        network: 'bnbMainnet',
         chainId: 56,
         urls: {
-          apiURL: "https://api.bscscan.com/api",
-          browserURL: "https://bscscan.com",
+          apiURL: 'https://api.bscscan.com/api',
+          browserURL: 'https://bscscan.com',
         },
       },
       {
-        network: "polygon",
+        network: 'polygon',
         chainId: 137,
         urls: {
-          apiURL: "https://api.polygonscan.com/api",
-          browserURL: "https://polygonscan.com",
+          apiURL: 'https://api.polygonscan.com/api',
+          browserURL: 'https://polygonscan.com',
         },
       },
       {
-        network: "ethereum",
+        network: 'ethereum',
         chainId: 1,
         urls: {
-          apiURL: "https://api.etherscan.io/api",
-          browserURL: "https://etherscan.io",
+          apiURL: 'https://api.etherscan.io/api',
+          browserURL: 'https://etherscan.io',
         },
       },
       {
-        network: "fantom",
+        network: 'fantom',
         chainId: 250,
         urls: {
-          apiURL: "https://api.ftmscan.com/api",
-          browserURL: "https://ftmscan.com",
+          apiURL: 'https://api.ftmscan.com/api',
+          browserURL: 'https://ftmscan.com',
         },
       },
       {
-        network: "optimism",
+        network: 'optimism',
         chainId: 10,
         urls: {
-          apiURL: "https://api-optimistic.etherscan.io/api",
-          browserURL: "https://optimistic.etherscan.io/",
+          apiURL: 'https://api-optimistic.etherscan.io/api',
+          browserURL: 'https://optimistic.etherscan.io/',
         },
       },
       {
-        network: "base",
+        network: 'base',
         chainId: 8453,
         urls: {
-          apiURL: "https://api.basescan.org/api",
-          browserURL: "https://basescan.org",
+          apiURL: 'https://api.basescan.org/api',
+          browserURL: 'https://basescan.org',
         },
       },
       {
-        network: "avalanche",
+        network: 'avalanche',
         chainId: 43114,
         urls: {
-          apiURL: "https://api.avascan.info/v2/network/mainnet/evm/43114/etherscan",
-          browserURL: "https://avascan.info",
+          apiURL: 'https://api.avascan.info/v2/network/mainnet/evm/43114/etherscan',
+          browserURL: 'https://avascan.info',
         },
       },
       {
-        network: "arbitrum",
+        network: 'arbitrum',
         chainId: 42161,
         urls: {
-          apiURL: "https://api.arbiscan.io/api",
-          browserURL: "https://arbiscan.io",
+          apiURL: 'https://api.arbiscan.io/api',
+          browserURL: 'https://arbiscan.io',
         },
       },
     ],
@@ -192,9 +192,9 @@ module.exports = {
     enabled: false,
   },
   solidity: {
-    version: "0.8.30",
+    version: '0.8.30',
     settings: {
-      evmVersion: "prague",
+      evmVersion: 'prague',
       optimizer: {
         enabled: true,
         runs: 200,
@@ -202,9 +202,9 @@ module.exports = {
     },
   },
   paths: {
-    sources: "./contracts",
-    tests: "./test",
-    cache: "./cache",
-    artifacts: "./artifacts",
+    sources: './contracts',
+    tests: './test',
+    cache: './cache',
+    artifacts: './artifacts',
   },
 };

@@ -1,9 +1,11 @@
-import { Options } from "@layerzerolabs/lz-v2-utilities";
-import { waitForMessageReceived } from "@layerzerolabs/scan-client";
-import { zeroPad } from "@ethersproject/bytes";
-import { ethers } from "hardhat";
+import { Options } from '@layerzerolabs/lz-v2-utilities';
+import { waitForMessageReceived } from '@layerzerolabs/scan-client';
+import { zeroPad } from '@ethersproject/bytes';
+import { ethers } from 'hardhat';
+import config from '../config';
 
-const OFT_CONTRACT_NAME = process.env.OFT_CONTRACT_NAME || "MyOFT";
+const OFT_CONTRACT_NAME = 'MyOFT';
+const WAIT_FOR_MSG_RECEIVED = 1 * 60 * 1000;
 
 // Via the OFT contract, send back the OFT-wrapped tokens on the destination chain (e.g. BNB testnet) to the source chain (e.g. Sepolia)
 async function sendOFTBack(
@@ -48,15 +50,15 @@ async function sendOFTBack(
     amountInWei,
     amountInWei,
     options, // additional options
-    "0x", // composed message for the send() operation
-    "0x", // OFT command to be executed, unused in default OFT implementations
+    '0x', // composed message for the send() operation
+    '0x', // OFT command to be executed, unused in default OFT implementations
   ];
 
   // Step 1: call the func quoteSend() to estimate cross-chain fee to be paid in native on the source chain
   // https://github.com/LayerZero-Labs/LayerZero-v2/blob/main/oapp/contracts/oft/interfaces/IOFT.sol#L127C60-L127C73
   // false is set for _payInLzToken Flag indicating whether the caller is paying in the LZ token
   const [nativeFee] = await myOFTContract.quoteSend(sendParam as any, false);
-  console.log("sendOFTBack - estimated nativeFee:", ethers.formatEther(nativeFee));
+  console.log('sendOFTBack - estimated nativeFee:', ethers.formatEther(nativeFee));
 
   // Step 2: call the func send() to transfer tokens on source chain to destination chain
   const sendTx = await myOFTContract.send(
@@ -68,15 +70,16 @@ async function sendOFTBack(
     },
   );
   const sendTxReceipt = await sendTx.wait();
-  console.log("sendOFTBack - send tx on source chain:", sendTxReceipt?.hash);
+  console.log('sendOFTBack - send tx on source chain:', sendTxReceipt?.hash);
 
   // Wait for cross-chain tx finalization by LayerZero
-  console.log("Wait for cross-chain tx finalization by LayerZero ...");
+  console.log('Wait for cross-chain tx finalization by LayerZero ...');
   const deliveredMsg = await waitForMessageReceived(
     Number(lzEndpointIdOnDestChain),
     sendTxReceipt?.hash as string,
+    WAIT_FOR_MSG_RECEIVED,
   );
-  console.log("sendOFTBack - received tx on destination chain:", deliveredMsg?.dstTxHash);
+  console.log('sendOFTBack - received tx on destination chain:', deliveredMsg?.dstTxHash);
 }
 
 async function main() {
@@ -87,30 +90,29 @@ async function main() {
     lzEndpointIdOnDestChain,
     gasDropInWeiOnDestChain,
     executorLzReceiveOptionMaxGas,
-    SENDER_BACK_ACCOUNT_PRIV_KEY,
-    RECEIVER_BACK_ACCOUNT_ADDRESS,
-    AMOUNT,
-  } = process.env;
+  } = config;
+
+  const { SENDER_ACCOUNT_PRIV_KEY, RECEIVER_ACCOUNT_ADDRESS, AMOUNT } = process.env;
 
   // Check input params
   if (!oftAdapterContractAddress) {
-    throw new Error("Missing oftAdapterContractAddress");
+    throw new Error('Missing oftAdapterContractAddress');
   } else if (!oftContractAddress) {
-    throw new Error("Missing oftContractAddress");
+    throw new Error('Missing oftContractAddress');
   } else if (!lzEndpointIdOnSrcChain) {
-    throw new Error("Missing lzEndpointIdOnSrcChain");
+    throw new Error('Missing lzEndpointIdOnSrcChain');
   } else if (!lzEndpointIdOnDestChain) {
-    throw new Error("Missing lzEndpointIdOnDestChain");
+    throw new Error('Missing lzEndpointIdOnDestChain');
   } else if (!gasDropInWeiOnDestChain) {
-    throw new Error("Missing gasDropInWeiOnDestChain");
+    throw new Error('Missing gasDropInWeiOnDestChain');
   } else if (!executorLzReceiveOptionMaxGas) {
-    throw new Error("Missing executorLzReceiveOptionMaxGas");
-  } else if (!SENDER_BACK_ACCOUNT_PRIV_KEY) {
-    throw new Error("Missing SENDER_BACK_ACCOUNT_PRIV_KEY");
-  } else if (!RECEIVER_BACK_ACCOUNT_ADDRESS) {
-    throw new Error("Missing RECEIVER_BACK_ACCOUNT_ADDRESS");
+    throw new Error('Missing executorLzReceiveOptionMaxGas');
+  } else if (!SENDER_ACCOUNT_PRIV_KEY) {
+    throw new Error('Missing SENDER_ACCOUNT_PRIV_KEY');
+  } else if (!RECEIVER_ACCOUNT_ADDRESS) {
+    throw new Error('Missing RECEIVER_ACCOUNT_ADDRESS');
   } else if (!AMOUNT) {
-    throw new Error("Missing AMOUNT");
+    throw new Error('Missing AMOUNT');
   }
 
   await sendOFTBack(
@@ -120,13 +122,13 @@ async function main() {
     lzEndpointIdOnDestChain,
     gasDropInWeiOnDestChain,
     executorLzReceiveOptionMaxGas,
-    SENDER_BACK_ACCOUNT_PRIV_KEY,
-    RECEIVER_BACK_ACCOUNT_ADDRESS,
+    SENDER_ACCOUNT_PRIV_KEY,
+    RECEIVER_ACCOUNT_ADDRESS,
     AMOUNT,
   );
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });

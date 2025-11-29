@@ -1,7 +1,7 @@
-import { ethers } from "hardhat";
+import { ethers } from 'hardhat';
 
-const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || "MyOFTAdapter";
-const OFT_CONTRACT_NAME = process.env.OFT_CONTRACT_NAME || "MyOFT";
+const OFTAdapter_CONTRACT_NAME = process.env.OFTAdapter_CONTRACT_NAME || 'MyOFTAdapter';
+const OFT_CONTRACT_NAME = process.env.OFT_CONTRACT_NAME || 'MyOFT';
 
 async function transferOwnership(
   isForOFTAdapter: boolean,
@@ -24,7 +24,7 @@ async function transferOwnership(
 
   const tx = await myContract.transferOwnership(newOwnerAddress);
   const txReceipt = await tx.wait();
-  console.log("transferOwnership tx:", txReceipt?.hash);
+  console.log('transferOwnership tx:', txReceipt?.hash);
 }
 
 async function main() {
@@ -37,26 +37,26 @@ async function main() {
   } = process.env;
 
   if (!isForOFTAdapter) {
-    throw new Error("Missing isForOFTAdapter");
+    throw new Error('Missing isForOFTAdapter');
   } else if (!oftAdapterContractAddress) {
-    throw new Error("Missing oftAdapterContractAddress");
+    throw new Error('Missing oftAdapterContractAddress');
   } else if (!oftContractAddress) {
-    throw new Error("Missing oftContractAddress");
+    throw new Error('Missing oftContractAddress');
   } else if (!newOwnerAddressOFTAdapter) {
-    throw new Error("Missing newOwnerAddressOFTAdapter");
+    throw new Error('Missing newOwnerAddressOFTAdapter');
   } else if (!newOwnerAddressOFT) {
-    throw new Error("Missing newOwnerAddressOFT");
+    throw new Error('Missing newOwnerAddressOFT');
   }
 
   await transferOwnership(
-    isForOFTAdapter === "true" ? true : false,
+    isForOFTAdapter === 'true' ? true : false,
     oftAdapterContractAddress,
     oftContractAddress,
-    isForOFTAdapter === "true" ? newOwnerAddressOFTAdapter : newOwnerAddressOFT,
+    isForOFTAdapter === 'true' ? newOwnerAddressOFTAdapter : newOwnerAddressOFT,
   );
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
