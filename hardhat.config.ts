@@ -1,6 +1,5 @@
 import 'dotenv/config';
-import '@nomicfoundation/hardhat-toolbox';
-import '@nomicfoundation/hardhat-verify';
+import "@nomiclabs/hardhat-ethers";
 
 const SHIMMER_EVM_TESTNET_RPC_URL = 'https://json-rpc.evm.testnet.shimmer.network';
 const SHIMMER_EVM_MAINNET_RPC_URL = 'https://json-rpc.evm.shimmer.network';
