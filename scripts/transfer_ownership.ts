@@ -24,7 +24,7 @@ async function transferOwnership(
 
   const tx = await myContract.transferOwnership(newOwnerAddress);
   const txReceipt = await tx.wait();
-  console.log('transferOwnership tx:', txReceipt?.hash);
+  console.log('transferOwnership tx:', txReceipt?.transactionHash);
 }
 
 async function main() {

@@ -54,7 +54,7 @@ const lzEndpointSetConfigABI = [
 async function setConfig(
   lzEndpointIdOnRemoteChain: number,
   confirmations: number,
-  lzEndpoint: string,
+  lzEndpointOnCurrentChain: string,
   OAppContractAddress: string,
   requiredDVNs: string[],
   sendLibAddress: string,
@@ -63,7 +63,7 @@ async function setConfig(
   executor: string,
 ) {
   console.log(
-    `setConfig - lzEndpointIdOnRemoteChain:${lzEndpointIdOnRemoteChain}, confirmations:${confirmations}, lzEndpoint:${lzEndpoint}, OAppContractAddress:${OAppContractAddress}, requiredDVNs:${JSON.stringify(
+    `setConfig - lzEndpointIdOnRemoteChain:${lzEndpointIdOnRemoteChain}, confirmations:${confirmations}, lzEndpointOnCurrentChain:${lzEndpointOnCurrentChain}, OAppContractAddress:${OAppContractAddress}, requiredDVNs:${JSON.stringify(
       requiredDVNs,
     )}, sendLibAddress:${sendLibAddress}, receiveLibAddress:${receiveLibAddress}, maxMessageSize:${maxMessageSize}, executor:${executor}`,
   );
@@ -71,7 +71,7 @@ async function setConfig(
   await setReceiveConfig(
     lzEndpointIdOnRemoteChain,
     confirmations,
-    lzEndpoint,
+    lzEndpointOnCurrentChain,
     OAppContractAddress,
     requiredDVNs,
     receiveLibAddress,
@@ -80,7 +80,7 @@ async function setConfig(
   await setSendConfig(
     lzEndpointIdOnRemoteChain,
     confirmations,
-    lzEndpoint,
+    lzEndpointOnCurrentChain,
     OAppContractAddress,
     requiredDVNs,
     sendLibAddress,
@@ -111,8 +111,8 @@ function executorConfigEncoded(maxMessageSize: number, executor: string) {
   const executorConfigStructType = 'tuple(uint32 maxMessageSize, address executor)';
 
   const executorConfigData = {
-    maxMessageSize: 10000,
-    executor: '0x718b92b5cb0a5552039b593faf724d182a881eda',
+    maxMessageSize,
+    executor,
   };
 
   const executorConfigEncodedResult = defaultAbiCoder.encode(
@@ -126,7 +126,7 @@ function executorConfigEncoded(maxMessageSize: number, executor: string) {
 async function setReceiveConfig(
   lzEndpointIdOnRemoteChain: number,
   confirmations: number,
-  lzEndpoint: string,
+  lzEndpointOnCurrentChain: string,
   OAppContractAddress: string,
   requiredDVNs: string[],
   receiveLibAddress: string,
@@ -137,14 +137,14 @@ async function setReceiveConfig(
     config: ulnConfigEncoded(confirmations, requiredDVNs),
   };
 
-  const lzEndpointContract = await ethers.getContractAt(lzEndpointSetConfigABI, lzEndpoint);
+  const lzEndpointContract = await ethers.getContractAt(lzEndpointSetConfigABI, lzEndpointOnCurrentChain);
 
   try {
     const tx = await lzEndpointContract.setConfig(OAppContractAddress, receiveLibAddress, [
       setConfigTypeUlnData,
     ]);
     const txReceipt = await tx.wait();
-    console.log(`setConfig for receiveLib ${receiveLibAddress} - tx: ${txReceipt?.hash}`);
+    console.log(`setConfig for receiveLib ${receiveLibAddress} - tx: ${txReceipt?.transactionHash}`);
   } catch (err) {
     console.error(err);
   }
@@ -153,7 +153,7 @@ async function setReceiveConfig(
 async function setSendConfig(
   lzEndpointIdOnRemoteChain: number,
   confirmations: number,
-  lzEndpoint: string,
+  lzEndpointOnCurrentChain: string,
   OAppContractAddress: string,
   requiredDVNs: string[],
   sendLibAddress: string,
@@ -172,7 +172,7 @@ async function setSendConfig(
     config: executorConfigEncoded(maxMessageSize, executor),
   };
 
-  const lzEndpointContract = await ethers.getContractAt(lzEndpointSetConfigABI, lzEndpoint);
+  const lzEndpointContract = await ethers.getContractAt(lzEndpointSetConfigABI, lzEndpointOnCurrentChain);
 
   try {
     const tx = await lzEndpointContract.setConfig(OAppContractAddress, sendLibAddress, [
@@ -180,7 +180,7 @@ async function setSendConfig(
       setConfigTypeUlnData,
     ]);
     const txReceipt = await tx.wait();
-    console.log(`setConfig for sendLib ${sendLibAddress} - tx: ${txReceipt?.hash}`);
+    console.log(`setConfig for sendLib ${sendLibAddress} - tx: ${txReceipt?.transactionHash}`);
   } catch (err) {
     console.error(err);
   }

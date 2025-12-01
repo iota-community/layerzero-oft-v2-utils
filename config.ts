@@ -1,28 +1,23 @@
-// Pathway from Sepolia EVM to IOTA L1
+// Mainnet pathway for brand-new OFT from IOTA EVM to IOTA L1
 
 export default {
-  lzEndpointOnSrcChain: '0x6EDCE65403992e310A62460808c4b910D972f10f',
-  lzEndpointIdOnSrcChain: '40161',
+  lzEndpointOnCurrentChain: '0x1a44076050125825900e736c501f859c50fE728c',
+  lzEndpointIdOnCurrentChain: '30284',
 
-  lzEndpointOnDestChain: '0x1a44076050125825900e736c501f859c50fE728c',
-  lzEndpointIdOnDestChain: '40423',
+  lzEndpointIdOnRemoteChain: '30423',
 
   // For OFTAdapter deployment on EVM as src chain
-  erc20TokenAddress: '0x514b0C11Bd143778367f1d1273ba1b2236Fb383c',
-  oftAdapterContractAddress: '0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3',
+  erc20TokenAddress: '',
+  oftAdapterContractAddress: '',
 
-  // For OFT deployment on EVM as dest chain
-  oftContractAddress: '0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA',
-  mintedTokenName: '',
-  mintedTokenSymbol: '',
+  // For OFT deployment on EVM as dest chain or src chain
+  oftContractAddress: '0x02AE4418F0FbcbE383b4eD103cf6B88B24542f4C',
+  mintedTokenName: 'USDTmd',
+  mintedTokenSymbol: 'USDTmd',
 
-  oftPackageId: '0xa947ff8022f37c32b06a67d674154f170422e0c95cf44e1a55f3c2a45fa355f2',
+  // Peer address as OFT package ID on MoveVM
+  oftPackageId: '0xb1f576849d9a6086982a13fedf1dd785da4b1314d430696e2f1240e5ed9d9be5',
 
   executorLzReceiveOptionMaxGas: '200000',
-  gasDropInWeiOnDestChain: '0',
-
-  SENDER_ACCOUNT_PRIV_KEY: 'put here your private key',
-  RECEIVER_ACCOUNT_ADDRESS: '0xd3906909a7bfc50ea9f4c0772a75bc99cd0da938c90ec05a556de1b5407bd639',
-
-  AMOUNT: 3,
+  executorGasDropInWeiOnDestChain: '0',
 };

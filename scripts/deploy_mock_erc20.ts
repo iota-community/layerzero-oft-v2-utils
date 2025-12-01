@@ -2,9 +2,9 @@ import { ethers } from 'hardhat';
 
 async function deployMockErc20() {
   const myContract = await ethers.deployContract('MockUSDT', []);
-  await myContract.waitForDeployment();
+  await myContract.deployed();
 
-  console.log('Deployed MockUSDT contract address:', await myContract.getAddress());
+  console.log('Deployed MockUSDT contract address:', await myContract.address);
 }
 
 async function main() {

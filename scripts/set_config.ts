@@ -1,32 +1,46 @@
-import setConfig from './set_config_function';
-import PATHWAY_CONFIG from './set_config_data';
-import config from '../config';
+import hre from 'hardhat';
 
-async function main() {
-  const { PATHWAY, OAppContractAddress } = process.env;
-  if (!PATHWAY) {
-    throw new Error('Missing PATHWAY');
-  } else if (!OAppContractAddress) {
-    throw new Error('Missing OAppContractAddress');
+import config from '../config';
+import setConfig from './set_config_function';
+import CHAIN_CONFIG from './set_config_data';
+
+const currentChainSetConfigData = (currentChain: string) => {
+  if (!CHAIN_CONFIG[currentChain]) {
+    throw new Error(`Chain config for ${currentChain} missing`);
   }
 
-  const [srcChain, destChain] = PATHWAY.split('->');
+  const { lzEndpointOnCurrentChain, lzEndpointIdOnRemoteChain } = config;
+
+  return {
+    ...CHAIN_CONFIG[currentChain],
+    lzEndpointOnCurrentChain,
+    lzEndpointIdOnRemoteChain,
+  };
+};
+
+async function main() {
+  const currentChain = hre.network.name;
+
+  const OAppContractAddress =
+    process.env.isForOFTAdapter === 'true'
+      ? config.oftAdapterContractAddress
+      : config.oftContractAddress;
 
   const {
     lzEndpointIdOnRemoteChain,
     confirmations,
-    lzEndpoint,
+    lzEndpointOnCurrentChain,
     requiredDVNs,
     sendLibAddress,
     receiveLibAddress,
     maxMessageSize,
     executor,
-  } = PATHWAY_CONFIG(srcChain, destChain);
+  } = currentChainSetConfigData(currentChain);
 
   await setConfig(
     lzEndpointIdOnRemoteChain,
     confirmations,
-    lzEndpoint,
+    lzEndpointOnCurrentChain,
     OAppContractAddress,
     requiredDVNs,
     sendLibAddress,

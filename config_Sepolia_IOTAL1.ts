@@ -1,11 +1,10 @@
 // Pathway from Sepolia EVM to IOTA L1
 
 export default {
-  lzEndpointOnSrcChain: '0x6EDCE65403992e310A62460808c4b910D972f10f',
-  lzEndpointIdOnSrcChain: '40161',
+  lzEndpointOnCurrentChain: '0x6EDCE65403992e310A62460808c4b910D972f10f',
+  lzEndpointIdOnCurrentChain: '40161',
 
-  lzEndpointOnDestChain: '0x1a44076050125825900e736c501f859c50fE728c',
-  lzEndpointIdOnDestChain: '40423',
+  lzEndpointIdOnRemoteChain: '40423',
 
   erc20TokenAddress: '0x514b0C11Bd143778367f1d1273ba1b2236Fb383c',
   oftAdapterContractAddress: '0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3',
@@ -18,10 +17,5 @@ export default {
   oftPackageId: '0xa947ff8022f37c32b06a67d674154f170422e0c95cf44e1a55f3c2a45fa355f2',
 
   executorLzReceiveOptionMaxGas: '200000',
-  gasDropInWeiOnDestChain: '0',
-
-  SENDER_ACCOUNT_PRIV_KEY: 'put here your private key',
-  RECEIVER_ACCOUNT_ADDRESS: '0xd3906909a7bfc50ea9f4c0772a75bc99cd0da938c90ec05a556de1b5407bd639',
-
-  AMOUNT: 3,
+  executorGasDropInWeiOnDestChain: '0',
 };

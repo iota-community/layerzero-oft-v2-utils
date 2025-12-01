@@ -1,6 +1,6 @@
 # OFT setup on EVM
 
-Pathway is from Sepolia EVM to IOTA L1 testnet.
+Pathway is from EVM (e.g. Sepolia) to MoveVM (e.g. IOTA L1 testnet).
 
 The setup includes:
 
@@ -10,13 +10,26 @@ The setup includes:
 
 ## Set enforced options
 
-### For OFTAdapter (on EVM as source chain)
+Used to enforce options for a message type sent to a specific remote chain (destination EID).
+
+2 message types:
+- `1` = send
+- `2` = sendAndCall
+
+Options:
+- executorLzReceiveOptionMaxGas: Gas for the lzReceive call on remote chain.
+- executorNativeDropOption: native drop amount to the recipient on remote chain.
 
 Needed input params:
 
 - oftAdapterContractAddress: Solidity OFTAdapter contract on EVM
 - executorLzReceiveOptionMaxGas: [200000](https://docs.layerzero.network/v2/developers/evm/gas-settings/options#lzreceive-option)
-- lzEndpointIdOnDestChain: EID of IOTA L1 testnet as dest chain
+- executorGasDropInWeiOnDestChain: `0` (to disable gas drop)
+- lzEndpointIdOnRemoteChain: EID of IOTA L1 testnet as dest chain
+
+### For OFTAdapter
+
+#### on Sepolia EVM as source chain
 
 Run the cmd:
 
@@ -25,17 +38,13 @@ Run the cmd:
 Log output:
 
 ```
-setEnforcedOptions - isForOFTAdapter:true, oftAdapterContractAddress:0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3, oftContractAddress:, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnDestChain:40423
+setEnforcedOptions - isForOFTAdapter:true, oftAdapterContractAddress:0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3, oftContractAddress:, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:40423
 setEnforcedOptions tx: 0x0ee19f2402149b6e3b5f42b4a2142e13c0260126361651617a9281b4786fda80
 ```
 
-### For OFT (on EVM as destination chain)
+### For OFT
 
-Needed input params:
-
-- oftContractAddress: Solidity OFT contract on EVM
-- executorLzReceiveOptionMaxGas: [200000](https://docs.layerzero.network/v2/developers/evm/gas-settings/options#lzreceive-option)
-- lzEndpointIdOnSrcChain: EID of IOTA L1 testnet as src chain
+#### on Sepolia EVM as destination chain
 
 Run cmd:
 
@@ -48,6 +57,19 @@ setEnforcedOptions - isForOFTAdapter:false, oftAdapterContractAddress:, oftContr
 setEnforcedOptions tx: 0x07282486f01964548eabb5061b5d2ee6b41b2f05687df4840f758c71006fa6c9
 ```
 
+#### on IOTA EVM as source chain
+
+Run cmd:
+
+`export isForOFTAdapter=false && npx hardhat run scripts/set_enforced_options.ts --network iotaEvmMainnet`
+
+Log output:
+
+```
+setEnforcedOptions - isForOFTAdapter:false, oftAdapterContractAddress:, oftContractAddress:0x02AE4418F0FbcbE383b4eD103cf6B88B24542f4C, executorLzReceiveOptionMaxGas:200000, executorGasDropInWeiOnDestChain:0, lzEndpointIdOnRemoteChain:30423
+setEnforcedOptions tx: 0x184b32e3ce89e77fb203a9dbc5baef3216b44d3151bb9e615562d26fbe0cd928
+```
+
 ## Set remote peer
 
 The OFTAdapter or OFT needs to be set with the remote peer which includes:
@@ -55,13 +77,15 @@ The OFTAdapter or OFT needs to be set with the remote peer which includes:
 - OFT Solidity contract address if on EVM or OFT Move package ID if on MoveVM
 - EID of the remote chain
 
-### For OFTAdapter (on EVM as source chain)
-
 Needed input params:
 
-- oftAdapterContractAddress
-- oftPackageId: Move "oftPackageId" (instead of "oftObjectId") on IOTA L1
-- lzEndpointIdOnDestChain: EID of IOTA L1 testnet as dest chain
+- oftAdapterContractAddress or oftContractAddress on current chain
+- oftPackageId: Move "oftPackageId" (instead of "oftObjectId") on MoveVM as remote chain
+- lzEndpointIdOnRemoteChain: EID of remote chain
+
+### For OFTAdapter
+
+#### on Sepolia EVM as source chain
 
 Run the cmd:
 
@@ -70,17 +94,13 @@ Run the cmd:
 Log output:
 
 ```
-setPeerMyOFTAdapter - oftAdapterContractAddress:0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3, lzEndpointIdOnDestChain:40423, oftPackageId:0xa947ff8022f37c32b06a67d674154f170422e0c95cf44e1a55f3c2a45fa355f2
+setPeerMyOFTAdapter - oftAdapterContractAddress:0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3, lzEndpointIdOnRemoteChain:40423, oftPackageId:0xa947ff8022f37c32b06a67d674154f170422e0c95cf44e1a55f3c2a45fa355f2
 MyOFTAdapter - setPeer tx: 0x4a16cbbe0e516a0ce8593f08386d34d2aa0af8f84c44fb12e199b441f2f354cb
 ```
 
-### For OFT (on EVM as dest chain)
+### For OFT
 
-Needed input params:
-
-- oftContractAddress
-- oftPackageId: Move "oftPackageId" (instead of "oftObjectId") on IOTA L1
-- lzEndpointIdOnSrcChain: EID of IOTA L1 testnet as src chain
+#### on Sepolia EVM as dest chain
 
 Run the cmd:
 
@@ -89,33 +109,41 @@ Run the cmd:
 Log output:
 
 ```
-setPeerMyOFT - oftContractAddress:0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA, lzEndpointIdOnSrcChain:40423, oftAdapterContractAddress:0xc36df91c6eccc8a3a026ead7656abb7a36ab4210b2575a7dc27199eeec1f3de4
+setPeerMyOFT - oftContractAddress:0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA, lzEndpointIdOnCurrentChain:40423, oftAdapterContractAddress:0xc36df91c6eccc8a3a026ead7656abb7a36ab4210b2575a7dc27199eeec1f3de4
 MyOFT - setPeer tx: 0xe1a57c06ea7a51aba28da9d742c344c6e372a81651681fc3b1b71e773dcb7171
 ```
 
-## Set config
+#### on IOTA EVM as source chain
 
-Set config on the Endpoint contract for a given OApp (e.g. OFTAdapter or OFT) on the current chain to interact with remote chain. There are 2 configs to be set:
+Run the cmd:
+
+`npx hardhat run scripts/set_peer_oft.ts --network iotaEvmMainnet`
+
+Log output:
+
+```
+setPeerMyOFT - oftContractAddress:0x02AE4418F0FbcbE383b4eD103cf6B88B24542f4C, lzEndpointIdOnCurrentChain:30284, oftPackageId:0xb1f576849d9a6086982a13fedf1dd785da4b1314d430696e2f1240e5ed9d9be5
+MyOFT - setPeer tx: 0x8724eeaee33bcaa76c097770b524fcf551b36f4e53ddc33639934aab1e01a5f5
+```
+
+## Set config on the current EVM chain
+
+Set config on the Endpoint contract for a given OApp (e.g. OFTAdapter or OFT) on the `current chain` to interact with remote chain. There are 2 configs to be set:
 
 - set config for receiveLib
 - set config for sendLib
 
 The config data is specified in the file [set_config_data.ts](/scripts/set_config_data.ts). No need to change the existing chain configs, but new chain config can be added.
 
-### For OFTAdapter (on EVM as source chain)
+### For OFTAdapter
 
-**For input params:**
-
-- Check the file `scripts/set_config_data.ts` to add new or leverage the existing pathways
-- Edit the `PATHWAY` and `OAppContractAddress` in the below cmd
+Run cmd:
 
 ```
-export PATHWAY="sepolia->iotal1testnet" && export OAppContractAddress=0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3 && npx hardhat run scripts/set_config.ts --network sepolia
+export isForOFTAdapter=true && npx hardhat run scripts/set_config.ts --network sepolia
 ```
 
-The `OAppContractAddress` is the deployed OFTAdapter on EVM as src chain.
-
-Log output:
+Log output on Sepolia EVM as source chain:
 
 ```
 setConfig - lzEndpointIdOnRemoteChain:40423, confirmations:0, lzEndpoint:0x6EDCE65403992e310A62460808c4b910D972f10f, OAppContractAddress:0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3, requiredDVNs:["0x8b450b0acF56E1B0e25C581bB04FBAbeeb0644b8"], sendLibAddress:0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE, receiveLibAddress:0xdAf00F5eE2158dD58E0d3857851c432E34A3A851, maxMessageSize:10000, executor:0x718b92b5cb0a5552039b593faf724d182a881eda
@@ -123,25 +151,20 @@ setConfig for receiveLib 0xdAf00F5eE2158dD58E0d3857851c432E34A3A851 - tx: 0xf637
 setConfig for sendLib 0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE - tx: 0xbe19178005af18f5b9247c6f0365bbae517bd3224f01836041fb18d78a731a72
 ```
 
-### For OFT (on EVM as dest chain) --> check again!
+### For OFT
 
-**For input params:**
-
-- Check the file `scripts/set_config_data.ts` to add new or leverage the existing pathways
-- Edit the `PATHWAY` and `OAppContractAddress` in the below cmd
+Run cmd:
 
 ```
-export PATHWAY="sepolia->iotal1testnet" && export OAppContractAddress=0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA && npx hardhat run scripts/set_config.ts --network sepolia
+export isForOFTAdapter=false && npx hardhat run scripts/set_config.ts --network iotaEvmMainnet
 ```
 
-The `OAppContractAddress` is the deployed OFT on Sepolia EVM as dest chain.
-
-Log output:
+Log output on IOTA EVM as source chain:
 
 ```
-setConfig - lzEndpointIdOnRemoteChain:40423, confirmations:0, lzEndpoint:0x6EDCE65403992e310A62460808c4b910D972f10f, OAppContractAddress:0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA, requiredDVNs:["0x8eebf8b423b73bfca51a1db4b7354aa0bfca9193"], sendLibAddress:0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE, receiveLibAddress:0xdAf00F5eE2158dD58E0d3857851c432E34A3A851, maxMessageSize:10000, executor:0x718b92b5cb0a5552039b593faf724d182a881eda
-setConfig for receiveLib 0xdAf00F5eE2158dD58E0d3857851c432E34A3A851 - tx: 0xa93701ff7e3b8b240b896d7ac7cdef8e10eec5459cb996d3f2efd95a31951109
-setConfig for sendLib 0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE - tx: 0x8ce2a056ecc898cbee6b57bf9637e963fb12b8bb5f7fe1d442eff615dba56fb2
+setConfig - lzEndpointIdOnRemoteChain:30423, confirmations:0, lzEndpointOnCurrentChain:0x1a44076050125825900e736c501f859c50fE728c, OAppContractAddress:0x02AE4418F0FbcbE383b4eD103cf6B88B24542f4C, requiredDVNs:["0x6788f52439aca6bff597d3eec2dc9a44b8fee842"], sendLibAddress:0xC39161c743D0307EB9BCc9FEF03eeb9Dc4802de7, receiveLibAddress:0xe1844c5D63a9543023008D332Bd3d2e6f1FE1043, maxMessageSize:10000, executor:0xc097ab8CD7b053326DFe9fB3E3a31a0CCe3B526f
+setConfig for receiveLib 0xe1844c5D63a9543023008D332Bd3d2e6f1FE1043 - tx: 0xe7d04d59e92b5e53fa3fea8fcac239828eaf77e6b6d94d3498689238031d43fe
+setConfig for sendLib 0xC39161c743D0307EB9BCc9FEF03eeb9Dc4802de7 - tx: 0x6cca18eb85e78b0576860c9ea896cee5cc71dee2027293bc4ecf431ceeadf69e
 ```
 
 ## Other settings of the contracts
@@ -176,9 +199,9 @@ Log output for custom impl (contracts-wiota):
 Needed input params:
 
 - oftAdapterContractAddress
-- lzEndpointIdOnSrcChain
-- lzEndpointIdOnDestChain
-- gasDropInWeiOnDestChain,
+- lzEndpointIdOnCurrentChain
+- lzEndpointIdOnRemoteChain
+- executorGasDropInWeiOnDestChain,
 - executorLzReceiveOptionMaxGas,
 - sendingAccountPrivKey
 - receivingAccountAddress
@@ -190,7 +213,7 @@ Needed input params:
 Log output for custom impl (contracts-wiota):
 
 ```
-sendOFT - oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d, oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3, lzEndpointIdOnSrcChain:30230, lzEndpointIdOnDestChain:30284, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, sender: 0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, amount:0.1, erc20TokenAddress:0xBEb654A116aeEf764988DF0C6B4bf67CC869D01b
+sendOFT - oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d, oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3, lzEndpointIdOnCurrentChain:30230, lzEndpointIdOnRemoteChain:30284, executorGasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, sender: 0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, amount:0.1, erc20TokenAddress:0xBEb654A116aeEf764988DF0C6B4bf67CC869D01b
 sendOFT - approve tx: 0x2270fe3db02ddfba2c0a5e16343fc44596c10a64c97f4e002cc9dbeef2f15b5d
 sendOFT - estimated nativeFee: 2.608622989813813602
 sendOFT - send tx on source chain: 0x09c4429d2e1bd855ec24d0e14d2e1a3ca697518344a3047f174beed8c9581332
@@ -205,7 +228,7 @@ sendOFT - received tx on destination chain: 0xe597568c78144431fb251f3f313f1a3cfa
 Log output for custom impl (contracts-wiota):
 
 ```
-sendOFTBack - oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d, oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3, lzEndpointIdOnSrcChain:30230, lzEndpointIdOnDestChain:30284, gasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, amount:0.01
+sendOFTBack - oftAdapterContractAddress:0xa9CdE55a02E359918350122C0ccc1a2BaF917C4d, oftContractAddress:0xd478e7AbbA8f76F0473e882B97F4268B266bC9F3, lzEndpointIdOnCurrentChain:30230, lzEndpointIdOnRemoteChain:30284, executorGasDropInWeiOnDestChain:0, executorLzReceiveOptionMaxGas:200000, receivingAccountAddress:0x57A4bD139Fb673D364A6f12Df9177A3f686625F3, sender: 0x5e812d3128D8fD7CEac08CEca1Cd879E76a6E028, amount:0.01
 sendOFTBack - estimated nativeFee: 0.112473266637699722
 sendOFTBack - send tx on source chain: 0xcd2fd77065c31577db5cf8f1c62aba790d40e262dbf254e00c9c9040ba2e1cf8
 Wait for cross-chain tx finalization by LayerZero ...

@@ -14,6 +14,10 @@ For `brand-new` fungible tokens to be launched, OFT standard can be leveraged to
 - OFT contract: used to define the brand-new fungible tokens on source chain with mint/burn
 - OFT contract: used to represent the equivalent fungible tokens on destination chain with burn/mint
 
+**Notice**
+
+The `MyOFT` contract must be adapted to the expected token distribution. The current code will mint 50M tokens to the deployer account inside the `constructor`.
+
 [Reference](https://docs.layerzero.network/v2/concepts/applications/oft-standard#omnichain-token-standards)
 
 ## Deploy OFTAdapter and OFT contracts on EVM
@@ -41,7 +45,7 @@ To compile/build the OFT Solidity contracts, run the cmd `yarn clean` and `yarn 
 Set the following config params in the file `.env`:
 
 - `erc20TokenAddress`: the existing ERC20 token contract address on Sepolia EVM as src chain
-- `lzEndpointOnSrcChain`: LZ endpoint contract address on Sepolia EVM as src chain.
+- `lzEndpointOnCurrentChain`: LZ endpoint address on the current chain.
 
 Run the cmd:
 
@@ -71,18 +75,34 @@ Deployed MockUSDT contract address: 0x514b0C11Bd143778367f1d1273ba1b2236Fb383c
 
 50M tokens will auto be minted to the deployer.
 
-## Deploy the `OFT` (for example, on Sepolia EVM as dest chain)
+## Deploy the `OFT`
 
 Set the following config params in the file `.env`:
 
-- `lzEndpointIdOnDestChain`: LZ endpoint ID on IOTA L1 as dest chain.
+- `lzEndpointOnCurrentChain`: LZ endpoint address on the current chain.
 - `mintedTokenName`: define the erc20 token name in case of OFT deployment on EVM src chain.
 - `mintedTokenSymbol`: define the erc20 token symbol in case of OFT deployment on EVM src chain.
 
+The deployed OFT contract address will be set for the param `oftContractAddress` in `config.json`.
+
 Run the cmd:
+
+### For example on Sepolia EVM as dest chain
 
 ```bash
 npx hardhat run scripts/deploy_oft.ts --network sepolia
+```
+
+### For example on IOTA EVM as src chain
+
+```bash
+npx hardhat run scripts/deploy_oft.ts --network iotaEvmMainnet
+```
+
+Log example:
+
+```
+Deployed OFT contract address: 0x02AE4418F0FbcbE383b4eD103cf6B88B24542f4C
 ```
 
 ## Verify Solidity contracts

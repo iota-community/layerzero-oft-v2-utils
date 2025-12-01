@@ -11,5 +11,9 @@ contract MyOFT is OFT {
         string memory _symbol,
         address _lzEndpoint,
         address _delegate
-    ) OFT(_name, _symbol, _lzEndpoint, _delegate) Ownable(_delegate) {}
+    ) OFT(_name, _symbol, _lzEndpoint, _delegate) Ownable(_delegate) {
+
+        // Adapt to your own token distribution plan
+        _mint(_msgSender(), 50_000_000 * 1e18);
+    }
 }

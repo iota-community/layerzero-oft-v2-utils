@@ -3,28 +3,28 @@ import config from '../config';
 
 const OFTAdapter_CONTRACT_NAME = 'MyOFTAdapter';
 
-async function deployOFTAdapter(erc20TokenAddress: string, lzEndpointOnSrcChain: string) {
+async function deployOFTAdapter(erc20TokenAddress: string, lzEndpointOnCurrentChain: string) {
   const contractOwner: string = await ethers.getSigners().then((res) => res[0].address);
   const myOFTAdapterContract = await ethers.deployContract(OFTAdapter_CONTRACT_NAME, [
     erc20TokenAddress,
-    lzEndpointOnSrcChain,
+    lzEndpointOnCurrentChain,
     contractOwner,
   ]);
-  await myOFTAdapterContract.waitForDeployment();
+  await myOFTAdapterContract.deployed();
 
-  console.log('Deployed OFTAdapter contract address:', await myOFTAdapterContract.getAddress());
+  console.log('Deployed OFTAdapter contract address:', await myOFTAdapterContract.address);
 }
 
 async function main() {
-  const { erc20TokenAddress, lzEndpointOnSrcChain } = config;
+  const { erc20TokenAddress, lzEndpointOnCurrentChain } = config;
 
   if (!erc20TokenAddress) {
     throw new Error('Missing erc20TokenAddress');
-  } else if (!lzEndpointOnSrcChain) {
-    throw new Error('Missing lzEndpointOnSrcChain');
+  } else if (!lzEndpointOnCurrentChain) {
+    throw new Error('Missing lzEndpointOnCurrentChain');
   }
 
-  await deployOFTAdapter(erc20TokenAddress, lzEndpointOnSrcChain);
+  await deployOFTAdapter(erc20TokenAddress, lzEndpointOnCurrentChain);
 }
 
 main().catch((error) => {

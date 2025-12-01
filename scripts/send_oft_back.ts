@@ -11,9 +11,9 @@ const WAIT_FOR_MSG_RECEIVED = 1 * 60 * 1000;
 async function sendOFTBack(
   oftAdapterContractAddress: string,
   oftContractAddress: string,
-  lzEndpointIdOnSrcChain: string,
-  lzEndpointIdOnDestChain: string,
-  gasDropInWeiOnDestChain: string,
+  lzEndpointIdOnCurrentChain: string,
+  lzEndpointIdOnRemoteChain: string,
+  executorGasDropInWeiOnDestChain: string,
   executorLzReceiveOptionMaxGas: string,
   sendingAccountPrivKey: string,
   receivingAccountAddress: string,
@@ -22,7 +22,7 @@ async function sendOFTBack(
   const sender = new ethers.Wallet(sendingAccountPrivKey, ethers.provider);
 
   console.log(
-    `sendOFTBack - oftAdapterContractAddress:${oftAdapterContractAddress}, oftContractAddress:${oftContractAddress}, lzEndpointIdOnSrcChain:${lzEndpointIdOnSrcChain}, lzEndpointIdOnDestChain:${lzEndpointIdOnDestChain}, gasDropInWeiOnDestChain:${gasDropInWeiOnDestChain}, executorLzReceiveOptionMaxGas:${executorLzReceiveOptionMaxGas}, receivingAccountAddress:${receivingAccountAddress}, sender: ${sender.address}, amount:${amount}`,
+    `sendOFTBack - oftAdapterContractAddress:${oftAdapterContractAddress}, oftContractAddress:${oftContractAddress}, lzEndpointIdOnCurrentChain:${lzEndpointIdOnCurrentChain}, lzEndpointIdOnRemoteChain:${lzEndpointIdOnRemoteChain}, executorGasDropInWeiOnDestChain:${executorGasDropInWeiOnDestChain}, executorLzReceiveOptionMaxGas:${executorLzReceiveOptionMaxGas}, receivingAccountAddress:${receivingAccountAddress}, sender: ${sender.address}, amount:${amount}`,
   );
 
   // It is the OFT contract whose send() func is to be called to transfer OFT-wrapped tokens cross-chain
@@ -36,7 +36,7 @@ async function sendOFTBack(
   // Set the required options for cross-chain send
   const options = Options.newOptions()
     // addExecutorNativeDropOption is optional
-    .addExecutorNativeDropOption(Number(gasDropInWeiOnDestChain), receivingAccountAddress as any)
+    .addExecutorNativeDropOption(Number(executorGasDropInWeiOnDestChain), receivingAccountAddress as any)
     // Without addExecutorLzReceiveOption, will get execution reverted. Why???
     .addExecutorLzReceiveOption(Number(executorLzReceiveOptionMaxGas), 0)
     .toHex()
@@ -45,7 +45,7 @@ async function sendOFTBack(
   // Set the send param
   // https://github.com/LayerZero-Labs/LayerZero-v2/blob/main/oapp/contracts/oft/interfaces/IOFT.sol#L10
   const sendParam = [
-    lzEndpointIdOnSrcChain, // Sepolia
+    lzEndpointIdOnCurrentChain, // Sepolia
     receiverAddressInBytes32,
     amountInWei,
     amountInWei,
@@ -70,13 +70,13 @@ async function sendOFTBack(
     },
   );
   const sendTxReceipt = await sendTx.wait();
-  console.log('sendOFTBack - send tx on source chain:', sendTxReceipt?.hash);
+  console.log('sendOFTBack - send tx on source chain:', sendTxReceipt?.transactionHash);
 
   // Wait for cross-chain tx finalization by LayerZero
   console.log('Wait for cross-chain tx finalization by LayerZero ...');
   const deliveredMsg = await waitForMessageReceived(
-    Number(lzEndpointIdOnDestChain),
-    sendTxReceipt?.hash as string,
+    Number(lzEndpointIdOnRemoteChain),
+    sendTxReceipt?.transactionHash as string,
     WAIT_FOR_MSG_RECEIVED,
   );
   console.log('sendOFTBack - received tx on destination chain:', deliveredMsg?.dstTxHash);
@@ -86,9 +86,9 @@ async function main() {
   const {
     oftAdapterContractAddress,
     oftContractAddress,
-    lzEndpointIdOnSrcChain,
-    lzEndpointIdOnDestChain,
-    gasDropInWeiOnDestChain,
+    lzEndpointIdOnCurrentChain,
+    lzEndpointIdOnRemoteChain,
+    executorGasDropInWeiOnDestChain,
     executorLzReceiveOptionMaxGas,
   } = config;
 
@@ -99,12 +99,12 @@ async function main() {
     throw new Error('Missing oftAdapterContractAddress');
   } else if (!oftContractAddress) {
     throw new Error('Missing oftContractAddress');
-  } else if (!lzEndpointIdOnSrcChain) {
-    throw new Error('Missing lzEndpointIdOnSrcChain');
-  } else if (!lzEndpointIdOnDestChain) {
-    throw new Error('Missing lzEndpointIdOnDestChain');
-  } else if (!gasDropInWeiOnDestChain) {
-    throw new Error('Missing gasDropInWeiOnDestChain');
+  } else if (!lzEndpointIdOnCurrentChain) {
+    throw new Error('Missing lzEndpointIdOnCurrentChain');
+  } else if (!lzEndpointIdOnRemoteChain) {
+    throw new Error('Missing lzEndpointIdOnRemoteChain');
+  } else if (!executorGasDropInWeiOnDestChain) {
+    throw new Error('Missing executorGasDropInWeiOnDestChain');
   } else if (!executorLzReceiveOptionMaxGas) {
     throw new Error('Missing executorLzReceiveOptionMaxGas');
   } else if (!SENDER_ACCOUNT_PRIV_KEY) {
@@ -118,9 +118,9 @@ async function main() {
   await sendOFTBack(
     oftAdapterContractAddress,
     oftContractAddress,
-    lzEndpointIdOnSrcChain,
-    lzEndpointIdOnDestChain,
-    gasDropInWeiOnDestChain,
+    lzEndpointIdOnCurrentChain,
+    lzEndpointIdOnRemoteChain,
+    executorGasDropInWeiOnDestChain,
     executorLzReceiveOptionMaxGas,
     SENDER_ACCOUNT_PRIV_KEY,
     RECEIVER_ACCOUNT_ADDRESS,
