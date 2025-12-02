@@ -59,21 +59,49 @@ Log example:
 Deployed OFTAdapter contract address: 0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3
 ```
 
+**On Arbitrum mainnet**
+
+Run the cmd:
+
+```bash
+npx hardhat run scripts/deploy_oft_adapter.ts --network arbitrum
+```
+
+Log example:
+
+```
+Deployed OFTAdapter contract address: 0x50721AaD21A49b1024E985Bd99d4904326d9b951
+```
+
 **Notice**
 
 If some mock ERC20 token is needed, rename the folder `contracts-mock` to `contracts` and run the cmd:
+
+**On Sepolia testnet**
 
 ```bash
 npx hardhat run scripts/deploy_mock_erc20.ts --network sepolia
 ```
 
-Log example:
+Log example on Sepolia:
 
 ```
 Deployed MockUSDT contract address: 0x514b0C11Bd143778367f1d1273ba1b2236Fb383c
 ```
 
 50M tokens will auto be minted to the deployer.
+
+**On Arbitrum mainnet**
+
+```bash
+npx hardhat run scripts/deploy_mock_erc20.ts --network arbitrum
+```
+
+Log example on Arbitrum:
+
+```
+Deployed MockUSDT contract address: 0xE03934D55A6d0f2Dc20759A1317c9Dd8f9D683cA
+```
 
 ## Deploy the `OFT`
 

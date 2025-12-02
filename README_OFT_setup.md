@@ -1,7 +1,5 @@
 # OFT setup on EVM
 
-Pathway is from EVM (e.g. Sepolia) to MoveVM (e.g. IOTA L1 testnet).
-
 The setup includes:
 
 - set enforced options
@@ -25,7 +23,7 @@ Needed input params:
 - oftAdapterContractAddress: Solidity OFTAdapter contract on EVM
 - executorLzReceiveOptionMaxGas: [200000](https://docs.layerzero.network/v2/developers/evm/gas-settings/options#lzreceive-option)
 - executorGasDropInWeiOnDestChain: `0` (to disable gas drop)
-- lzEndpointIdOnRemoteChain: EID of IOTA L1 testnet as dest chain
+- lzEndpointIdOnRemoteChain: EID of dest chain
 
 ### For OFTAdapter
 
@@ -40,6 +38,19 @@ Log output:
 ```
 setEnforcedOptions - isForOFTAdapter:true, oftAdapterContractAddress:0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3, oftContractAddress:, executorLzReceiveOptionMaxGas:200000, lzEndpointIdOnRemoteChain:40423
 setEnforcedOptions tx: 0x0ee19f2402149b6e3b5f42b4a2142e13c0260126361651617a9281b4786fda80
+```
+
+#### on Arbitrum mainnet as source chain
+
+Run the cmd:
+
+`export isForOFTAdapter=true && npx hardhat run scripts/set_enforced_options.ts --network arbitrum`
+
+Log output:
+
+```
+setEnforcedOptions - isForOFTAdapter:true, oftAdapterContractAddress:0x50721AaD21A49b1024E985Bd99d4904326d9b951, oftContractAddress:, executorLzReceiveOptionMaxGas:200000, executorGasDropInWeiOnDestChain:0, lzEndpointIdOnRemoteChain:30423
+setEnforcedOptions tx: 0xb80491e8a6cf7e1ec24e881325b679631d3060ddc3413cf1834d1689936dd3c4
 ```
 
 ### For OFT
@@ -75,6 +86,8 @@ setEnforcedOptions tx: 0x184b32e3ce89e77fb203a9dbc5baef3216b44d3151bb9e615562d26
 The OFTAdapter or OFT needs to be set with the remote peer which includes:
 
 - OFT Solidity contract address if on EVM or OFT Move package ID if on MoveVM
+  - !! need to perform [deployment and setup](https://github.com/iota-community/layerzero-move-oft-v2-utils) on the dest chain !!
+
 - EID of the remote chain
 
 Needed input params:
@@ -96,6 +109,19 @@ Log output:
 ```
 setPeerMyOFTAdapter - oftAdapterContractAddress:0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3, lzEndpointIdOnRemoteChain:40423, oftPackageId:0xa947ff8022f37c32b06a67d674154f170422e0c95cf44e1a55f3c2a45fa355f2
 MyOFTAdapter - setPeer tx: 0x4a16cbbe0e516a0ce8593f08386d34d2aa0af8f84c44fb12e199b441f2f354cb
+```
+
+#### on Arbitrum mainnet as source chain
+
+Run the cmd:
+
+`npx hardhat run scripts/set_peer_oft_adapter.ts --network arbitrum`
+
+Log output:
+
+```
+setPeerMyOFTAdapter - oftAdapterContractAddress:0x50721AaD21A49b1024E985Bd99d4904326d9b951, lzEndpointIdOnRemoteChain:30423, oftPackageId:0xed312b3f38559d4cb042f5314cbedef8d52b96c6ddb138560a01f71a6e69b82e
+MyOFTAdapter - setPeer tx: 0xf4f42147d18f7e219fd05ec075ce98b3468c69d9641d8cb90b62ed90d1b5834e
 ```
 
 ### For OFT
@@ -137,6 +163,8 @@ The config data is specified in the file [set_config_data.ts](/scripts/set_confi
 
 ### For OFTAdapter
 
+#### On Sepolia as source chain
+
 Run cmd:
 
 ```
@@ -149,6 +177,22 @@ Log output on Sepolia EVM as source chain:
 setConfig - lzEndpointIdOnRemoteChain:40423, confirmations:0, lzEndpoint:0x6EDCE65403992e310A62460808c4b910D972f10f, OAppContractAddress:0x0003d9Ce49871F984268f7eCaFb8026aa7be4Ee3, requiredDVNs:["0x8b450b0acF56E1B0e25C581bB04FBAbeeb0644b8"], sendLibAddress:0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE, receiveLibAddress:0xdAf00F5eE2158dD58E0d3857851c432E34A3A851, maxMessageSize:10000, executor:0x718b92b5cb0a5552039b593faf724d182a881eda
 setConfig for receiveLib 0xdAf00F5eE2158dD58E0d3857851c432E34A3A851 - tx: 0xf6371634c06037a9171468e08bbf1eb964f4b0401411158171aec82805a80412
 setConfig for sendLib 0xcc1ae8Cf5D3904Cef3360A9532B477529b177cCE - tx: 0xbe19178005af18f5b9247c6f0365bbae517bd3224f01836041fb18d78a731a72
+```
+
+#### On Arbitrum mainnet as source chain
+
+Run cmd:
+
+```
+export isForOFTAdapter=true && npx hardhat run scripts/set_config.ts --network arbitrum
+```
+
+Log output on Arbitrum mainnet as source chain:
+
+```
+setConfig - lzEndpointIdOnRemoteChain:30423, confirmations:0, lzEndpointOnCurrentChain:0x1a44076050125825900e736c501f859c50fE728c, OAppContractAddress:0x50721AaD21A49b1024E985Bd99d4904326d9b951, requiredDVNs:["0x2f55c492897526677c5b68fb199ea31e2c126416","0xd56e4eab23cb81f43168f9f45211eb027b9ac7cc"], sendLibAddress:0x975bcD720be66659e3EB3C0e4F1866a3020E493A, receiveLibAddress:0x7B9E184e07a6EE1aC23eAe0fe8D6Be2f663f05e6, maxMessageSize:10000, executor:0x31CAe3B7fB82d847621859fb1585353c5720660D
+setConfig for receiveLib 0x7B9E184e07a6EE1aC23eAe0fe8D6Be2f663f05e6 - tx: 0x35b0ad76b7dbea9d45d598285b2072796bdf699f4090240a4562723ed8a64791
+setConfig for sendLib 0x975bcD720be66659e3EB3C0e4F1866a3020E493A - tx: 0x9ff6e416206e595eaf900c70138311252923cfbc050e88a82e89f3b4ed3b25cf
 ```
 
 ### For OFT

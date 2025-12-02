@@ -92,7 +92,7 @@ async function main() {
     executorLzReceiveOptionMaxGas,
   } = config;
 
-  const { SENDER_ACCOUNT_PRIV_KEY, RECEIVER_ACCOUNT_ADDRESS, AMOUNT } = process.env;
+  const { SENDER_ACCOUNT_PRIV_KEY, RECEIVER_ACCOUNT_ADDRESS, TOKEN_AMOUNT_WITHOUT_DECIMALS } = process.env;
 
   // Check input params
   if (!oftAdapterContractAddress) {
@@ -111,8 +111,8 @@ async function main() {
     throw new Error('Missing SENDER_ACCOUNT_PRIV_KEY');
   } else if (!RECEIVER_ACCOUNT_ADDRESS) {
     throw new Error('Missing RECEIVER_ACCOUNT_ADDRESS');
-  } else if (!AMOUNT) {
-    throw new Error('Missing AMOUNT');
+  } else if (!TOKEN_AMOUNT_WITHOUT_DECIMALS) {
+    throw new Error('Missing TOKEN_AMOUNT_WITHOUT_DECIMALS');
   }
 
   await sendOFTBack(
@@ -124,7 +124,7 @@ async function main() {
     executorLzReceiveOptionMaxGas,
     SENDER_ACCOUNT_PRIV_KEY,
     RECEIVER_ACCOUNT_ADDRESS,
-    AMOUNT,
+    TOKEN_AMOUNT_WITHOUT_DECIMALS,
   );
 }
 

@@ -626,7 +626,7 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
 pragma solidity ^0.8.24;
 
 contract MockUSDT is ERC20 {
-    constructor() ERC20("MockUSDT", "MockUSDT") {
+    constructor() ERC20("USDTmd", "USDTmd") {
         _mint(msg.sender, 50_000_000 * 1e18);
     }
 }

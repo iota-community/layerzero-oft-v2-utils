@@ -74,7 +74,7 @@ async function sendOFT(
   if (isForOFTAdapter === 'true') {
     const approveTx = await erc20TokenContract.approve(oftAdapterContractAddress, amountInWei);
     const approveTxReceipt = await approveTx.wait();
-    console.log('sendOFT - approve tx:', approveTxReceipt?.hash);
+    console.log('sendOFT - approve tx:', approveTxReceipt?.transactionHash);
   }
 
   // Set the required options for cross-chain send
@@ -108,6 +108,9 @@ async function sendOFT(
   const [nativeFee] = await myOAppContract.quoteSend(sendParam as any, false);
   console.log('sendOFT - estimated nativeFee:', ethers.utils.formatEther(nativeFee));
 
+  // Just return if only dry-run
+  // return
+
   // Step 3: call the func send() to transfer tokens on source chain to destination chain
   const sendTx = await myOAppContract.send(
     sendParam as any,
@@ -140,7 +143,7 @@ async function main() {
     erc20TokenAddress,
   } = config;
 
-  const { SENDER_ACCOUNT_PRIV_KEY, RECEIVER_ACCOUNT_ADDRESS, AMOUNT, isForOFTAdapter } =
+  const { SENDER_ACCOUNT_PRIV_KEY, RECEIVER_ACCOUNT_ADDRESS, TOKEN_AMOUNT_WITHOUT_DECIMALS, isForOFTAdapter } =
     process.env;
 
   if (!isForOFTAdapter) {
@@ -162,8 +165,8 @@ async function main() {
     throw new Error('Missing SENDER_ACCOUNT_PRIV_KEY');
   } else if (!RECEIVER_ACCOUNT_ADDRESS) {
     throw new Error('Missing RECEIVER_ACCOUNT_ADDRESS');
-  } else if (!AMOUNT) {
-    throw new Error('Missing AMOUNT');
+  } else if (!TOKEN_AMOUNT_WITHOUT_DECIMALS) {
+    throw new Error('Missing TOKEN_AMOUNT_WITHOUT_DECIMALS');
   } else if (isForOFTAdapter === 'true' && !erc20TokenAddress) {
     throw new Error('Missing erc20TokenAddress');
   }
@@ -177,7 +180,7 @@ async function main() {
     executorLzReceiveOptionMaxGas,
     SENDER_ACCOUNT_PRIV_KEY,
     RECEIVER_ACCOUNT_ADDRESS,
-    AMOUNT,
+    TOKEN_AMOUNT_WITHOUT_DECIMALS,
     erc20TokenAddress,
   );
 }

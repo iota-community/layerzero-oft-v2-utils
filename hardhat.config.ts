@@ -85,7 +85,7 @@ module.exports = {
     },
     arbitrum: {
       chainId: 42161,
-      url: 'https://arbitrum.llamarpc.com',
+      url: 'https://arb1.arbitrum.io/rpc', // 'https://arbitrum.llamarpc.com',
       accounts: ACCOUNTS,
     },
   },
