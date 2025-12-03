@@ -152,7 +152,7 @@ setPeerMyOFT - oftContractAddress:0x02AE4418F0FbcbE383b4eD103cf6B88B24542f4C, lz
 MyOFT - setPeer tx: 0x8724eeaee33bcaa76c097770b524fcf551b36f4e53ddc33639934aab1e01a5f5
 ```
 
-## Set config on the current EVM chain
+## Set config on the current EVM chain (!! mandatory !!)
 
 Set config on the Endpoint contract for a given OApp (e.g. OFTAdapter or OFT) on the `current chain` to interact with remote chain. There are 2 configs to be set:
 
@@ -160,6 +160,10 @@ Set config on the Endpoint contract for a given OApp (e.g. OFTAdapter or OFT) on
 - set config for sendLib
 
 The config data is specified in the file [set_config_data.ts](/scripts/set_config_data.ts). No need to change the existing chain configs, but new chain config can be added.
+
+**Notice**
+
+The `requiredDVNs` set must be the same on both of the current chain and remote chain. Otherwise, the tx will get `inflight`. 
 
 ### For OFTAdapter
 
@@ -190,9 +194,9 @@ export isForOFTAdapter=true && npx hardhat run scripts/set_config.ts --network a
 Log output on Arbitrum mainnet as source chain:
 
 ```
-setConfig - lzEndpointIdOnRemoteChain:30423, confirmations:0, lzEndpointOnCurrentChain:0x1a44076050125825900e736c501f859c50fE728c, OAppContractAddress:0x50721AaD21A49b1024E985Bd99d4904326d9b951, requiredDVNs:["0x2f55c492897526677c5b68fb199ea31e2c126416","0xd56e4eab23cb81f43168f9f45211eb027b9ac7cc"], sendLibAddress:0x975bcD720be66659e3EB3C0e4F1866a3020E493A, receiveLibAddress:0x7B9E184e07a6EE1aC23eAe0fe8D6Be2f663f05e6, maxMessageSize:10000, executor:0x31CAe3B7fB82d847621859fb1585353c5720660D
-setConfig for receiveLib 0x7B9E184e07a6EE1aC23eAe0fe8D6Be2f663f05e6 - tx: 0x35b0ad76b7dbea9d45d598285b2072796bdf699f4090240a4562723ed8a64791
-setConfig for sendLib 0x975bcD720be66659e3EB3C0e4F1866a3020E493A - tx: 0x9ff6e416206e595eaf900c70138311252923cfbc050e88a82e89f3b4ed3b25cf
+setConfig - lzEndpointIdOnRemoteChain:30423, confirmations:0, lzEndpointOnCurrentChain:0x1a44076050125825900e736c501f859c50fE728c, OAppContractAddress:0x50721AaD21A49b1024E985Bd99d4904326d9b951, requiredDVNs:["0x2f55c492897526677c5b68fb199ea31e2c126416","0xa7b5189bca84cd304d8553977c7c614329750d99"], sendLibAddress:0x975bcD720be66659e3EB3C0e4F1866a3020E493A, receiveLibAddress:0x7B9E184e07a6EE1aC23eAe0fe8D6Be2f663f05e6, maxMessageSize:10000, executor:0x31CAe3B7fB82d847621859fb1585353c5720660D
+setConfig for receiveLib 0x7B9E184e07a6EE1aC23eAe0fe8D6Be2f663f05e6 - tx: 0x1a13d86726bf38869adef327fb9a71706a635d8687309c795ffa61683c0de047
+setConfig for sendLib 0x975bcD720be66659e3EB3C0e4F1866a3020E493A - tx: 0x3432e60eb9cfcf4a2b6add5ea19a7fe3370efe837d8746235604a40359956df6
 ```
 
 ### For OFT
